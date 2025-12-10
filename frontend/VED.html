@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QAP Document</title>
+  <script src="common.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    .header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px 10px;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    input {
+      width: 95%;
+      padding: 5px;
+      font-size: 14px;
+      background: #fff9c4;
+      border: none;
+    }
+
+    .footer {
+      margin-top: 30px;
+    }
+
+    .footer td {
+      height: 50px;
+    }
+
+    @media print {
+      input {
+        border: none;
+        background: transparent;
+        color: #000;
+        font-weight: bold;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    NUCLEAR POWER CORPORATION OF INDIA LIMITED <br>
+    (A Government of India Enterprise) <br>
+    VOLTA ENGINEERING DESIGNS (VED) PRIVATE LIMITED
+  </div>
+
+  <table>
+    <tr>
+      <th>Project Name</th>
+      <td>Kudankulam Nuclear Power Project (KKNPP) - Unit 5 & 6</td>
+    </tr>
+    <tr>
+      <th>NPCIL PO No</th>
+      <td>GEMC-511687747870581, Dated: 10/06/2024</td>
+    </tr>
+    <tr>
+      <th>Package Name</th>
+      <td>Supply of 12 Nos Stainless Steel and 02 Nos Carbon Steel Storage Tanks along with Mandatory & Commissioning Spares</td>
+    </tr>
+    <tr>
+      <th>Document Type</th>
+      <td>QAP for Stainless Steel Storage Tanks KKNPP Project Unit 5 & 6</td>
+    </tr>
+    <tr>
+      <th>NPCIL Document No</th>
+      <td>M06.KK56.UKC.0.TM.PKK.WD001</td>
+    </tr>
+    <tr>
+      <th>Main Vendor Document No</th>
+      <td>VGS/NPCIL/KKNPP/5 & 6/SST/01</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th>Revision No</th>
+      <th>Date of Issue</th>
+      <th>Total No of Pages</th>
+    </tr>
+    <tr>
+      <td><input type="text" placeholder="Revision No" /></td>
+      <td><input type="text" placeholder="Date of Issue" /></td>
+      <td><input type="text" placeholder="Total Pages" /></td>
+    </tr>
+  </table>
+
+  <table class="footer">
+    <tr>
+      <th>Prepared By</th>
+      <th>Checked By</th>
+      <th>Reviewed By</th>
+      <th>Approved By</th>
+    </tr>
+    <tr>
+      <td><input type="text" placeholder="Prepared By" /></td>
+      <td><input type="text" placeholder="Checked By" /></td>
+      <td><input type="text" placeholder="Reviewed By" /></td>
+      <td><input type="text" placeholder="Approved By" /></td>
+    </tr>
+  </table>
+
+  <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+  <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+  <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+
+</body>
+</html>

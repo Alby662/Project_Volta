@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Liquid Penetrant / Examination Report</title>
+  <script src="common.js"></script>
+  <style>
+     /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    :root {
+      --primary: #007BFF;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: bold;
+      margin: 10px;
+      background: var(--light-bg);
+      color: #333;
+    }
+
+    .container {
+      border: 2px solid #000;
+      padding: 10px;
+      background: #fff;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin: 5px 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 18px;
+    }
+
+    h2 {
+      font-size: 16px;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 4px;
+      font-size: 11px;
+      vertical-align: top;
+      text-align: center;
+    }
+
+    input, textarea, select {
+      width: 98%;
+      padding: 2px;
+      font-size: 11px;
+      border: none;
+      background: #fffde7;
+      font-weight: bold;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 14px;
+      margin: 10px 5px 20px 0;
+      border: none;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    h3 {
+      margin: 10px 0 4px;
+      font-size: 12px;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 15mm;
+      }
+
+      input, textarea, select {
+        border: none !important;
+        background: none !important;
+      }
+
+      .btn, button {
+        display: none !important;
+      }
+
+      body {
+        margin: 0;
+        background: #fff;
+      }
+
+      .container {
+        border: none !important;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">LIQUID PENETRATING TEST REPORT</h2>
+    </div>
+
+  </div>
+
+
+    <!-- Header Info -->
+    <table>
+      <tr>
+        <td>Report No.</td><td><input type="text" value="VGS/101.004/" placeholder="VGS/101.004/" /></td>
+
+        <td>Report Date</td><td><input type="text" placeholder="DD/MM/YYYY"></td>
+      </tr>
+      <tr>
+        <td>NPCIL Procedure Document No.</td>
+        <td style="text-align: left; font-weight: bold; background: #fffde7;">I106.KK56.UKC.0.TM.QFS.WD003</td>
+        <td>Date of Examination</td>
+        <td><input type="text" placeholder="DD/MM/YYYY"></td>
+      </tr>
+      <tr>
+        <td>Customer</td><td><input type="text" placeholder="NPCIL"></td>
+        <td>W.O No (Job No)</td>
+        <td style="text-align: left; font-weight: bold; background: #fffde7;">V00101.004</td>
+      </tr>
+      <tr>
+        <td>Type of Job</td><td><input type="text" placeholder="WEP LPE"></td>
+        <td>QAP Stage</td><td><input type="text" placeholder="4.1"></td>
+      </tr>
+      <tr>
+        <td>Project</td><td colspan="3"><input type="text" placeholder="KKNPP UNIT 5 & 6"></td>
+      </tr>
+      <tr>
+        <td>WPS No/PQR No.</td><td><input type="text" placeholder="NA"></td>
+        <td>Acceptance Standard</td><td><input type="text" placeholder="ASME Section III NCD"></td>
+      </tr>
+      <tr>
+        <tr>
+  <td>Material</td>
+  <td>
+    <select>
+      <option value="">Select</option>
+      <option value="SA 240/182F GR.304L">SA 240/182F GR.304L</option>
+      <option value="SA 240/182F GR.316">SA 240/182F GR.316</option>
+      <option value="SA 240/182F GR.316L">SA 240/182F GR.316L</option>
+      <option value="SA 240/182F GR.316TI">SA 240/182F GR.316TI</option>
+      <option value="SA 240/182F 321">SA 240/182F 321</option>
+    </select>
+  </td>
+  <td>Surface Condition</td>
+  <td><input type="text" placeholder="Smooth"></td>
+</tr>
+
+        
+      </tr>
+      <tr>
+        <td>Surface Temp.</td><td><input type="text" placeholder="<50°C"></td>
+        <td>Extent of Examination</td><td><input type="text" placeholder="100% Bevel Area"></td>
+      </tr>
+      <tr>
+        <td>Stage of Examination</td><td><input type="text" placeholder="Type here"></td>
+        <td colspan="2"></td>
+      </tr>
+    </table>
+
+    <!-- Consumables -->
+    <table>
+      <tr>
+        <th colspan="2">Penetrant (Visible)</th>
+        <th colspan="2">Cleaner</th>
+        <th colspan="2">Developer</th>
+      </tr>
+      <tr>
+        <td>Brand Name</td><td><input type="text" placeholder="Type here"></td>
+        <td>Brand Name</td><td><input type="text" placeholder="Type here"></td>
+        <td>Brand Name</td><td><input type="text" placeholder="Type here"></td>
+      </tr>
+      <tr>
+        <td>Batch No./ Exp. Date</td><td><input type="text" placeholder="Type here"></td>
+        <td>Batch No./ Exp. Date</td><td><input type="text" placeholder="Type here"></td>
+        <td>Batch No./ Exp. Date</td><td><input type="text" placeholder="Type here"></td>
+      </tr>
+    </table>
+
+    <!-- Application -->
+    <table>
+      <tr>
+        <th colspan="2">Penetrant Application</th>
+        <th colspan="2">Lighting Equipment Used</th>
+        <th colspan="2">Developer Application</th>
+      </tr>
+      <tr>
+        <td>Method</td><td><input type="text" placeholder="SPRAY TYPE"></td>
+        <td rowspan="2" colspan="2"><input type="text" placeholder="100W Hand Bulb at 8 inch"></td>
+        <td>Method</td><td><input type="text" placeholder="SPRAY TYPE"></td>
+      </tr>
+      <tr>
+        <td>Dwell Time</td><td><input type="text" placeholder="10 mins"></td>
+        <td>Developing Time</td><td><input type="text" placeholder="20 mins"></td>
+      </tr>
+    </table>
+
+    <!-- Result Table -->
+    <table id="penetrant-result-table">
+      <thead>
+        <tr>
+          <th rowspan="2">Sl. No.</th>
+          <th rowspan="2" colspan="2">Details of Item / Component Examined</th>
+          <th colspan="2">Interpretation</th>
+          <th rowspan="2">Result</th>
+        </tr>
+        <tr>
+          <th>Type (Linear / Rounded)</th>
+          <th>Dimension (Dia / Length)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
+          <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
+          <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+          <td>
+            <select>
+              <option value="">Select</option>
+              <option value="Satisfactory">Satisfactory</option>
+              <option value="Unsatisfactory">Unsatisfactory</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Notes -->
+    <h3>Notes:</h3>
+    <textarea rows="3" placeholder="Add your notes here..."></textarea>
+
+    <!-- Signatures -->
+    <table>
+      <tr>
+        <td>Performed By:</td><td><input type="text" placeholder="Name / Signature / Date"></td>
+        <td>Reviewed By:</td><td><input type="text" placeholder="Name / Signature / Date"></td>
+        <td>AI / Customer:</td><td><input type="text" placeholder="Name / Signature / Date"></td>
+      </tr>
+    </table>
+
+    <!-- Buttons -->
+    <div class="center">
+      <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+      <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+      <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+      <button class="btn" type="button" onclick="window.location.href='reports.html'">← Back to Reports</button>
+    </div>
+
+  </div>
+
+  <!-- Add Row Script -->
+  <script>
+    function addRow() {
+      const tbody = document.getElementById('penetrant-result-table').getElementsByTagName('tbody')[0];
+      const rowCount = tbody.rows.length + 1;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${rowCount}</td>
+        <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
+        <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
+        <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+        <td>
+          <select>
+            <option value="">Select</option>
+            <option value="Satisfactory">Satisfactory</option>
+            <option value="Unsatisfactory">Unsatisfactory</option>
+          </select>
+        </td>
+      `;
+      tbody.appendChild(row);
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+
+</body>
+</html>

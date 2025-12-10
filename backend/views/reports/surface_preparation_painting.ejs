@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Surface Preparation & Painting Report' }) %>
+
+    <body>
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'SURFACE PREPARATION & PAINTING TEST REPORT' }) %>
+
+                <form>
+                    <!-- Header Table -->
+                    <table>
+                        <tr>
+                            <td>NAME OF THE PROJECT:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                            <td style="text-align: right;">FORMAT NO.:</td>
+                            <td>VGS-QA-FT-05; REV:00</td>
+                        </tr>
+                        <tr>
+                            <td>NAME OF THE CLIENT:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td style="text-align: right;">REPORT NO.:</td>
+                            <td><input type="text" name="report_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>EQUIPMENT NO.:</td>
+                            <td><input type="text" name="equipment_no" class="report-input" /></td>
+                            <td style="text-align: right;">DATE OF INSPECTION:</td>
+                            <td><input type="date" name="inspection_date" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QA REF:</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                            <td style="text-align: right;">IDENTIFICATION:</td>
+                            <td><input type="text" name="identification" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP NO.:</td>
+                            <td><input type="text" name="qap_no" class="report-input" /></td>
+                            <td style="text-align: right;">QAP STAGE:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Painting Details -->
+                    <h3 style="margin-top: 30px;">Painting Details</h3>
+                    <table>
+                        <thead>
+                            <tr style="background-color: #007BFF; color: white;">
+                                <th>Painting Stage</th>
+                                <th>Material Brand</th>
+                                <th>Manufacturer</th>
+                                <th>Batch No.</th>
+                                <th>Shelf Life Upto</th>
+                                <th>Shade / Colour</th>
+                                <th>Application</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="stage1" class="report-input" value="Primer" /></td>
+                                <td><input type="text" name="brand1" class="report-input" /></td>
+                                <td><input type="text" name="mfg1" class="report-input" /></td>
+                                <td><input type="text" name="batch1" class="report-input" /></td>
+                                <td><input type="text" name="shelf1" class="report-input" /></td>
+                                <td><input type="text" name="shade1" class="report-input" /></td>
+                                <td><input type="text" name="app1" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="stage2" class="report-input" value="Intermediate" /></td>
+                                <td><input type="text" name="brand2" class="report-input" /></td>
+                                <td><input type="text" name="mfg2" class="report-input" /></td>
+                                <td><input type="text" name="batch2" class="report-input" /></td>
+                                <td><input type="text" name="shelf2" class="report-input" /></td>
+                                <td><input type="text" name="shade2" class="report-input" /></td>
+                                <td><input type="text" name="app2" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="stage3" class="report-input" value="Final Coat" /></td>
+                                <td><input type="text" name="brand3" class="report-input" /></td>
+                                <td><input type="text" name="mfg3" class="report-input" /></td>
+                                <td><input type="text" name="batch3" class="report-input" /></td>
+                                <td><input type="text" name="shelf3" class="report-input" /></td>
+                                <td><input type="text" name="shade3" class="report-input" /></td>
+                                <td><input type="text" name="app3" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Weather Record -->
+                    <h3 style="text-align: center; margin-top: 30px;">Weather Record</h3>
+                    <table>
+                        <thead>
+                            <tr style="background-color: #007BFF; color: white;">
+                                <th>Date</th>
+                                <th>Surface Temperature (°C)</th>
+                                <th>Ambient Temperature (°C)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="date1" class="report-input" value="1st Coat" /></td>
+                                <td><input type="text" name="surf_temp1" class="report-input" /></td>
+                                <td><input type="text" name="amb_temp1" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="date2" class="report-input" value="2nd Coat" /></td>
+                                <td><input type="text" name="surf_temp2" class="report-input" /></td>
+                                <td><input type="text" name="amb_temp2" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="date3" class="report-input" value="3rd Coat" /></td>
+                                <td><input type="text" name="surf_temp3" class="report-input" /></td>
+                                <td><input type="text" name="amb_temp3" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Surface Preparation -->
+                    <h3 style="margin-top: 30px;">Surface Preparation</h3>
+                    <table>
+                        <tr>
+                            <td>Surface Preparation:</td>
+                            <td><input type="text" name="surf_prep" class="report-input" /></td>
+                            <td>Blasting: Abrasives:</td>
+                            <td><input type="text" name="blasting" class="report-input" /></td>
+                            <td>Surface Roughness:</td>
+                            <td><input type="text" name="roughness" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Coating Thickness Details -->
+                    <h3 style="margin-top: 30px;">Coating Thickness Details</h3>
+                    <table id="coating-table">
+                        <thead>
+                            <tr style="background-color: #007BFF; color: white;">
+                                <th style="width: 40px;">SR NO.</th>
+                                <th>Drawing No. / Description</th>
+                                <th>Primer Date</th>
+                                <th>Primer DFT</th>
+                                <th>Avg. Primer (min µ)</th>
+                                <th>Intermediate Date</th>
+                                <th>Intermediate DFT</th>
+                                <th>Avg. Intermediate (min µ)</th>
+                                <th>Final Date</th>
+                                <th>Final DFT (min)</th>
+                                <th>Avg Final (µ)</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" name="desc1" class="report-input" /></td>
+                                <td><input type="text" name="p_date1" class="report-input" /></td>
+                                <td><input type="text" name="p_dft1" class="report-input" /></td>
+                                <td><input type="text" name="p_avg1" class="report-input" /></td>
+                                <td><input type="text" name="i_date1" class="report-input" /></td>
+                                <td><input type="text" name="i_dft1" class="report-input" /></td>
+                                <td><input type="text" name="i_avg1" class="report-input" /></td>
+                                <td><input type="text" name="f_date1" class="report-input" /></td>
+                                <td><input type="text" name="f_dft1" class="report-input" /></td>
+                                <td><input type="text" name="f_avg1" class="report-input" /></td>
+                                <td><input type="text" name="remark1" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Approval Signatures -->
+                    <h3 style="margin-top: 30px;">Approval Signatures</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>VGS (PREPARED)</th>
+                            <th>VGS (REVIEWED)</th>
+                            <th>NPCIL / AI</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="prepared" rows="3" class="report-input"
+                                    placeholder="Name, Sign & Date"></textarea></td>
+                            <td><textarea name="reviewed" rows="3" class="report-input"
+                                    placeholder="Name, Sign & Date"></textarea></td>
+                            <td><textarea name="npcil" rows="3" class="report-input"
+                                    placeholder="Name, Sign & Date"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+        </div>
+
+        <script>
+            function addRow() {
+                const tbody = document.getElementById('coating-table').getElementsByTagName('tbody')[0];
+                const rowCount = tbody.rows.length + 1;
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                <td>${rowCount}</td>
+                <td><input type="text" name="desc${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="p_date${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="p_dft${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="p_avg${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="i_date${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="i_dft${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="i_avg${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="f_date${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="f_dft${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="f_avg${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="remark${rowCount}" class="report-input" /></td>
+            `;
+            }
+        </script>
+    </body>
+
+</html>

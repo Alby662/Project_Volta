@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RF PAD PNEUMATIC TEST REPORT</title>
+  <script src="common.js"></script>
+  <style>
+    /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    :root {
+      --primary: #007BFF;
+      --bg: #f8f9fa;
+      --table-bg: #ffffff;
+      --accent: #e2e6ea;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 40px;
+      background: var(--bg);
+      color: #222;
+    }
+
+    .company-header {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .report-title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--table-bg);
+      margin-bottom: 25px;
+    }
+
+    td, th {
+      border: 1px solid #000;
+      padding: 10px;
+      font-size: 15px;
+    }
+
+    .header-table td {
+      width: 25%;
+    }
+
+    th {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    td[contenteditable="true"]:empty::before {
+      content: "Click to edit";
+      color: #888;
+      font-style: italic;
+    }
+
+    td[contenteditable="true"] {
+      background: #fffdd0;
+      transition: background 0.2s ease;
+      cursor: text;
+    }
+
+    .footer {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .footer .footer-item {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .footer label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .footer div[contenteditable] {
+      border-top: 1px solid #000;
+      padding: 8px 0;
+      min-height: 24px;
+      cursor: text;
+    }
+
+    .button {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px 5px 30px 0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.2s ease;
+    }
+
+    .button:hover {
+      background: #0056b3;
+    }
+
+    @media print {
+      .button {
+        display: none;
+      }
+      td[contenteditable="true"] {
+        background: none !important;
+        color: #000;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer {
+        flex-direction: column;
+        align-items: center;
+      }
+      table, td, th {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">RF-PAD PNEUMATIC TEST REPORT</h2>
+    </div>
+
+  </div>
+
+  <!-- Header Table -->
+  <table class="header-table">
+    <tr>
+      <td contenteditable="true">Client:</td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true">QA Reference No:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td contenteditable="true">PO Ref:</td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true">Project:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td contenteditable="true">QAP:</td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true">QAP Stage No:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td contenteditable="true">Drawing No.:</td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true">Job No:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td contenteditable="true">Description:</td>
+      <td contenteditable="true"></td>
+      <td contenteditable="true">Inspection Stage:</td>
+      <td contenteditable="true"></td>
+    </tr>
+  </table>
+
+  <!-- Test Details Table -->
+  <table id="test-table">
+    <tr>
+      <th>SR. NO.</th>
+      <th>Description</th>
+      <th>Details</th>
+    </tr>
+    <tr><td>1</td><td>Test Pressure</td><td contenteditable="true"></td></tr>
+    <tr><td>2</td><td>Test Temperature</td><td contenteditable="true"></td></tr>
+    <tr><td>3</td><td>Medium</td><td contenteditable="true"></td></tr>
+    <tr><td>4</td><td>Duration</td><td contenteditable="true"></td></tr>
+    <tr><td>5</td><td>Result</td><td contenteditable="true"></td></tr>
+    <tr><td colspan="3"><strong>Pressure Gauge used:</strong></td></tr>
+    <tr><td>6</td><td>Pressure Gauge Range</td><td contenteditable="true"></td></tr>
+    <tr><td>7</td><td>Identification</td><td contenteditable="true"></td></tr>
+    <tr><td>8</td><td>Calibration Cert. No.</td><td contenteditable="true"></td></tr>
+    <tr><td>9</td><td>Due Date</td><td contenteditable="true"></td></tr>
+  </table>
+
+  <!-- Buttons -->
+  <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+  <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+  <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+
+  <!-- Footer Section -->
+  <div class="footer">
+    <div class="footer-item">
+      <label>Prepared By</label>
+      <div contenteditable="true"></div>
+    </div>
+    <div class="footer-item">
+      <label>Checked By</label>
+      <div contenteditable="true"></div>
+    </div>
+    <div class="footer-item">
+      <label>NPCIL</label>
+      <div contenteditable="true"></div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function addRow() {
+      const table = document.getElementById('test-table');
+      const rowCount = table.rows.length;
+      const row = table.insertRow(-1);
+
+      const cell1 = row.insertCell(0);
+      const cell2 = row.insertCell(1);
+      const cell3 = row.insertCell(2);
+
+      cell1.textContent = rowCount;
+      cell2.contentEditable = true;
+      cell2.textContent = "";
+      cell3.contentEditable = true;
+      cell3.textContent = "";
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    h1 { text-align: center; color: #007BFF; }
+
+    #login-section, #report-section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    input, button, select {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+
+    button:hover { background: #0056b3; }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background: #f1f1f1;
+    }
+
+    #deleteBtn {
+      background: #dc3545;
+      margin-top: 10px;
+    }
+
+    #deleteBtn:hover {
+      background: #a71d2a;
+    }
+
+    #editBtn {
+      background: #28a745;
+      margin-top: 10px;
+    }
+
+    #editBtn:hover {
+      background: #218838;
+    }
+
+    #searchBtn {
+      background: #6f42c1;
+      margin-top: 10px;
+    }
+
+    #searchBtn:hover {
+      background: #5a32a3;
+    }
+
+    #clearSearchBtn {
+      background: #6c757d;
+      margin-top: 10px;
+    }
+
+    #clearSearchBtn:hover {
+      background: #5a6268;
+    }
+
+    #shareBtn {
+      background: #17a2b8;
+      margin-top: 10px;
+    }
+
+    #shareBtn:hover {
+      background: #138496;
+    }
+
+    #auditBtn {
+      background: #28a745;
+      margin-top: 10px;
+    }
+
+    #auditBtn:hover {
+      background: #218838;
+    }
+
+    #backupBtn {
+      background: #6f42c1;
+      margin-top: 10px;
+    }
+
+    #backupBtn:hover {
+      background: #5a32a3;
+    }
+
+    /* Backup Modal Styles */
+    .backup-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .backup-modal-content {
+      background-color: #fefefe;
+      margin: 2% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 8px;
+    }
+
+    .backup-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .backup-actions {
+      margin: 20px 0;
+      display: flex;
+      gap: 10px;
+    }
+
+    .backup-actions button {
+      padding: 10px 15px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .backup-actions button:hover {
+      background: #0056b3;
+    }
+
+    .backup-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .backup-table th, .backup-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .backup-table th {
+      background: #f1f1f1;
+      position: sticky;
+      top: 0;
+    }
+
+    .backup-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .restore-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .restore-btn:hover {
+      background: #218838;
+    }
+
+    .download-btn {
+      background: #17a2b8;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .download-btn:hover {
+      background: #138496;
+    }
+
+    /* Audit Trail Modal Styles */
+    .audit-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .audit-modal-content {
+      background-color: #fefefe;
+      margin: 2% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 8px;
+    }
+
+    .audit-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .audit-filter-form {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .audit-filter-form input, .audit-filter-form select {
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .audit-filter-form button {
+      padding: 8px 15px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .audit-table th, .audit-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .audit-table th {
+      background: #f1f1f1;
+      position: sticky;
+      top: 0;
+    }
+
+    .audit-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .error-level {
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    .warn-level {
+      color: #ffc107;
+      font-weight: bold;
+    }
+
+    .info-level {
+      color: #17a2b8;
+      font-weight: bold;
+    }
+
+    .folder-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 10px;
+    }
+
+    .folder {
+      padding: 10px 20px;
+      background: #e9ecef;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .folder:hover {
+      background: #007BFF;
+      color: white;
+    }
+
+    .folder.active {
+      background: #007BFF;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Search form styles */
+    .search-form {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .search-form input, .search-form select {
+      display: inline-block;
+      width: calc(25% - 10px);
+      margin-right: 10px;
+    }
+
+    .search-form button {
+      display: inline-block;
+      width: auto;
+      margin-right: 5px;
+    }
+
+    /* Error and success message styles */
+    .message {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .error-message {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    /* Loading indicator */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #007BFF;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Modal for editing reports */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 8px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🔐 Admin Panel</h1>
+
+<!-- Back Button -->
+<div style="text-align: center; margin-bottom: 20px;">
+  <a href="index.html" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block;">← Back to Home</a>
+</div>
+
+<div id="login-section">
+  <div id="login-error" class="message error-message"></div>
+  <div id="login-success" class="message success-message"></div>
+  
+  <input id="username" placeholder="Admin ID" /><br/>
+  <input id="password" type="password" placeholder="Password" /><br/>
+  <button onclick="adminLogin()">Login</button>
+  <p id="login-status" style="color: red;"></p>
+</div>
+
+<div id="report-section" style="display: none;">
+  <div id="report-error" class="message error-message"></div>
+  <div id="report-success" class="message success-message"></div>
+  
+  <h2>📁 Folders</h2>
+  <div class="folder-bar" id="folderBar"></div>
+
+  <h2>📄 Uploaded Reports</h2>
+  
+  <!-- Search Form -->
+  <div class="search-form">
+    <input type="text" id="searchQuery" placeholder="Search by filename..." />
+    <input type="date" id="startDate" placeholder="Start Date" />
+    <input type="date" id="endDate" placeholder="End Date" />
+    <select id="searchFolder">
+      <option value="">All Folders</option>
+      <option value="1">1. LPT (Liquid IR)</option>
+      <option value="2">2. Draining & Drying</option>
+      <option value="3">3. Final Dimension</option>
+      <option value="4">4. Hydrostatic</option>
+      <option value="5">5. Oil Leak (Penetrating Oil IR)</option>
+      <option value="6">6. Pickling & Passivation</option>
+      <option value="7">7. Raw Material</option>
+      <option value="8">8. RF-PAD Pneumatic</option>
+      <option value="9">9. Stage</option>
+      <option value="10">10. Surface Prepn & Painting</option>
+      <option value="11">11. Vacuum Test</option>
+      <option value="12">12. Visual Examination</option>
+      <option value="13">13. Folder 13 (Extra 1)</option>
+      <option value="14">14. Folder 14 (Extra 2)</option>
+      <option value="15">15. Folder 15 (Extra 3)</option>
+    </select>
+    <button id="searchBtn" onclick="searchReports()">🔍 Search</button>
+    <button id="clearSearchBtn" onclick="clearSearch()">Clear</button>
+  </div>
+  
+  <button id="editBtn" onclick="editSelectedReport()">✏️ Edit Selected Report</button>
+  <button id="deleteBtn" onclick="deleteSelectedReports()">🗑️ Delete Selected Reports</button>
+  <button id="shareBtn" onclick="shareSelectedReport()">🔗 Share Selected Report</button>
+  <button id="auditBtn" onclick="showAuditTrail()">📋 View Audit Trail</button>
+  <button id="backupBtn" onclick="showBackupManager()">💾 Backup & Restore</button>
+
+  <div class="loading" id="reports-loading">
+    <div class="loading-spinner"></div>
+    <p>Loading reports...</p>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th><input type="checkbox" onclick="toggleSelectAll(this)" /></th>
+      <th>Filename</th>
+      <th>Folder</th>
+      <th>Uploaded On</th>
+      <th>View</th>
+    </tr>
+    </thead>
+    <tbody id="reportTableBody"></tbody>
+  </table>
+</div>
+
+<!-- Edit Report Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeEditModal()">&times;</span>
+    <h2>Edit Report</h2>
+    <div id="edit-error" class="message error-message"></div>
+    <div id="edit-success" class="message success-message"></div>
+    
+    <input type="hidden" id="editFileId" />
+    <input type="text" id="editReportTitle" placeholder="Report Title" />
+    <select id="editReportType">
+      <option value="">Select Report Type</option>
+      <option value="liquid_ir">1. Liquid IR</option>
+      <option value="draining_dry_ir">2. Draining & Dry IR</option>
+      <option value="final_dimension_ir">3. Final Dimension IR</option>
+      <option value="hydrostatic_ir">4. Hydrostatic IR</option>
+      <option value="penetrating_oil_ir">5. Penetrating Oil IR</option>
+      <option value="pickling_pass_ir">6. Pickling & Pass IR</option>
+      <option value="raw_material_ir">7. Raw Material IR</option>
+      <option value="rf_pad_ir">8. RF Pad IR</option>
+      <option value="stage_ir">9. Stage IR</option>
+      <option value="surface_prep_paint_ir">10. Surface Prep & Paint IR</option>
+      <option value="vacuum_ir">11. Vacuum IR</option>
+      <option value="visual_exam_ir">12. Visual Exam IR</option>
+      <option value="extra1">13. Extra Report 1</option>
+      <option value="extra2">14. Extra Report 2</option>
+      <option value="extra3">15. Extra Report 3</option>
+    </select>
+    <textarea id="editReportContent" placeholder="Report Content (HTML)" rows="10"></textarea>
+    <button onclick="updateReport()">Update Report</button>
+  </div>
+</div>
+
+<!-- Share Report Modal -->
+<div id="shareModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeShareModal()">&times;</span>
+    <h2>Share Report</h2>
+    <div id="share-error" class="message error-message"></div>
+    <div id="share-success" class="message success-message"></div>
+    
+    <input type="hidden" id="shareFileId" />
+    <p>Report: <span id="shareFileName"></span></p>
+    
+    <div>
+      <label>
+        <input type="radio" name="shareMethod" value="download" checked onchange="toggleShareMethod()"> 
+        Generate Download Link
+      </label>
+    </div>
+    
+    <div>
+      <label>
+        <input type="radio" name="shareMethod" value="email" onchange="toggleShareMethod()"> 
+        Send via Email
+      </label>
+    </div>
+    
+    <div id="emailField" style="display: none; margin-top: 15px;">
+      <input type="email" id="shareEmail" placeholder="Enter recipient email" style="width: 100%;" />
+      <textarea id="shareMessage" placeholder="Add a message (optional)" rows="3" style="width: 100%; margin-top: 10px;"></textarea>
+    </div>
+    
+    <button onclick="sendShareRequest()" style="margin-top: 15px;">Share Report</button>
+    
+    <div id="shareResult" style="margin-top: 15px; display: none;">
+      <p id="shareResultText"></p>
+      <input type="text" id="shareLink" readonly style="width: 100%; margin-top: 10px;" />
+      <button onclick="copyShareLink()" style="margin-top: 10px;">Copy Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- Audit Trail Modal -->
+<div id="auditModal" class="audit-modal">
+  <div class="audit-modal-content">
+    <div class="audit-modal-header">
+      <h2>📋 Audit Trail</h2>
+      <span class="close" onclick="closeAuditModal()">&times;</span>
+    </div>
+    
+    <div id="audit-error" class="message error-message"></div>
+    <div id="audit-success" class="message success-message"></div>
+    
+    <!-- Filter Form -->
+    <div class="audit-filter-form">
+      <select id="auditLevelFilter">
+        <option value="">All Levels</option>
+        <option value="ERROR">Error</option>
+        <option value="WARN">Warning</option>
+        <option value="INFO">Info</option>
+      </select>
+      
+      <input type="text" id="auditUserFilter" placeholder="User ID" />
+      <input type="date" id="auditStartDateFilter" />
+      <input type="date" id="auditEndDateFilter" />
+      <input type="number" id="auditLimitFilter" placeholder="Limit (default 100)" min="1" max="1000" />
+      
+      <button onclick="loadAuditTrail()">Filter</button>
+      <button onclick="clearAuditFilters()">Clear</button>
+    </div>
+    
+    <div class="loading" id="audit-loading">
+      <div class="loading-spinner"></div>
+      <p>Loading audit trail...</p>
+    </div>
+    
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Level</th>
+          <th>User ID</th>
+          <th>Message</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody id="auditTableBody">
+        <!-- Audit trail entries will be populated here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Backup Manager Modal -->
+<div id="backupModal" class="backup-modal">
+  <div class="backup-modal-content">
+    <div class="backup-modal-header">
+      <h2>💾 Backup & Restore Manager</h2>
+      <span class="close" onclick="closeBackupModal()">&times;</span>
+    </div>
+    
+    <div id="backup-error" class="message error-message"></div>
+    <div id="backup-success" class="message success-message"></div>
+    
+    <!-- Backup Actions -->
+    <div class="backup-actions">
+      <button onclick="createBackup()">Create New Backup</button>
+      <button onclick="loadBackups()">Refresh Backup List</button>
+    </div>
+    
+    <div class="loading" id="backup-loading">
+      <div class="loading-spinner"></div>
+      <p>Loading backups...</p>
+    </div>
+    
+    <table class="backup-table">
+      <thead>
+        <tr>
+          <th>Backup Name</th>
+          <th>Timestamp</th>
+          <th>Collections</th>
+          <th>Created By</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="backupTableBody">
+        <!-- Backup entries will be populated here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  let adminToken = "";
+  let selectedFolder = 1;
+  let currentSearch = false;
+
+  // Improved error display function
+  function showError(elementId, message) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.textContent = message;
+      element.style.display = "block";
+      // Hide error after 5 seconds
+      setTimeout(() => {
+        element.style.display = "none";
+      }, 5000);
+    } else {
+      // Fallback to alert
+      alert("❌ Error: " + message);
+    }
+  }
+
+  // Improved success display function
+  function showSuccess(elementId, message) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.textContent = message;
+      element.style.display = "block";
+      // Hide success after 3 seconds
+      setTimeout(() => {
+        element.style.display = "none";
+      }, 3000);
+    } else {
+      // Fallback to alert
+      alert("✅ Success: " + message);
+    }
+  }
+
+  // Show loading indicator
+  function showLoading(show) {
+    const loadingElement = document.getElementById("reports-loading");
+    if (loadingElement) {
+      loadingElement.style.display = show ? "block" : "none";
+    }
+  }
+
+  async function adminLogin() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if (!username || !password) {
+      showError("login-error", "Username and password required");
+      return;
+    }
+
+    try {
+      const res = await fetch("https://ved1-gbdk.onrender.com/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        adminToken = data.token;
+        // Use sessionStorage instead of localStorage for better security
+        sessionStorage.setItem("adminToken", adminToken);
+        document.getElementById("login-status").textContent = "✅ Logged in!";
+        document.getElementById("login-section").style.display = "none";
+        document.getElementById("report-section").style.display = "block";
+        renderFolders();
+        loadReports();
+        showSuccess("login-success", "Login successful");
+      } else {
+        showError("login-error", data.error || "Login failed");
+      }
+    } catch (err) {
+      showError("login-error", "Network error: " + err.message);
+    }
+  }
+
+  function renderFolders() {
+    const folderBar = document.getElementById("folderBar");
+    folderBar.innerHTML = "";
+
+    // Folder labels aligned to mapping:
+    const folderNames = [
+      "1. LPT (Liquid IR)",
+      "2. Draining & Drying",
+      "3. Final Dimension",
+      "4. Hydrostatic",
+      "5. Oil Leak (Penetrating Oil IR)",
+      "6. Pickling & Passivation",
+      "7. Raw Material",
+      "8. RF-PAD Pneumatic",
+      "9. Stage",
+      "10. Surface Prepn & Painting",
+      "11. Vacuum Test",
+      "12. Visual Examination",
+      "13. Folder 13 (Extra 1)",
+      "14. Folder 14 (Extra 2)",
+      "15. Folder 15 (Extra 3)"
+    ];
+
+    folderNames.forEach((name, index) => {
+      const folderNumber = index + 1;
+      const div = document.createElement("div");
+      div.className = "folder" + (folderNumber === selectedFolder ? " active" : "");
+      div.innerText = name;
+      div.onclick = () => {
+        selectedFolder = folderNumber;
+        currentSearch = false; // Reset search when changing folders
+        // highlight selected
+        Array.from(folderBar.children).forEach(c => c.classList.remove("active"));
+        div.classList.add("active");
+        loadReports(folderNumber);
+      };
+      folderBar.appendChild(div);
+    });
+  }
+
+  async function loadReports(folder = 1) {
+    try {
+      showLoading(true);
+      
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      const res = await fetch(`https://ved1-gbdk.onrender.com/all-reports?folder=${folder}`, {
+        headers: { Authorization: "Bearer " + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      const tbody = document.getElementById("reportTableBody");
+      tbody.innerHTML = "";
+
+      data.forEach(r => {
+        tbody.innerHTML += `<tr>
+          <td><input type="checkbox" class="report-checkbox" data-filename="${r.filename}" value="${r.fileId}" /></td>
+          <td>${r.filename}</td>
+          <td>${r.folder}</td>
+          <td>${new Date(r.uploadDate).toLocaleString()}</td>
+          <td><a href="https://ved1-gbdk.onrender.com/get-pdf/${r.fileId}" target="_blank">View</a></td>
+        </tr>`;
+      });
+    } catch (err) {
+      showError("report-error", "Failed to fetch reports: " + err.message);
+    } finally {
+      showLoading(false);
+    }
+  }
+
+  async function searchReports() {
+    try {
+      showLoading(true);
+      
+      const query = document.getElementById("searchQuery").value;
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const folder = document.getElementById("searchFolder").value;
+      
+      // Build search URL
+      let searchUrl = "https://ved1-gbdk.onrender.com/search-reports?";
+      const params = [];
+      
+      if (query) params.push(`query=${encodeURIComponent(query)}`);
+      if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
+      if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
+      if (folder) params.push(`folder=${encodeURIComponent(folder)}`);
+      
+      searchUrl += params.join("&");
+      
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      const res = await fetch(searchUrl, {
+        headers: { Authorization: "Bearer " + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      const tbody = document.getElementById("reportTableBody");
+      tbody.innerHTML = "";
+
+      data.forEach(r => {
+        tbody.innerHTML += `<tr>
+          <td><input type="checkbox" class="report-checkbox" data-filename="${r.filename}" value="${r.fileId}" /></td>
+          <td>${r.filename}</td>
+          <td>${r.folder}</td>
+          <td>${new Date(r.uploadDate).toLocaleString()}</td>
+          <td><a href="https://ved1-gbdk.onrender.com/get-pdf/${r.fileId}" target="_blank">View</a></td>
+        </tr>`;
+      });
+      
+      currentSearch = true;
+    } catch (err) {
+      showError("report-error", "Failed to search reports: " + err.message);
+    } finally {
+      showLoading(false);
+    }
+  }
+
+  function clearSearch() {
+    document.getElementById("searchQuery").value = "";
+    document.getElementById("startDate").value = "";
+    document.getElementById("endDate").value = "";
+    document.getElementById("searchFolder").value = "";
+    
+    // Reload reports for current folder
+    loadReports(selectedFolder);
+    currentSearch = false;
+  }
+
+  function toggleSelectAll(checkbox) {
+    const checkboxes = document.querySelectorAll(".report-checkbox");
+    checkboxes.forEach(cb => cb.checked = checkbox.checked);
+  }
+
+  function editSelectedReport() {
+    const selected = Array.from(document.querySelectorAll(".report-checkbox:checked"));
+    if (selected.length === 0) {
+      showError("report-error", "No report selected to edit.");
+      return;
+    }
+    
+    if (selected.length > 1) {
+      showError("report-error", "Please select only one report to edit.");
+      return;
+    }
+    
+    const reportCheckbox = selected[0];
+    const fileId = reportCheckbox.value;
+    const filename = reportCheckbox.dataset.filename;
+    
+    // Set the file ID in the modal
+    document.getElementById("editFileId").value = fileId;
+    
+    // Set the report title (extract from filename)
+    const title = filename.replace(/\.[^/.]+$/, ""); // Remove extension
+    document.getElementById("editReportTitle").value = title;
+    
+    // Show the modal
+    document.getElementById("editModal").style.display = "block";
+  }
+
+  function closeEditModal() {
+    document.getElementById("editModal").style.display = "none";
+    // Clear error/success messages
+    document.getElementById("edit-error").style.display = "none";
+    document.getElementById("edit-success").style.display = "none";
+  }
+
+  // Share report functions
+  function shareSelectedReport() {
+    const selected = Array.from(document.querySelectorAll(".report-checkbox:checked"));
+    if (selected.length === 0) {
+      showError("report-error", "No report selected to share.");
+      return;
+    }
+    
+    if (selected.length > 1) {
+      showError("report-error", "Please select only one report to share.");
+      return;
+    }
+    
+    const reportCheckbox = selected[0];
+    const fileId = reportCheckbox.value;
+    const filename = reportCheckbox.dataset.filename;
+    
+    // Set the file ID and name in the modal
+    document.getElementById("shareFileId").value = fileId;
+    document.getElementById("shareFileName").textContent = filename;
+    
+    // Reset modal fields
+    document.getElementById("shareEmail").value = "";
+    document.getElementById("shareMessage").value = "";
+    document.getElementById("shareResult").style.display = "none";
+    document.querySelector('input[name="shareMethod"][value="download"]').checked = true;
+    toggleShareMethod();
+    
+    // Show the modal
+    document.getElementById("shareModal").style.display = "block";
+  }
+
+  function closeShareModal() {
+    document.getElementById("shareModal").style.display = "none";
+    // Clear error/success messages
+    document.getElementById("share-error").style.display = "none";
+    document.getElementById("share-success").style.display = "none";
+  }
+
+  function toggleShareMethod() {
+    const method = document.querySelector('input[name="shareMethod"]:checked').value;
+    const emailField = document.getElementById("emailField");
+    
+    if (method === "email") {
+      emailField.style.display = "block";
+    } else {
+      emailField.style.display = "none";
+    }
+  }
+
+  async function sendShareRequest() {
+    const fileId = document.getElementById("shareFileId").value;
+    const method = document.querySelector('input[name="shareMethod"]:checked').value;
+    const email = document.getElementById("shareEmail").value;
+    const message = document.getElementById("shareMessage").value;
+    
+    try {
+      // Show loading
+      const shareBtn = document.querySelector("#shareModal button");
+      const originalBtnText = shareBtn.textContent;
+      shareBtn.textContent = "Sharing...";
+      shareBtn.disabled = true;
+
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      
+      const res = await fetch(`https://ved1-gbdk.onrender.com/share-report/${fileId}`, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({ method, email, message })
+      });
+      
+      const data = await res.json();
+      
+      // Restore button
+      shareBtn.textContent = originalBtnText;
+      shareBtn.disabled = false;
+
+      if (res.ok) {
+        // Show success message and result
+        showSuccess("share-success", data.message);
+        
+        // Show result based on method
+        const resultDiv = document.getElementById("shareResult");
+        const resultText = document.getElementById("shareResultText");
+        const shareLink = document.getElementById("shareLink");
+        
+        if (method === "download" && data.downloadUrl) {
+          resultText.textContent = "Download link generated successfully:";
+          shareLink.value = data.downloadUrl;
+          resultDiv.style.display = "block";
+        } else if (method === "email") {
+          resultText.textContent = `Report shared successfully to ${data.email}.`;
+          resultDiv.style.display = "block";
+          shareLink.value = "";
+        }
+      } else {
+        showError("share-error", data.error || "Failed to share report");
+      }
+    } catch (err) {
+      // Restore button
+      const shareBtn = document.querySelector("#shareModal button");
+      if (shareBtn) {
+        shareBtn.textContent = "Share Report";
+        shareBtn.disabled = false;
+      }
+      showError("share-error", "Network error: " + err.message);
+    }
+  }
+
+  function copyShareLink() {
+    const shareLink = document.getElementById("shareLink");
+    shareLink.select();
+    document.execCommand("copy");
+    showSuccess("share-success", "Link copied to clipboard!");
+  }
+
+  async function updateReport() {
+    const fileId = document.getElementById("editFileId").value;
+    const reportTitle = document.getElementById("editReportTitle").value;
+    const reportType = document.getElementById("editReportType").value;
+    const reportContent = document.getElementById("editReportContent").value;
+    
+    if (!reportTitle || !reportContent) {
+      showError("edit-error", "Report title and content are required.");
+      return;
+    }
+    
+    try {
+      // Show loading
+      const updateBtn = document.querySelector("#editModal button");
+      const originalBtnText = updateBtn.textContent;
+      updateBtn.textContent = "Updating...";
+      updateBtn.disabled = true;
+
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      
+      const res = await fetch(`https://ved1-gbdk.onrender.com/update-report/${fileId}`, {
+        method: "PUT",
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({ 
+          html: reportContent,
+          reportType: reportType || undefined,
+          reportTitle: reportTitle
+        })
+      });
+      
+      const data = await res.json();
+      
+      // Restore button
+      updateBtn.textContent = originalBtnText;
+      updateBtn.disabled = false;
+
+      if (res.ok) {
+        showSuccess("edit-success", "Report updated successfully");
+        // Close modal after a short delay
+        setTimeout(() => {
+          closeEditModal();
+          // Reload reports (either search results or folder reports)
+          if (currentSearch) {
+            searchReports();
+          } else {
+            loadReports(selectedFolder);
+          }
+        }, 1500);
+      } else {
+        showError("edit-error", data.error || "Failed to update report");
+      }
+    } catch (err) {
+      // Restore button
+      const updateBtn = document.querySelector("#editModal button");
+      if (updateBtn) {
+        updateBtn.textContent = "Update Report";
+        updateBtn.disabled = false;
+      }
+      showError("edit-error", "Network error: " + err.message);
+    }
+  }
+
+  async function deleteSelectedReports() {
+    const selected = Array.from(document.querySelectorAll(".report-checkbox:checked")).map(cb => cb.value);
+    if (selected.length === 0) {
+      showError("report-error", "No reports selected to delete.");
+      return;
+    }
+    
+    if (!confirm(`Are you sure you want to delete ${selected.length} report(s)?`)) return;
+
+    try {
+      // Show loading
+      const deleteBtn = document.getElementById("deleteBtn");
+      const originalBtnText = deleteBtn.textContent;
+      deleteBtn.textContent = "Deleting...";
+      deleteBtn.disabled = true;
+
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      let errorCount = 0;
+      
+      for (let id of selected) {
+        try {
+          const res = await fetch(`https://ved1-gbdk.onrender.com/delete-report/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token }
+          });
+          
+          if (!res.ok) {
+            const data = await res.json();
+            throw new Error(data.error || "Unknown error");
+          }
+        } catch (err) {
+          errorCount++;
+          console.error("Error deleting report " + id + ":", err);
+        }
+      }
+
+      // Restore button
+      deleteBtn.textContent = originalBtnText;
+      deleteBtn.disabled = false;
+
+      if (errorCount > 0) {
+        showError("report-error", `Failed to delete ${errorCount} of ${selected.length} reports`);
+      } else {
+        showSuccess("report-success", `Successfully deleted ${selected.length} report(s)`);
+      }
+      
+      // Reload reports (either search results or folder reports)
+      if (currentSearch) {
+        searchReports();
+      } else {
+        loadReports(selectedFolder);
+      }
+    } catch (err) {
+      // Restore button
+      const deleteBtn = document.getElementById("deleteBtn");
+      if (deleteBtn) {
+        deleteBtn.textContent = "🗑️ Delete Selected Reports";
+        deleteBtn.disabled = false;
+      }
+      showError("report-error", "Network error: " + err.message);
+    }
+  }
+
+  // Audit Trail functions
+  function showAuditTrail() {
+    // Show the modal
+    document.getElementById("auditModal").style.display = "block";
+    // Load audit trail data
+    loadAuditTrail();
+  }
+
+  function closeAuditModal() {
+    document.getElementById("auditModal").style.display = "none";
+    // Clear error/success messages
+    document.getElementById("audit-error").style.display = "none";
+    document.getElementById("audit-success").style.display = "none";
+  }
+
+  async function loadAuditTrail() {
+    try {
+      showAuditLoading(true);
+      
+      // Get filter values
+      const level = document.getElementById("auditLevelFilter").value;
+      const userId = document.getElementById("auditUserFilter").value;
+      const startDate = document.getElementById("auditStartDateFilter").value;
+      const endDate = document.getElementById("auditEndDateFilter").value;
+      const limit = document.getElementById("auditLimitFilter").value;
+      
+      // Build query parameters
+      const params = new URLSearchParams();
+      if (level) params.append('level', level);
+      if (userId) params.append('userId', userId);
+      if (startDate) params.append('startDate', startDate);
+      if (endDate) params.append('endDate', endDate);
+      if (limit) params.append('limit', limit);
+      
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      const res = await fetch(`https://ved1-gbdk.onrender.com/audit-trail?${params.toString()}`, {
+        headers: { Authorization: "Bearer " + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      const tbody = document.getElementById("auditTableBody");
+      tbody.innerHTML = "";
+
+      data.forEach(entry => {
+        // Format timestamp
+        const timestamp = new Date(entry.timestamp).toLocaleString();
+        
+        // Apply level-specific styling
+        let levelClass = "";
+        if (entry.level === "ERROR") levelClass = "error-level";
+        else if (entry.level === "WARN") levelClass = "warn-level";
+        else if (entry.level === "INFO") levelClass = "info-level";
+        
+        // Format metadata
+        const metadata = entry.metadata ? JSON.stringify(entry.metadata, null, 2) : "";
+        
+        tbody.innerHTML += `
+          <tr>
+            <td>${timestamp}</td>
+            <td class="${levelClass}">${entry.level}</td>
+            <td>${entry.userId || 'N/A'}</td>
+            <td>${entry.message}</td>
+            <td><pre>${metadata}</pre></td>
+          </tr>
+        `;
+      });
+      
+      showAuditLoading(false);
+    } catch (err) {
+      showAuditLoading(false);
+      showError("audit-error", "Failed to load audit trail: " + err.message);
+    }
+  }
+
+  function clearAuditFilters() {
+    document.getElementById("auditLevelFilter").value = "";
+    document.getElementById("auditUserFilter").value = "";
+    document.getElementById("auditStartDateFilter").value = "";
+    document.getElementById("auditEndDateFilter").value = "";
+    document.getElementById("auditLimitFilter").value = "";
+    loadAuditTrail();
+  }
+
+  function showAuditLoading(show) {
+    const loadingElement = document.getElementById("audit-loading");
+    if (loadingElement) {
+      loadingElement.style.display = show ? "block" : "none";
+    }
+  }
+
+  // Backup Manager functions
+  function showBackupManager() {
+    // Show the modal
+    document.getElementById("backupModal").style.display = "block";
+    // Load backup data
+    loadBackups();
+  }
+
+  function closeBackupModal() {
+    document.getElementById("backupModal").style.display = "none";
+    // Clear error/success messages
+    document.getElementById("backup-error").style.display = "none";
+    document.getElementById("backup-success").style.display = "none";
+  }
+
+  async function createBackup() {
+    try {
+      showBackupLoading(true);
+      
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      const res = await fetch(`https://ved1-gbdk.onrender.com/backup`, {
+        method: "POST",
+        headers: { Authorization: "Bearer " + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      
+      showSuccess("backup-success", data.message);
+      
+      // Refresh the backup list
+      loadBackups();
+      
+      showBackupLoading(false);
+    } catch (err) {
+      showBackupLoading(false);
+      showError("backup-error", "Failed to create backup: " + err.message);
+    }
+  }
+
+  async function loadBackups() {
+    try {
+      showBackupLoading(true);
+      
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      const res = await fetch(`https://ved1-gbdk.onrender.com/backups`, {
+        headers: { Authorization: "Bearer " + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      const tbody = document.getElementById("backupTableBody");
+      tbody.innerHTML = "";
+
+      data.forEach(backup => {
+        // Format timestamp
+        const timestamp = new Date(backup.timestamp).toLocaleString();
+        
+        // Format collections list
+        const collections = backup.collections ? backup.collections.join(', ') : 'N/A';
+        
+        tbody.innerHTML += `
+          <tr>
+            <td>${backup.name}</td>
+            <td>${timestamp}</td>
+            <td>${collections}</td>
+            <td>${backup.userId || 'N/A'}</td>
+            <td>
+              <button class="restore-btn" onclick="restoreBackup('${backup._id}')">Restore</button>
+              <button class="download-btn" onclick="downloadBackup('${backup._id}')">Download</button>
+            </td>
+          </tr>
+        `;
+      });
+      
+      showBackupLoading(false);
+    } catch (err) {
+      showBackupLoading(false);
+      showError("backup-error", "Failed to load backups: " + err.message);
+    }
+  }
+
+  async function restoreBackup(backupId) {
+    if (!confirm("Are you sure you want to restore this backup? This will overwrite current data.")) {
+      return;
+    }
+    
+    try {
+      showBackupLoading(true);
+      
+      // Use sessionStorage instead of localStorage for better security
+      const token = sessionStorage.getItem("adminToken");
+      const res = await fetch(`https://ved1-gbdk.onrender.com/restore/${backupId}`, {
+        method: "POST",
+        headers: { Authorization: "Bearer " + token }
+      });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      
+      showSuccess("backup-success", data.message);
+      
+      showBackupLoading(false);
+    } catch (err) {
+      showBackupLoading(false);
+      showError("backup-error", "Failed to restore backup: " + err.message);
+    }
+  }
+
+  function downloadBackup(backupId) {
+    // In a real implementation, you would download the backup file
+    // For now, we'll just show a message
+    showSuccess("backup-success", "Backup download would start here in a full implementation.");
+  }
+
+  function showBackupLoading(show) {
+    const loadingElement = document.getElementById("backup-loading");
+    if (loadingElement) {
+      loadingElement.style.display = show ? "block" : "none";
+    }
+  }
+
+  // Close modal when clicking outside of it
+  window.onclick = function(event) {
+    const editModal = document.getElementById("editModal");
+    const shareModal = document.getElementById("shareModal");
+    const auditModal = document.getElementById("auditModal");
+    const backupModal = document.getElementById("backupModal");
+    
+    if (event.target == editModal) {
+      closeEditModal();
+    } else if (event.target == shareModal) {
+      closeShareModal();
+    } else if (event.target == auditModal) {
+      closeAuditModal();
+    } else if (event.target == backupModal) {
+      closeBackupModal();
+    }
+  }
+  
+  // Check if user is already logged in
+  window.onload = function() {
+    const token = sessionStorage.getItem("adminToken");
+    if (token) {
+      adminToken = token;
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("report-section").style.display = "block";
+      renderFolders();
+      loadReports();
+    }
+  };
+  
+  // Allow Enter key to trigger search
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInputs = document.querySelectorAll('#searchQuery, #startDate, #endDate, #searchFolder');
+    searchInputs.forEach(input => {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          searchReports();
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

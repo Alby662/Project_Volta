@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { title: 'Dashboard - Project Volta' }) %>
+
+    <body>
+
+        <div class="dashboard-container">
+            <!-- Header Section -->
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="/images/logo.jpg" alt="Volta Logo" style="height: 50px; border-radius: 4px;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 1.5rem; color: var(--text-main);">Project Volta</h1>
+                        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Quality Inspection Management
+                            System</p>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <p style="margin: 0; font-weight: 600;">Welcome, <span id="username-display"
+                            style="color: var(--primary);">User</span></p>
+                    <button onclick="logout()"
+                        style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.9rem; margin-top: 0.25rem;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </header>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="window.location.href='/report-catalog'">
+                    <div class="action-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3>Create Report</h3>
+                    <p>Choose from 11 templates</p>
+                </div>
+
+                <!-- Admin Console Card (Admin Only) -->
+                <div class="action-card" id="admin-action" style="display: none;"
+                    onclick="window.location.href='/admin-console'">
+                    <div class="action-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Admin Console</h3>
+                    <p>Manage users and system settings</p>
+                </div>
+
+                <div class="action-card" onclick="window.location.href='/all-reports.html'">
+                    <div class="action-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h3>Report Archive</h3>
+                    <p>View & manage reports</p>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>11</h4>
+                    <p>Report Templates</p>
+                </div>
+                <div class="stat-card">
+                    <h4>4</h4>
+                    <p>Categories</p>
+                </div>
+                <div class="stat-card">
+                    <h4 style="color: var(--success);">Active</h4>
+                    <p>System Status</p>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            // Check authentication
+            const token = sessionStorage.getItem("adminToken");
+            if (!token) {
+                window.location.href = "/admin";
+            } else {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    document.getElementById("username-display").textContent = payload.username || "User";
+                    if (payload.role === 'admin') {
+                        document.getElementById("admin-action").style.display = "flex";
+                    }
+                } catch (e) {
+                    console.error("Invalid token");
+                }
+            }
+
+            function logout() {
+                sessionStorage.removeItem("adminToken");
+                window.location.href = "/admin";
+            }
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Dimensional Inspection Report</title>
+  <script src="common.js"></script>
+  <style>
+     /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #000;
+    }
+    th, td {
+      padding: 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 4px;
+      box-sizing: border-box;
+      background: #fff9c4;
+      border: 1px solid #ccc;
+    }
+    .header-title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .report-title {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .notes textarea {
+      width: 100%;
+      height: 60px;
+    }
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">FINAL-DIMENSIONAL TEST REPORT</h2>
+    </div>
+
+  </div>
+  
+  <form>
+    <!-- Header Info Table -->
+    <table class="header-table">
+      <tr>
+        <td>Client:</td>
+        <td><input type="text" name="client" /></td>
+        <td>QA Reference No:</td>
+        <td><input type="text" name="qa_reference" /></td>
+      </tr>
+      <tr>
+        <td>P.O. No.:</td>
+        <td><input type="text" name="po_no" /></td>
+        <td>Project:</td>
+        <td><input type="text" name="project" /></td>
+      </tr>
+      <tr>
+        <td>QAP:</td>
+        <td><input type="text" name="qap" /></td>
+        <td>QAP Stage No.:</td>
+        <td><input type="text" name="qap_stage" /></td>
+      </tr>
+      <tr>
+        <td>Drawing No.:</td>
+        <td><input type="text" name="drawing_no" /></td>
+        <td>Equipment Tag No.:</td>
+        <td><input type="text" name="equipment_tag" /></td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td><input type="text" name="description" /></td>
+        <td>Inspection Stage:</td>
+        <td><input type="text" name="inspection_stage" /></td>
+      </tr>
+    </table>
+
+    <!-- Main Dimensions Table -->
+    <table id="dimensions-table">
+      <thead>
+        <tr>
+          <th rowspan="2">S. No</th>
+          <th rowspan="2">Description</th>
+          <th colspan="2">Orientation</th>
+          <th colspan="2">Elevation</th>
+          <th colspan="2">Projection</th>
+          <th colspan="2">Detailed Dimensions</th>
+          <th rowspan="2">Remarks</th>
+        </tr>
+        <tr>
+          <th>Req.</th>
+          <th>Act.</th>
+          <th>Req.</th>
+          <th>Act.</th>
+          <th>Req.</th>
+          <th>Act.</th>
+          <th>Required</th>
+          <th>Actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" name="sno1" /></td>
+          <td><input type="text" name="desc1" /></td>
+          <td><input type="text" name="ori_req1" /></td>
+          <td><input type="text" name="ori_act1" /></td>
+          <td><input type="text" name="elev_req1" /></td>
+          <td><input type="text" name="elev_act1" /></td>
+          <td><input type="text" name="proj_req1" /></td>
+          <td><input type="text" name="proj_act1" /></td>
+          <td><input type="text" name="det_req1" /></td>
+          <td><input type="text" name="det_act1" /></td>
+          <td><input type="text" name="remarks1" /></td>
+        </tr>
+        <tr>
+          <td><input type="text" name="sno2" /></td>
+          <td><input type="text" name="desc2" /></td>
+          <td><input type="text" name="ori_req2" /></td>
+          <td><input type="text" name="ori_act2" /></td>
+          <td><input type="text" name="elev_req2" /></td>
+          <td><input type="text" name="elev_act2" /></td>
+          <td><input type="text" name="proj_req2" /></td>
+          <td><input type="text" name="proj_act2" /></td>
+          <td><input type="text" name="det_req2" /></td>
+          <td><input type="text" name="det_act2" /></td>
+          <td><input type="text" name="remarks2" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Notes Section -->
+    <div class="notes">
+      <strong>Notes:</strong><br>
+      <textarea name="notes"></textarea>
+    </div>
+
+    <!-- Footer Sign-off Table -->
+    <table>
+      <tr>
+        <th>Prepared By</th>
+        <th>Checked By</th>
+        <th>NPCIL</th>
+      </tr>
+      <tr>
+        <td><textarea name="prepared_by" rows="3"></textarea></td>
+        <td><textarea name="checked_by" rows="3"></textarea></td>
+        <td><textarea name="npcil_sign" rows="3"></textarea></td>
+      </tr>
+    </table>
+
+    <!-- Buttons -->
+    <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+    <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+    <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+  </form>
+
+  <script>
+    function addRow() {
+      const table = document.getElementById("dimensions-table").getElementsByTagName('tbody')[0];
+      const rowCount = table.rows.length + 1;
+      const newRow = table.insertRow();
+      for (let i = 0; i < 11; i++) {
+        const cell = newRow.insertCell(i);
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = [
+          'sno', 'desc',
+          'ori_req', 'ori_act',
+          'elev_req', 'elev_act',
+          'proj_req', 'proj_act',
+          'det_req', 'det_act',
+          'remarks'
+        ][i] + rowCount;
+        cell.appendChild(input);
+      }
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+        <img id="companyLogo" src="/images/logo1.jpg" alt="Company Logo"
+            style="height: 60px; width: auto; margin-bottom: 5px;" />
+        <select id="logoSelect" onchange="updateFromLogo()">
+            <option value="/images/logo.jpg">Volta Engineering Designs</option>
+            <option value="/images/volta green.png">Volta Green Structures</option>
+            <option value="/images/Deccan-Auto.jpg">Deccan Auto</option>
+        </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+        <select id="companyName" onchange="updateFromName()"
+            style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+            <option>Volta Engineering Designs Pvt. Ltd.</option>
+            <option>Volta Green Structures Pvt. Ltd.</option>
+            <option>Deccan Auto Ltd.</option>
+        </select>
+        <h2 style="margin: 0; font-size: 16px; color: #222;">
+            <%= reportName || 'TEST REPORT' %>
+        </h2>
+    </div>
+
+</div>

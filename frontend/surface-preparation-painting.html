@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Surface Preparation & Painting Report</title>
+  <script src="common.js"></script>
+  <style>
+    /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    :root {
+      --primary: #007BFF;
+      --bg: #f9f9f9;
+      --edit-bg: #fff8d1;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 40px;
+      background: var(--bg);
+      color: #333;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 5px;
+      font-size: 24px;
+    }
+
+    h2 {
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    h3.section-title {
+      margin-top: 40px;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #222;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--primary);
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    td[contenteditable] {
+      background: var(--edit-bg);
+      cursor: text;
+    }
+
+    td[contenteditable]:empty::before {
+      content: "Type here";
+      color: #aaa;
+      font-style: italic;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: 10px 5px 30px 0;
+      cursor: pointer;
+      font-size: 14px;
+      border: none;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .header-table td {
+      padding: 6px 10px;
+    }
+
+    .signature-table td {
+      height: 60px;
+      vertical-align: top;
+    }
+
+    @media print {
+      .btn {
+        display: none;
+      }
+
+      td[contenteditable] {
+        background: none !important;
+        color: #000;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        margin: 20px;
+      }
+      table, th, td {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">SURFACE PREPARATION & PAINTING TEST REPORT</h2>
+    </div>
+
+  </div>
+
+  <!-- Header Table -->
+  <table class="header-table">
+    <tr>
+      <td>NAME OF THE PROJECT:</td>
+      <td contenteditable="true"></td>
+      <td style="text-align: right;">FORMAT NO.:</td>
+      <td>VGS-QA-FT-05; REV:00</td>
+    </tr>
+    <tr>
+      <td>NAME OF THE CLIENT:</td>
+      <td contenteditable="true"></td>
+      <td style="text-align: right;">REPORT NO.:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td>EQUIPMENT NO.:</td>
+      <td contenteditable="true"></td>
+      <td style="text-align: right;">DATE OF INSPECTION:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td>QA REF:</td>
+      <td contenteditable="true"></td>
+      <td style="text-align: right;">IDENTIFICATION:</td>
+      <td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td>QAP NO.:</td>
+      <td contenteditable="true"></td>
+      <td style="text-align: right;">QAP STAGE:</td>
+      <td contenteditable="true"></td>
+    </tr>
+  </table>
+
+  <!-- Painting Details -->
+  <h3 class="section-title">Painting Details</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Painting Stage</th>
+        <th>Material Brand</th>
+        <th>Manufacturer</th>
+        <th>Batch No.</th>
+        <th>Shelf Life Upto</th>
+        <th>Shade / Colour</th>
+        <th>Application</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td contenteditable="true">Primer</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td contenteditable="true">Intermediate</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td contenteditable="true">Final Coat</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Weather Record -->
+  <h3 class="section-title center">Weather Record</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Surface Temperature (°C)</th>
+        <th>Ambient Temperature (°C)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td contenteditable="true">1st Coat</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td contenteditable="true">2nd Coat</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td contenteditable="true">3rd Coat</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Surface Preparation -->
+  <h3 class="section-title">Surface Preparation</h3>
+  <table>
+    <tr>
+      <td>Surface Preparation:</td>
+      <td contenteditable="true"></td>
+      <td>Blasting: Abrasives:</td>
+      <td contenteditable="true"></td>
+      <td>Surface Roughness:</td>
+      <td contenteditable="true"></td>
+    </tr>
+  </table>
+
+  <!-- Coating Thickness Details -->
+  <h3 class="section-title">Coating Thickness Details</h3>
+  <table id="coating-table">
+    <thead>
+      <tr>
+        <th>SR NO.</th>
+        <th>Drawing No. / Description</th>
+        <th>Primer Date</th>
+        <th>Primer DFT</th>
+        <th>Avg. Primer (min µ)</th>
+        <th>Intermediate Date</th>
+        <th>Intermediate DFT</th>
+        <th>Avg. Intermediate (min µ)</th>
+        <th>Final Date</th>
+        <th>Final DFT (min)</th>
+        <th>Avg Final (µ)</th>
+        <th>Remark</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+        <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+        <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Action Buttons -->
+  <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+  <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+  <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+
+  <!-- Signature Section -->
+  <h3 class="section-title">Approval Signatures</h3>
+  <table class="signature-table">
+    <tr><td>VGS (PREPARED)</td><td>VGS (REVIEWED)</td><td>NPCIL / AI</td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    <tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+  </table>
+
+  <!-- Add Row Script -->
+  <script>
+    function addRow() {
+      const tbody = document.getElementById('coating-table').getElementsByTagName('tbody')[0];
+      const row = tbody.insertRow();
+      for (let i = 0; i < 12; i++) {
+        const cell = row.insertCell();
+        cell.contentEditable = true;
+        cell.textContent = "";
+      }
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+</body>
+</html>

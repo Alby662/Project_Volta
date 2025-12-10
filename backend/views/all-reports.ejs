@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { title: 'Report Archive - Project Volta' }) %>
+
+    <body>
+
+        <div class="dashboard-container">
+            <!-- Header -->
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="/dashboard" style="text-decoration: none; color: inherit;">
+                        <h1 style="margin: 0; font-size: 1.5rem; color: var(--primary);"><i class="fas fa-arrow-left"
+                                style="font-size: 1rem;"></i> Report Archive</h1>
+                    </a>
+                </div>
+                <div>
+                    <button class="btn btn-secondary" onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-home"></i> Dashboard
+                    </button>
+                </div>
+            </header>
+
+            <!-- Search & Filter Section -->
+            <div class="card" style="margin-bottom: 2rem; align-items: flex-start; text-align: left;">
+                <h3 style="margin-bottom: 1rem;"><i class="fas fa-search"></i> Search & Filter</h3>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; width: 100%;">
+
+                    <div>
+                        <label style="font-weight: 500; font-size: 0.9rem;">Filename / Client</label>
+                        <input type="text" id="searchQuery" class="dashboard-select" placeholder="Search by name..."
+                            style="margin-bottom: 0;">
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 500; font-size: 0.9rem;">Report Type</label>
+                        <select id="searchFolder" class="dashboard-select" style="margin-bottom: 0;">
+                            <option value="">All Types</option>
+                            <option value="1">Liquid Penetrant</option>
+                            <option value="11">Vacuum Box</option>
+                            <!-- Add other types as needed -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 500; font-size: 0.9rem;">Start Date</label>
+                        <input type="date" id="startDate" class="dashboard-select" style="margin-bottom: 0;">
+                    </div>
+
+                    <div>
+                        <label style="font-weight: 500; font-size: 0.9rem;">End Date</label>
+                        <input type="date" id="endDate" class="dashboard-select" style="margin-bottom: 0;">
+                    </div>
+
+                    <div style="display: flex; align-items: flex-end;">
+                        <button class="btn" onclick="searchReports()" style="width: 100%;">
+                            Search <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div style="overflow-x: auto; width: 100%;">
+                    <table style="margin: 0; border: none;">
+                        <thead style="background: var(--background); border-bottom: 1px solid var(--border);">
+                            <tr>
+                                <th style="padding: 1rem; text-align: left; border: none;">Filename</th>
+                                <th style="padding: 1rem; text-align: left; border: none;">Type</th>
+                                <th style="padding: 1rem; text-align: left; border: none;">Date</th>
+                                <th style="padding: 1rem; text-align: center; border: none;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody">
+                            <!-- Rows will be populated here -->
+                            <tr>
+                                <td colspan="4"
+                                    style="text-align: center; padding: 2rem; color: var(--text-muted); border: none;">
+                                    Loading reports...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            // Folder mapping for display
+            const folderMap = {
+                1: "Liquid Penetrant",
+                2: "Draining & Dry",
+                3: "Final Dimension",
+                4: "Hydrostatic",
+                5: "Penetrating Oil",
+                6: "Pickling & Pass",
+                7: "Raw Material",
+                8: "RF Pad",
+                9: "Stage",
+                10: "Surface Prep",
+                11: "Vacuum Box",
+                12: "Visual Exam"
+            };
+
+            let isAdmin = false;
+
+            // Check auth and role
+            const token = sessionStorage.getItem("adminToken");
+            if (!token) {
+                window.location.href = "/admin";
+            } else {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    if (payload.role === 'admin') {
+                        isAdmin = true;
+                    }
+                } catch (e) {
+                    console.error("Invalid token");
+                }
+            }
+
+            async function searchReports() {
+                try {
+                    const res = await fetch('/api/saved-reports');
+
+                    if (!res.ok) throw new Error("Failed to fetch reports");
+
+                    const reports = await res.json();
+                    renderTable(reports);
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById('reportsTableBody').innerHTML = `
+          <tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--danger); border: none;">
+            Error loading reports: ${err.message}
+          </td></tr>
+        `;
+                }
+            }
+
+            function renderTable(reports) {
+                const tbody = document.getElementById('reportsTableBody');
+
+                if (reports.length === 0) {
+                    tbody.innerHTML = `
+          <tr><td colspan="4" style="text-align: center; padding: 2rem; color: var(--text-muted); border: none;">
+            No saved reports found.
+          </td></tr>
+        `;
+                    return;
+                }
+
+                tbody.innerHTML = reports.map(report => `
+        <tr style="border-bottom: 1px solid var(--border);">
+          <td style="padding: 1rem; border: none; font-weight: 500;">
+            <i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>
+            ${report.preview?.reportNo || 'Draft Report'}
+          </td>
+          <td style="padding: 1rem; border: none; color: var(--text-muted);">
+            ${getReportTypeName(report.reportType)}
+          </td>
+          <td style="padding: 1rem; border: none; color: var(--text-muted);">
+            ${new Date(report.createdAt).toLocaleDateString()} ${new Date(report.createdAt).toLocaleTimeString()}
+          </td>
+          <td style="padding: 1rem; text-align: center; border: none;">
+            <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" 
+              onclick="exportToPDF('${report._id}')">
+              <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+            ${isAdmin ? `
+              <button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background-color: var(--danger); margin-left: 0.5rem;" 
+                onclick="deleteReport('${report._id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            ` : ''}
+          </td>
+        </tr>
+      `).join('');
+            }
+
+            function getReportTypeName(type) {
+                const typeMap = {
+                    'liquid': 'Liquid Penetrant Test',
+                    'vacuum': 'Vacuum Box Test',
+                    'draining_dry': 'Draining & Dry Test',
+                    'final_dimension': 'Final Dimension Test',
+                    'hydrostatic_test': 'Hydrostatic Test',
+                    'oil_leak': 'Oil Leak Test',
+                    'pickling_passivation': 'Pickling & Passivation',
+                    'raw_material': 'Raw Material Inspection',
+                    'rf_pad_pneumatic': 'RF-PAD Pneumatic Test',
+                    'visual_examination': 'Visual Examination',
+                    'surface_preparation_painting': 'Surface Preparation & Painting'
+                };
+                return typeMap[type] || type;
+            }
+
+
+            async function exportToPDF(reportId) {
+                try {
+                    const res = await fetch(`/api/export-pdf/${reportId}`, {
+                        method: 'POST'
+                    });
+
+                    if (res.ok) {
+                        const blob = await res.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `report-${reportId}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    } else {
+                        const error = await res.text();
+                        alert('Failed to export PDF: ' + error);
+                    }
+                } catch (err) {
+                    alert('Network error: ' + err.message);
+                }
+            }
+
+            async function deleteReport(reportId) {
+                if (!confirm("Are you sure you want to delete this report? This action cannot be undone.")) return;
+
+                try {
+                    const res = await fetch(`/api/delete-saved-report/${reportId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (res.ok) {
+                        alert("Report deleted successfully");
+                        searchReports(); // Refresh list
+                    } else {
+                        const data = await res.json();
+                        alert("Failed to delete: " + (data.error || "Unknown error"));
+                    }
+                } catch (err) {
+                    alert("Network error: " + err.message);
+                }
+            }
+
+            // Initial load
+            searchReports();
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { title: 'Admin Console - Project Volta' }) %>
+
+    <body>
+
+        <div class="dashboard-container">
+            <!-- Header -->
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="/dashboard" style="text-decoration: none; color: inherit;">
+                        <h1 style="margin: 0; font-size: 1.5rem; color: var(--primary);"><i class="fas fa-arrow-left"
+                                style="font-size: 1rem;"></i> Admin Console</h1>
+                    </a>
+                </div>
+                <div>
+                    <button class="btn btn-secondary" onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-home"></i> Dashboard
+                    </button>
+                </div>
+            </header>
+
+            <!-- Tabs -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border);">
+                <button class="btn btn-secondary tab-btn active" onclick="switchTab('users')" id="tab-users"
+                    style="border-bottom: none; border-radius: 0.5rem 0.5rem 0 0;">
+                    <i class="fas fa-users"></i> Users
+                </button>
+                <button class="btn btn-secondary tab-btn" onclick="switchTab('settings')" id="tab-settings"
+                    style="border-bottom: none; border-radius: 0.5rem 0.5rem 0 0;">
+                    <i class="fas fa-cogs"></i> Settings
+                </button>
+                <button class="btn btn-secondary tab-btn" onclick="switchTab('logs')" id="tab-logs"
+                    style="border-bottom: none; border-radius: 0.5rem 0.5rem 0 0;">
+                    <i class="fas fa-list-alt"></i> Audit Logs
+                </button>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="view-users" class="tab-content">
+                <div class="card" style="align-items: flex-start; text-align: left; margin-bottom: 2rem;">
+                    <div
+                        style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="margin: 0;">User Management</h3>
+                        <button class="btn" onclick="showAddUserModal()">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </button>
+                    </div>
+
+                    <table style="margin: 0; border: none;">
+                        <thead style="background: var(--background); border-bottom: 1px solid var(--border);">
+                            <tr>
+                                <th style="padding: 1rem; text-align: left; border: none;">Username</th>
+                                <th style="padding: 1rem; text-align: left; border: none;">Role</th>
+                                <th style="padding: 1rem; text-align: left; border: none;">Created At</th>
+                                <th style="padding: 1rem; text-align: center; border: none;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 2rem;">Loading users...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="view-settings" class="tab-content" style="display: none;">
+                <div class="card" style="align-items: flex-start; text-align: left;">
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-cog"></i> System Settings</h3>
+
+                    <!-- Password Update Section -->
+                    <div class="card" style="margin-bottom: 2rem; text-align: left;">
+                        <h4 style="margin-bottom: 1rem; color: var(--primary);">
+                            <i class="fas fa-key"></i> Update System Password
+                        </h4>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                            Change the admin password for the system. This will update the password for the admin user.
+                        </p>
+
+                        <div style="max-width: 500px;">
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; font-weight: 500; margin-bottom: 0.5rem;">
+                                    Current Password
+                                </label>
+                                <input type="password" id="currentPassword" class="dashboard-select"
+                                    placeholder="Enter current password" style="margin-bottom: 0;">
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <label style="display: block; font-weight: 500; margin-bottom: 0.5rem;">
+                                    New Password
+                                </label>
+                                <input type="password" id="newPassword" class="dashboard-select"
+                                    placeholder="Enter new password (min 6 characters)" style="margin-bottom: 0;">
+                            </div>
+
+                            <div style="margin-bottom: 1.5rem;">
+                                <label style="display: block; font-weight: 500; margin-bottom: 0.5rem;">
+                                    Confirm New Password
+                                </label>
+                                <input type="password" id="confirmPassword" class="dashboard-select"
+                                    placeholder="Confirm new password" style="margin-bottom: 0;">
+                            </div>
+
+                            <button class="btn" onclick="updatePassword()" style="width: 100%;">
+                                <i class="fas fa-save"></i> Update Password
+                            </button>
+                        </div>
+                    </div>
+
+                    <p style="color: var(--text-muted);">More settings coming soon...</p>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Current system environment variables and
+                        status.</p>
+
+                    <div id="settingsContainer" style="width: 100%;">
+                        Loading settings...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audit Logs Tab -->
+            <div id="view-logs" class="tab-content" style="display: none;">
+                <div class="card" style="align-items: flex-start; text-align: left;">
+                    <h3 style="margin-bottom: 1rem;">Audit Logs</h3>
+
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem; width: 100%;">
+                        <select id="logLevelFilter" class="dashboard-select" style="width: auto; margin-bottom: 0;"
+                            onchange="loadLogs()">
+                            <option value="">All Levels</option>
+                            <option value="INFO">INFO</option>
+                            <option value="WARN">WARN</option>
+                            <option value="ERROR">ERROR</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="loadLogs()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style="margin: 0; border: none;">
+                            <thead style="background: var(--background); border-bottom: 1px solid var(--border);">
+                                <tr>
+                                    <th style="padding: 1rem; text-align: left; border: none;">Timestamp</th>
+                                    <th style="padding: 1rem; text-align: left; border: none;">Level</th>
+                                    <th style="padding: 1rem; text-align: left; border: none;">Message</th>
+                                    <th style="padding: 1rem; text-align: left; border: none;">User</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logsTableBody">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 2rem;">Loading logs...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add User Modal -->
+        <div id="addUserModal"
+            style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
+            <div class="card" style="width: 100%; max-width: 400px; padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">Add New User</h3>
+                <form id="addUserForm" style="width: 100%;">
+                    <div style="margin-bottom: 1rem; text-align: left;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Username</label>
+                        <input type="text" name="username" class="dashboard-select" required minlength="3">
+                    </div>
+                    <div style="margin-bottom: 1rem; text-align: left;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Password</label>
+                        <input type="password" name="password" class="dashboard-select" required minlength="6">
+                    </div>
+                    <div style="margin-bottom: 1.5rem; text-align: left;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Role</label>
+                        <select name="role" class="dashboard-select">
+                            <option value="user">Inspector (User)</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="button" class="btn btn-secondary"
+                            onclick="document.getElementById('addUserModal').style.display='none'"
+                            style="flex: 1;">Cancel</button>
+                        <button type="submit" class="btn" style="flex: 1;">Create User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const token = sessionStorage.getItem("adminToken");
+            if (!token) window.location.href = "/admin";
+
+            // Tab Switching
+            function switchTab(tabName) {
+                document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.tab-btn').forEach(el => {
+                    el.classList.remove('active');
+                    el.style.backgroundColor = 'var(--surface)';
+                    el.style.color = 'var(--text-main)';
+                });
+
+                document.getElementById(`view-${tabName}`).style.display = 'block';
+                const activeBtn = document.getElementById(`tab-${tabName}`);
+                activeBtn.classList.add('active');
+                activeBtn.style.backgroundColor = 'var(--primary)';
+                activeBtn.style.color = 'white';
+
+                if (tabName === 'users') loadUsers();
+                if (tabName === 'settings') loadSettings();
+                if (tabName === 'logs') loadLogs();
+            }
+
+            // Initial Load
+            switchTab('users');
+
+            // --- Users Logic ---
+            async function loadUsers() {
+                try {
+                    const res = await fetch('/api/users', { headers: { 'Authorization': 'Bearer ' + token } });
+                    const users = await res.json();
+                    const tbody = document.getElementById('usersTableBody');
+
+                    tbody.innerHTML = users.map(user => `
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 1rem; border: none;">${user.username}</td>
+            <td style="padding: 1rem; border: none;">
+              <span style="background: ${user.role === 'admin' ? '#fee2e2' : '#dcfce7'}; color: ${user.role === 'admin' ? '#991b1b' : '#166534'}; padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.8rem; font-weight: 600;">
+                ${user.role.toUpperCase()}
+              </span>
+            </td>
+            <td style="padding: 1rem; border: none; color: var(--text-muted);">${new Date(user.createdAt).toLocaleDateString()}</td>
+            <td style="padding: 1rem; text-align: center; border: none;">
+              ${user.username !== 'admin' ? `
+                <button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background-color: var(--danger);" 
+                  onclick="deleteUser('${user._id}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              ` : '<span style="color: var(--text-muted); font-size: 0.8rem;">Protected</span>'}
+            </td>
+          </tr>
+        `).join('');
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            function showAddUserModal() {
+                document.getElementById('addUserModal').style.display = 'flex';
+            }
+
+            document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const res = await fetch('/api/users', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (res.ok) {
+                        alert('User created successfully');
+                        document.getElementById('addUserModal').style.display = 'none';
+                        e.target.reset();
+                        loadUsers();
+                    } else {
+                        const err = await res.json();
+                        alert('Error: ' + err.error);
+                    }
+                } catch (err) {
+                    alert('Network error');
+                }
+            });
+
+            async function deleteUser(id) {
+                if (!confirm('Delete this user?')) return;
+                try {
+                    const res = await fetch(`/api/users/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (res.ok) loadUsers();
+                    else alert('Failed to delete user');
+                } catch (err) {
+                    alert('Network error');
+                }
+            }
+
+            // --- Settings Logic ---
+            async function loadSettings() {
+                try {
+                    const res = await fetch('/api/settings', { headers: { 'Authorization': 'Bearer ' + token } });
+                    const settings = await res.json();
+                    const container = document.getElementById('settingsContainer');
+
+                    container.innerHTML = `
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center;">
+            <div style="font-weight: 600;">Environment:</div>
+            <div>${settings.env}</div>
+            
+            <div style="font-weight: 600;">Database:</div>
+            <div>${settings.dbStatus}</div>
+            
+            <div style="font-weight: 600;">Email Service:</div>
+            <div>${settings.emailConfigured ? '<span style="color: var(--success)">Configured</span>' : '<span style="color: var(--danger)">Not Configured</span>'}</div>
+            
+            <div style="font-weight: 600;">Rate Limiting:</div>
+            <div>${settings.rateLimit} req / 15min</div>
+          </div>
+        `;
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            // --- Logs Logic ---
+            async function loadLogs() {
+                const level = document.getElementById('logLevelFilter').value;
+                try {
+                    const res = await fetch(`/api/audit-logs?level=${level}`, { headers: { 'Authorization': 'Bearer ' + token } });
+                    const logs = await res.json();
+                    const tbody = document.getElementById('logsTableBody');
+
+                    tbody.innerHTML = logs.map(log => `
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 1rem; border: none; color: var(--text-muted); font-size: 0.85rem;">
+              ${new Date(log.timestamp).toLocaleString()}
+            </td>
+            <td style="padding: 1rem; border: none;">
+              <span style="font-weight: 600; color: ${log.level === 'ERROR' ? 'var(--danger)' : log.level === 'WARN' ? '#d97706' : 'var(--primary)'}">
+                ${log.level}
+              </span>
+            </td>
+            <td style="padding: 1rem; border: none;">${log.message}</td>
+            <td style="padding: 1rem; border: none; color: var(--text-muted); font-size: 0.85rem;">
+              ${log.userId || '-'}
+            </td>
+          </tr>
+        `).join('');
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            // --- Password Update Logic ---
+            async function updatePassword() {
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Validation
+                if (!currentPassword || !newPassword || !confirmPassword) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    alert('New password must be at least 6 characters');
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match');
+                    return;
+                }
+
+                try {
+                    const res = await fetch('/api/update-password', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            currentPassword,
+                            newPassword
+                        })
+                    });
+
+                    if (res.ok) {
+                        alert('✅ Password updated successfully! Please login again with your new password.');
+                        // Clear fields
+                        document.getElementById('currentPassword').value = '';
+                        document.getElementById('newPassword').value = '';
+                        document.getElementById('confirmPassword').value = '';
+
+                        // Logout after 2 seconds
+                        setTimeout(() => {
+                            sessionStorage.removeItem('adminToken');
+                            window.location.href = '/admin';
+                        }, 2000);
+                    } else {
+                        const error = await res.json();
+                        alert('❌ Failed to update password: ' + (error.error || 'Unknown error'));
+                    }
+                } catch (err) {
+                    alert('❌ Network error: ' + err.message);
+                }
+            }
+        </script>
+    </body>
+
+</html>

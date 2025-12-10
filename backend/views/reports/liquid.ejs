@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Liquid Penetrant / Examination Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'LIQUID PENETRATING TEST REPORT' }) %>
+
+                <form id="reportForm" enctype="multipart/form-data">
+
+                    <!-- Header Info -->
+                    <table>
+                        <tr>
+                            <td>Report No.</td>
+                            <td><input type="text" value="VGS/101.004/" placeholder="VGS/101.004/" /></td>
+
+                            <td>Report Date</td>
+                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
+                        </tr>
+                        <tr>
+                            <td>NPCIL Procedure Document No.</td>
+                            <td style="text-align: left; font-weight: bold; background: #fffde7;">
+                                I106.KK56.UKC.0.TM.QFS.WD003</td>
+                            <td>Date of Examination</td>
+                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
+                        </tr>
+                        <tr>
+                            <td>Customer</td>
+                            <td><input type="text" placeholder="NPCIL"></td>
+                            <td>W.O No (Job No)</td>
+                            <td style="text-align: left; font-weight: bold; background: #fffde7;">V00101.004</td>
+                        </tr>
+                        <tr>
+                            <td>Type of Job</td>
+                            <td><input type="text" placeholder="WEP LPE"></td>
+                            <td>QAP Stage</td>
+                            <td><input type="text" placeholder="4.1"></td>
+                        </tr>
+                        <tr>
+                            <td>Project</td>
+                            <td colspan="3"><input type="text" placeholder="KKNPP UNIT 5 & 6"></td>
+                        </tr>
+                        <tr>
+                            <td>WPS No/PQR No.</td>
+                            <td><input type="text" placeholder="NA"></td>
+                            <td>Acceptance Standard</td>
+                            <td><input type="text" placeholder="ASME Section III NCD"></td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <td>Material</td>
+                            <td>
+                                <select>
+                                    <option value="">Select</option>
+                                    <option value="SA 240/182F GR.304L">SA 240/182F GR.304L</option>
+                                    <option value="SA 240/182F GR.316">SA 240/182F GR.316</option>
+                                    <option value="SA 240/182F GR.316L">SA 240/182F GR.316L</option>
+                                    <option value="SA 240/182F GR.316TI">SA 240/182F GR.316TI</option>
+                                    <option value="SA 240/182F 321">SA 240/182F 321</option>
+                                </select>
+                            </td>
+                            <td>Surface Condition</td>
+                            <td><input type="text" placeholder="Smooth"></td>
+                        </tr>
+
+
+                        </tr>
+                        <tr>
+                            <td>Surface Temp.</td>
+                            <td><input type="text" placeholder="<50°C"></td>
+                            <td>Extent of Examination</td>
+                            <td><input type="text" placeholder="100% Bevel Area"></td>
+                        </tr>
+                        <tr>
+                            <td>Stage of Examination</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Consumables -->
+                    <table>
+                        <tr>
+                            <th colspan="2">Penetrant (Visible)</th>
+                            <th colspan="2">Cleaner</th>
+                            <th colspan="2">Developer</th>
+                        </tr>
+                        <tr>
+                            <td>Brand Name</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Brand Name</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Brand Name</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                        </tr>
+                        <tr>
+                            <td>Batch No./ Exp. Date</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Batch No./ Exp. Date</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Batch No./ Exp. Date</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Application -->
+                    <table>
+                        <tr>
+                            <th colspan="2">Penetrant Application</th>
+                            <th colspan="2">Lighting Equipment Used</th>
+                            <th colspan="2">Developer Application</th>
+                        </tr>
+                        <tr>
+                            <td>Method</td>
+                            <td><input type="text" placeholder="SPRAY TYPE"></td>
+                            <td rowspan="2" colspan="2"><input type="text" placeholder="100W Hand Bulb at 8 inch"></td>
+                            <td>Method</td>
+                            <td><input type="text" placeholder="SPRAY TYPE"></td>
+                        </tr>
+                        <tr>
+                            <td>Dwell Time</td>
+                            <td><input type="text" placeholder="10 mins"></td>
+                            <td>Developing Time</td>
+                            <td><input type="text" placeholder="20 mins"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Result Table -->
+                    <table id="penetrant-result-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Sl. No.</th>
+                                <th rowspan="2" colspan="2">Details of Item / Component Examined</th>
+                                <th colspan="2">Interpretation</th>
+                                <th rowspan="2">Result</th>
+                            </tr>
+                            <tr>
+                                <th>Type (Linear / Rounded)</th>
+                                <th>Dimension (Dia / Length)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
+                                <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
+                                <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+                                <td>
+                                    <select>
+                                        <option value="">Select</option>
+                                        <option value="Satisfactory">Satisfactory</option>
+                                        <option value="Unsatisfactory">Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Notes -->
+                    <h3>Notes:</h3>
+                    <textarea rows="3" placeholder="Add your notes here..."></textarea>
+
+                    <!-- Signatures -->
+                    <table>
+                        <tr>
+                            <td>Performed By:</td>
+                            <td><input type="text" placeholder="Name / Signature / Date"></td>
+                            <td>Reviewed By:</td>
+                            <td><input type="text" placeholder="Name / Signature / Date"></td>
+                            <td>AI / Customer:</td>
+                            <td><input type="text" placeholder="Name / Signature / Date"></td>
+                        </tr>
+                    </table>
+
+                    <%- include('../partials/footer') %>
+
+        </div>
+
+        <!-- Add Row Script -->
+        <script>
+            function addRow() {
+                const tbody = document.getElementById('penetrant-result-table').getElementsByTagName('tbody')[0];
+                const rowCount = tbody.rows.length + 1;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+        <td>${rowCount}</td>
+        <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
+        <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
+        <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+        <td>
+          <select>
+            <option value="">Select</option>
+            <option value="Satisfactory">Satisfactory</option>
+            <option value="Unsatisfactory">Unsatisfactory</option>
+          </select>
+        </td>
+      `;
+                tbody.appendChild(row);
+            }
+        </script>
+
+    </body>
+
+</html>

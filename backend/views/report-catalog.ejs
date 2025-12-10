@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { title: 'Report Catalog - Project Volta' }) %>
+
+    <body>
+        <div class="dashboard-container">
+            <!-- Header Section -->
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="/images/logo.jpg" alt="Volta Logo" style="height: 50px; border-radius: 4px;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 1.5rem; color: var(--text-main);">Project Volta</h1>
+                        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Report Catalog</p>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <button onclick="window.location.href='/dashboard'"
+                        style="background: none; border: 1px solid var(--border); color: var(--text-main); cursor: pointer; font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: var(--radius); margin-bottom: 0.5rem;">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                </div>
+            </header>
+
+            <!-- Report Center -->
+            <div class="report-center">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--text-main);">
+                    <i class="fas fa-clipboard-list" style="color: var(--primary);"></i>
+                    Inspection Report Templates
+                </h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 3rem;">
+                    Select a report template to begin your quality inspection documentation
+                </p>
+
+                <!-- Category: Material & Preparation -->
+                <div class="report-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-industry"></i> Material & Preparation
+                    </h3>
+                    <div class="report-grid">
+                        <a href="/reports/raw_material" class="report-card">
+                            <i class="fas fa-boxes"></i>
+                            <span>Raw Material Inspection</span>
+                        </a>
+                        <a href="/reports/surface_preparation_painting" class="report-card">
+                            <i class="fas fa-paint-roller"></i>
+                            <span>Surface Preparation & Painting</span>
+                        </a>
+                        <a href="/reports/pickling_passivation" class="report-card">
+                            <i class="fas fa-flask"></i>
+                            <span>Pickling & Passivation</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category: NDT Inspection -->
+                <div class="report-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-search"></i> Non-Destructive Testing (NDT)
+                    </h3>
+                    <div class="report-grid">
+                        <a href="/reports/liquid" class="report-card">
+                            <i class="fas fa-tint"></i>
+                            <span>Liquid Penetrant Test</span>
+                        </a>
+                        <a href="/reports/visual_examination" class="report-card">
+                            <i class="fas fa-eye"></i>
+                            <span>Visual Examination</span>
+                        </a>
+                        <a href="/reports/oil_leak" class="report-card">
+                            <i class="fas fa-oil-can"></i>
+                            <span>Oil Leak Test</span>
+                        </a>
+                        <a href="/reports/vacuum" class="report-card">
+                            <i class="fas fa-wind"></i>
+                            <span>Vacuum Box Test</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category: Pressure Tests -->
+                <div class="report-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-gauge-high"></i> Pressure & Functional Tests
+                    </h3>
+                    <div class="report-grid">
+                        <a href="/reports/hydrostatic_test" class="report-card">
+                            <i class="fas fa-water"></i>
+                            <span>Hydrostatic Test</span>
+                        </a>
+                        <a href="/reports/rf_pad_pneumatic" class="report-card">
+                            <i class="fas fa-compress"></i>
+                            <span>RF-PAD Pneumatic Test</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Category: Final & Dimensional -->
+                <div class="report-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-ruler-combined"></i> Final & Dimensional
+                    </h3>
+                    <div class="report-grid">
+                        <a href="/reports/final_dimension" class="report-card">
+                            <i class="fas fa-drafting-compass"></i>
+                            <span>Final Dimension Test</span>
+                        </a>
+                        <a href="/reports/draining_dry" class="report-card">
+                            <i class="fas fa-droplet-slash"></i>
+                            <span>Draining & Dry Test</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Check authentication
+            const token = sessionStorage.getItem("adminToken");
+            if (!token) {
+                window.location.href = "/admin";
+            }
+        </script>
+    </body>
+
+</html>

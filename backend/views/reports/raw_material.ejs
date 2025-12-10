@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Raw Material Inspection Report' }) %>
+
+    <body>
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'RAW MATERIAL TEST REPORT' }) %>
+
+                <form>
+                    <!-- Header Information -->
+                    <table>
+                        <tr>
+                            <td>Customer</td>
+                            <td><input type="text" name="customer" class="report-input" /></td>
+                            <td>Format No.</td>
+                            <td><strong>VGS/QA/FT/01; Rev-0 <input type="text" name="format_rev" class="report-input"
+                                        style="width: 50px;" placeholder="eg: 1" /></strong></td>
+                        </tr>
+                        <tr>
+                            <td>PO REF</td>
+                            <td><input type="text" name="po_ref" class="report-input" /></td>
+                            <td>Report No.</td>
+                            <td><input type="text" name="report_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>W.O NO (JOB NO)</td>
+                            <td><input type="text" name="wo_no" class="report-input" /></td>
+                            <td>QA Reference No.</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP No.</td>
+                            <td><input type="text" name="qap_no" class="report-input" /></td>
+                            <td>QAP SL. NO.</td>
+                            <td><input type="text" name="qap_sl" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <h2 style="text-align: center; margin: 20px 0;">Raw Material Inspection Report</h2>
+
+                    <!-- Inspection Table -->
+                    <table id="inspection-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">SR. NO.</th>
+                                <th>Date of Receipt</th>
+                                <th>Material Description & Size</th>
+                                <th>Heat / Batch No. / Coil No.</th>
+                                <th>Qty Accepted</th>
+                                <th>DC No. / FIV No. and Date</th>
+                                <th>Test Certificate No. and Date</th>
+                                <th>Identity</th>
+                                <th>Material ID No</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" name="date1" class="report-input" placeholder="dd-mm-yyyy" />
+                                </td>
+                                <td><input type="text" name="material1" class="report-input" /></td>
+                                <td><input type="text" name="heat1" class="report-input" /></td>
+                                <td><input type="text" name="qty1" class="report-input" /></td>
+                                <td><input type="text" name="dc1" class="report-input" /></td>
+                                <td><input type="text" name="tc1" class="report-input" /></td>
+                                <td><input type="text" name="identity1" class="report-input" /></td>
+                                <td><input type="text" name="material_id1" class="report-input" /></td>
+                                <td><input type="text" name="remarks1" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><input type="text" name="date2" class="report-input" /></td>
+                                <td><input type="text" name="material2" class="report-input" /></td>
+                                <td><input type="text" name="heat2" class="report-input" /></td>
+                                <td><input type="text" name="qty2" class="report-input" /></td>
+                                <td><input type="text" name="dc2" class="report-input" /></td>
+                                <td><input type="text" name="tc2" class="report-input" /></td>
+                                <td><input type="text" name="identity2" class="report-input" /></td>
+                                <td><input type="text" name="material_id2" class="report-input" /></td>
+                                <td><input type="text" name="remarks2" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><input type="text" name="date3" class="report-input" /></td>
+                                <td><input type="text" name="material3" class="report-input" /></td>
+                                <td><input type="text" name="heat3" class="report-input" /></td>
+                                <td><input type="text" name="qty3" class="report-input" /></td>
+                                <td><input type="text" name="dc3" class="report-input" /></td>
+                                <td><input type="text" name="tc3" class="report-input" /></td>
+                                <td><input type="text" name="identity3" class="report-input" /></td>
+                                <td><input type="text" name="material_id3" class="report-input" /></td>
+                                <td><input type="text" name="remarks3" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Signatures -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <thead>
+                            <tr>
+                                <th>VGS (Prepared)</th>
+                                <th>VGS (Reviewed)</th>
+                                <th>AI / Customer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><textarea name="prepared" rows="3" class="report-input"
+                                        placeholder="NAME / SIGN / DATE"></textarea></td>
+                                <td><textarea name="reviewed" rows="3" class="report-input"
+                                        placeholder="NAME / SIGN / DATE"></textarea></td>
+                                <td><textarea name="customer_sign" rows="3" class="report-input"
+                                        placeholder="NAME / SIGN / DATE"></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+        </div>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById("inspection-table").getElementsByTagName("tbody")[0];
+                const rowCount = table.rows.length + 1;
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td><input type="text" name="date${rowCount}" class="report-input" placeholder="dd-mm-yyyy" /></td>
+                <td><input type="text" name="material${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="heat${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="qty${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="dc${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="tc${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="identity${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="material_id${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="remarks${rowCount}" class="report-input" /></td>
+            `;
+            }
+        </script>
+    </body>
+
+</html>

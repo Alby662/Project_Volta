@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Visual Examination Report' }) %>
+
+    <body>
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'VISUAL-EXAMINATION TEST REPORT' }) %>
+
+                <form>
+                    <!-- Report Info -->
+                    <table>
+                        <tr>
+                            <td>Report No.:</td>
+                            <td><input type="text" name="report_no" class="report-input" /></td>
+                            <td>Date of Examination:</td>
+                            <td><input type="date" name="exam_date" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP No.:</td>
+                            <td><input type="text" name="qap_no" class="report-input" /></td>
+                            <td>QAP Stage:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Customer:</td>
+                            <td><input type="text" name="customer" class="report-input" /></td>
+                            <td>PO No.:</td>
+                            <td><input type="text" name="po_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Project:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                            <td>Equipment No.:</td>
+                            <td><input type="text" name="equipment_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Stage / Type of Job:</td>
+                            <td><input type="text" name="job_stage" class="report-input" /></td>
+                            <td>Acceptance Standards:</td>
+                            <td><input type="text" name="standards" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Welding Process:</td>
+                            <td><input type="text" name="welding_process" class="report-input" /></td>
+                            <td>WPS No.:</td>
+                            <td><input type="text" name="wps_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Type of Joint:</td>
+                            <td><input type="text" name="joint_type" class="report-input" /></td>
+                            <td>Description:</td>
+                            <td><input type="text" name="description" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Drawing Table -->
+                    <table id="drawing-table">
+                        <thead>
+                            <tr>
+                                <th>Drawing No</th>
+                                <th>Joint No</th>
+                                <th>Welder No</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="drawing1" class="report-input" /></td>
+                                <td><input type="text" name="joint1" class="report-input" /></td>
+                                <td><input type="text" name="welder1" class="report-input" /></td>
+                                <td><input type="text" name="remark1" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Imperfection Table -->
+                    <h3 style="margin-top: 30px;">Nature of Imperfections</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">SL.NO</th>
+                                <th>Nature of Imperfection</th>
+                                <th>Observation</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Linear Porosity</td>
+                                <td><input type="text" name="obs1" class="report-input" /></td>
+                                <td><input type="text" name="rem1" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Cluster Porosity</td>
+                                <td><input type="text" name="obs2" class="report-input" /></td>
+                                <td><input type="text" name="rem2" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Surface Pore</td>
+                                <td><input type="text" name="obs3" class="report-input" /></td>
+                                <td><input type="text" name="rem3" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Under Cut</td>
+                                <td><input type="text" name="obs4" class="report-input" /></td>
+                                <td><input type="text" name="rem4" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Spatters</td>
+                                <td><input type="text" name="obs5" class="report-input" /></td>
+                                <td><input type="text" name="rem5" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Crater Crack</td>
+                                <td><input type="text" name="obs6" class="report-input" /></td>
+                                <td><input type="text" name="rem6" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>Incorrect Weld Toe</td>
+                                <td><input type="text" name="obs7" class="report-input" /></td>
+                                <td><input type="text" name="rem7" class="report-input" /></td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>Excessive Convexity</td>
+                                <td><input type="text" name="obs8" class="report-input" /></td>
+                                <td><input type="text" name="rem8" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Observation and Remarks -->
+                    <table style="margin-top: 20px;">
+                        <tr>
+                            <td><strong>Observation and Remark:</strong></td>
+                        </tr>
+                        <tr>
+                            <td><textarea name="final_observation" rows="4" class="report-input"
+                                    placeholder="Enter your observation here..."></textarea></td>
+                        </tr>
+                    </table>
+
+                    <!-- Approval Section -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>Inspected By<br>(Name, Sign & Date)</th>
+                            <th>Reviewed By<br>(Name, Sign & Date)</th>
+                            <th>Approved By<br>(Name, Sign & Date)</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="inspected_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="reviewed_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="approved_by" rows="3" class="report-input"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+        </div>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById('drawing-table').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+                for (let i = 0; i < 4; i++) {
+                    const newCell = newRow.insertCell();
+                    newCell.innerHTML = '<input type="text" class="report-input" />';
+                }
+            }
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project - Volta Engineering Designs</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #F1FAEE;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: #1D3557;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #457B9D;
+      display: flex;
+      align-items: center;
+      padding: 20px 40px;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header img {
+      height: 60px;
+      margin-right: 20px;
+      border-radius: 5px;
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin: 0;
+    }
+
+    .accent-line {
+      height: 5px;
+      background-color: #A8DADC;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 40px auto;
+      text-align: center;
+      flex-grow: 1;
+      padding: 0 20px;
+    }
+
+    .content h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #1D3557;
+      letter-spacing: 1px;
+    }
+
+    .project-button {
+      background-color: #1D3557;
+      color: #fff;
+      padding: 16px 32px;
+      margin: 16px 0;
+      border: none;
+      border-radius: 40px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      width: 350px;
+      max-width: 90%;
+      text-align: left;
+      position: relative;
+      padding-left: 60px;
+    }
+
+    .project-button::before {
+      content: attr(data-num) ".";
+      position: absolute;
+      left: 25px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .project-button:hover {
+      background-color: #16324F;
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Back Button */
+    .back-button {
+      background-color: #6c757d;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #5a6268;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      background-color: #f8f9fa;
+      color: #6c757d;
+      margin-top: auto;
+    }
+
+    @media screen and (max-width: 500px) {
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .project-button {
+        font-size: 18px;
+        padding: 14px 28px;
+        width: 90%;
+        padding-left: 50px;
+      }
+
+      .project-button::before {
+        font-size: 18px;
+        left: 20px;
+      }
+      
+      header {
+        padding: 15px 20px;
+      }
+      
+      header h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.jpg" alt="Logo">
+    <h1>Volta Engineering Designs Pvt Ltd</h1>
+  </header>
+  <div class="accent-line"></div>
+
+  <div class="content">
+    <h2>CUSTOMERS</h2>
+
+    <button class="project-button" data-num="1" onclick="location.href='pronpcil.html'">NPCIL</button>
+    <button class="project-button" data-num="2" onclick="location.href='LNT.HTML'">LNT</button>
+    <button class="project-button" data-num="3" onclick="location.href='railways.html'">RAILWAYS</button>
+    
+    <br>
+    <a href="description.html" class="back-button">← Back to Companies</a>
+  </div>
+  
+  <div class="footer">
+    <p>Volta Engineering Designs (VED) Private Limited</p>
+    <p>© 2025 All Rights Reserved</p>
+  </div>
+
+  <script>
+    function showComingSoon() {
+      alert("The RAILWAYS project page is coming soon. Please check back later.");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pickling & Passivation Report</title>
+  <script src="common.js"></script>
+
+  <style>
+    /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: #007BFF;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .header-row input {
+      background: #fff9c4;
+      padding: 4px 6px;
+      border: none;
+      font-weight: normal;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    input, textarea {
+      width: 98%;
+      padding: 5px;
+      font-size: 14px;
+      background: #fff9c4;
+      border: none;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    select {
+      width: 100%;
+      padding: 6px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #007BFF;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      margin: 10px 5px 0 0;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .footer td {
+      height: 60px;
+    }
+
+    @media print {
+      .btn {
+        display: none !important;
+      }
+
+      input, textarea, select {
+        border: none;
+        background: none;
+        color: #000;
+        font-weight: bold;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">PICKLING AND PASSIVATION TEST REPORT</h2>
+    </div>
+
+  </div>
+
+  <!-- Header Row -->
+  <div class="header-row">
+    <div>Report No.: <input type="text" placeholder="Enter Report No."></div>
+    <div>Date: <input type="text" placeholder="Enter Date"></div>
+  </div>
+
+  <!-- Top Info Table -->
+  <table>
+    <tr><td>Client:</td><td><input type="text"></td><td>QA Reference No:</td><td><input type="text"></td></tr>
+    <tr><td>PO Ref:</td><td><input type="text"></td><td>Project:</td><td><input type="text"></td></tr>
+    <tr><td>QAP:</td><td><input type="text"></td><td>QAP Stage No:</td><td><input type="text"></td></tr>
+    <tr><td>Drawing No.:</td><td><input type="text"></td><td>Job No.:</td><td><input type="text"></td></tr>
+    <tr><td>Description:</td><td><input type="text"></td><td>Inspection Stage:</td><td><input type="text"></td></tr>
+    <tr><td>Procedure No.:</td><td colspan="3"><input type="text"></td></tr>
+  </table>
+
+  <!-- Pickling Table -->
+  <table id="pickling-table">
+    <thead>
+      <tr>
+        <th>Sl. No.</th>
+        <th>Description</th>
+        <th>Part</th>
+        <th>Qty</th>
+        <th>Detail of Inspection</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2">1</td>
+        <td rowspan="2"><input type="text" placeholder="Pickling Solution"></td>
+        <td rowspan="2"><input type="text" placeholder="Part Name"></td>
+        <td rowspan="2"><input type="text" placeholder="Qty"></td>
+        <td>Visual Examination</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      </tr>
+      <tr>
+        <td>Litmus Paper Test</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      </tr>
+
+      <tr>
+        <td rowspan="2">2</td>
+        <td rowspan="2"><input type="text" placeholder="Passivation Solution"></td>
+        <td rowspan="2"><input type="text" placeholder="Part Name"></td>
+        <td rowspan="2"><input type="text" placeholder="Qty"></td>
+        <td>Visual Examination</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      </tr>
+      <tr>
+        <td>Litmus Paper Test</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      </tr>
+
+      <tr>
+        <td>3</td>
+        <td><input type="text" placeholder="Ferroxyl Test"></td>
+        <td><input type="text" placeholder="Part Name"></td>
+        <td><input type="text" placeholder="Qty"></td>
+        <td>Visual Examination</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Buttons -->
+  <button class="btn" onclick="addRow()">➕ Add Row</button>
+  <button class="btn" id="btnSave">✅ Save to Server</button>
+  <button class="btn" onclick="window.print()">🖨️ Print / Save</button>
+
+  <!-- Footer -->
+  <h3>Approval</h3>
+  <table class="footer" width="100%">
+    <tr>
+      <td><input type="text" placeholder="Test Performed By (Name, Sign & Date)"></td>
+      <td><input type="text" placeholder="Witnessed By (Name, Sign & Date)"></td>
+      <td><input type="text" placeholder="NPCIL (Name, Sign & Date)"></td>
+    </tr>
+  </table>
+
+  <!-- Add Row Script -->
+  <script>
+    function addRow() {
+      const table = document.getElementById('pickling-table').getElementsByTagName('tbody')[0];
+      const currentRows = table.querySelectorAll("tr");
+      const count = Math.floor(currentRows.length / 2) + 1;
+
+      const row1 = table.insertRow();
+      row1.innerHTML = `
+        <td rowspan="2">${count}</td>
+        <td rowspan="2"><input type="text" placeholder="Description"></td>
+        <td rowspan="2"><input type="text" placeholder="Part"></td>
+        <td rowspan="2"><input type="text" placeholder="Qty"></td>
+        <td>Visual Examination</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      `;
+
+      const row2 = table.insertRow();
+      row2.innerHTML = `
+        <td>Litmus Paper Test</td>
+        <td><select><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      `;
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+</body>
+</html>

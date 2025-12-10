@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Final Dimensional Inspection Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'FINAL-DIMENSIONAL TEST REPORT' }) %>
+
+                <form>
+                    <!-- Header Info Table -->
+                    <table>
+                        <tr>
+                            <td>Client:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td>QA Reference No:</td>
+                            <td><input type="text" name="qa_reference" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>P.O. No.:</td>
+                            <td><input type="text" name="po_no" class="report-input" /></td>
+                            <td>Project:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP:</td>
+                            <td><input type="text" name="qap" class="report-input" /></td>
+                            <td>QAP Stage No.:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Drawing No.:</td>
+                            <td><input type="text" name="drawing_no" class="report-input" /></td>
+                            <td>Equipment Tag No.:</td>
+                            <td><input type="text" name="equipment_tag" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td><input type="text" name="description" class="report-input" /></td>
+                            <td>Inspection Stage:</td>
+                            <td><input type="text" name="inspection_stage" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Main Dimensions Table -->
+                    <table id="dimensions-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="width: 40px;">S. No</th>
+                                <th rowspan="2">Description</th>
+                                <th colspan="2">Orientation</th>
+                                <th colspan="2">Elevation</th>
+                                <th colspan="2">Projection</th>
+                                <th colspan="2">Detailed Dimensions</th>
+                                <th rowspan="2">Remarks</th>
+                            </tr>
+                            <tr>
+                                <th>Req.</th>
+                                <th>Act.</th>
+                                <th>Req.</th>
+                                <th>Act.</th>
+                                <th>Req.</th>
+                                <th>Act.</th>
+                                <th>Required</th>
+                                <th>Actual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="sno1" class="report-input" /></td>
+                                <td><input type="text" name="desc1" class="report-input" /></td>
+                                <td><input type="text" name="ori_req1" class="report-input" /></td>
+                                <td><input type="text" name="ori_act1" class="report-input" /></td>
+                                <td><input type="text" name="elev_req1" class="report-input" /></td>
+                                <td><input type="text" name="elev_act1" class="report-input" /></td>
+                                <td><input type="text" name="proj_req1" class="report-input" /></td>
+                                <td><input type="text" name="proj_act1" class="report-input" /></td>
+                                <td><input type="text" name="det_req1" class="report-input" /></td>
+                                <td><input type="text" name="det_act1" class="report-input" /></td>
+                                <td><input type="text" name="remarks1" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Notes Section -->
+                    <div class="notes" style="margin-top: 1rem; margin-bottom: 1rem;">
+                        <strong>Notes:</strong><br>
+                        <textarea name="notes" class="report-input" rows="3" style="border: 1px solid #ccc;"></textarea>
+                    </div>
+
+                    <!-- Footer Sign-off Table -->
+                    <table>
+                        <tr>
+                            <th>Prepared By</th>
+                            <th>Checked By</th>
+                            <th>NPCIL</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="prepared_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="checked_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="npcil_sign" rows="3" class="report-input"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+
+        </div>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById("dimensions-table").getElementsByTagName('tbody')[0];
+                const rowCount = table.rows.length + 1;
+                const newRow = table.insertRow();
+                for (let i = 0; i < 11; i++) {
+                    const cell = newRow.insertCell(i);
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'report-input';
+                    input.name = [
+                        'sno', 'desc',
+                        'ori_req', 'ori_act',
+                        'elev_req', 'elev_act',
+                        'proj_req', 'proj_act',
+                        'det_req', 'det_act',
+                        'remarks'
+                    ][i] + rowCount;
+                    cell.appendChild(input);
+                }
+            }
+        </script>
+
+    </body>
+
+</html>

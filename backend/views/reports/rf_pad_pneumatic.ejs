@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'RF-PAD Pneumatic Test Report' }) %>
+
+    <body>
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'RF-PAD PNEUMATIC TEST REPORT' }) %>
+
+                <form>
+                    <!-- Header Table -->
+                    <table>
+                        <tr>
+                            <td>Client:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td>QA Reference No:</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>PO Ref:</td>
+                            <td><input type="text" name="po_ref" class="report-input" /></td>
+                            <td>Project:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP:</td>
+                            <td><input type="text" name="qap" class="report-input" /></td>
+                            <td>QAP Stage No:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Drawing No.:</td>
+                            <td><input type="text" name="drawing_no" class="report-input" /></td>
+                            <td>Job No:</td>
+                            <td><input type="text" name="job_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td><input type="text" name="description" class="report-input" /></td>
+                            <td>Inspection Stage:</td>
+                            <td><input type="text" name="inspection_stage" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Test Details Table -->
+                    <table id="test-table">
+                        <tr style="background-color: #007BFF; color: white;">
+                            <th style="width: 60px;">SR. NO.</th>
+                            <th>Description</th>
+                            <th>Details</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Test Pressure</td>
+                            <td><input type="text" name="test_pressure" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Test Temperature</td>
+                            <td><input type="text" name="test_temp" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Medium</td>
+                            <td><input type="text" name="medium" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Duration</td>
+                            <td><input type="text" name="duration" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Result</td>
+                            <td><input type="text" name="result" class="report-input" /></td>
+                        </tr>
+                        <tr style="background-color: #f8fafc;">
+                            <td colspan="3"><strong>Pressure Gauge used:</strong></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Pressure Gauge Range</td>
+                            <td><input type="text" name="gauge_range" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Identification</td>
+                            <td><input type="text" name="identification" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Calibration Cert. No.</td>
+                            <td><input type="text" name="calibration_cert" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Due Date</td>
+                            <td><input type="date" name="due_date" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer Section -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>Prepared By</th>
+                            <th>Checked By</th>
+                            <th>NPCIL</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="prepared_by" rows="3" class="report-input"
+                                    placeholder="Name, Sign & Date"></textarea></td>
+                            <td><textarea name="checked_by" rows="3" class="report-input"
+                                    placeholder="Name, Sign & Date"></textarea></td>
+                            <td><textarea name="npcil" rows="3" class="report-input"
+                                    placeholder="Name, Sign & Date"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+        </div>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById('test-table');
+                const rowCount = table.rows.length - 4; // Subtract header and gauge section
+                const row = table.insertRow(-1);
+                row.innerHTML = `
+                <td>${rowCount}</td>
+                <td><input type="text" name="desc${rowCount}" class="report-input" /></td>
+                <td><input type="text" name="detail${rowCount}" class="report-input" /></td>
+            `;
+            }
+        </script>
+    </body>
+
+</html>

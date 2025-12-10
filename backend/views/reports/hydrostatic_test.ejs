@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Hydrostatic Test Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'HYDROSTATIC INSPECTION REPORT' }) %>
+
+                <form>
+                    <!-- Header Info -->
+                    <table>
+                        <tr>
+                            <td>Client:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td>Test Date:</td>
+                            <td><input type="date" name="test_date" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>P.O. No.:</td>
+                            <td><input type="text" name="po_no" class="report-input" /></td>
+                            <td>Equipment Tag No.:</td>
+                            <td><input type="text" name="tag_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Drawing No.:</td>
+                            <td><input type="text" name="drawing_no" class="report-input" /></td>
+                            <td>Inspection Agency:</td>
+                            <td><input type="text" name="inspection_agency" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP:</td>
+                            <td><input type="text" name="qap" class="report-input" /></td>
+                            <td>QA Reference No.:</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP Clause No:</td>
+                            <td><input type="text" name="qap_clause" class="report-input" /></td>
+                            <td>Report No.:</td>
+                            <td><input type="text" name="report_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Date:</td>
+                            <td><input type="date" name="date" class="report-input" /></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <!-- Details of Inspection -->
+                    <table>
+                        <tr style="background-color: #f8fafc;">
+                            <td colspan="2" class="text-bold">Details of Inspection</td>
+                        </tr>
+                        <tr>
+                            <td>1) Test Description:</td>
+                            <td><input type="text" name="test_description" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>2) Procedure No:</td>
+                            <td><input type="text" name="procedure_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>3) Test Pressure (Required):</td>
+                            <td><input type="text" name="test_pressure_req" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>4) Actual Test Pressure:</td>
+                            <td><input type="text" name="actual_test_pressure" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>5) Design Pressure:</td>
+                            <td><input type="text" name="design_pressure" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>6) Test Position:</td>
+                            <td><input type="text" name="test_position" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>7) Test Water:</td>
+                            <td><input type="text" name="test_water" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>8) Chloride Content:</td>
+                            <td><input type="text" name="chloride_content" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>9) Test Pressure Holding Duration:</td>
+                            <td><input type="text" name="pressure_duration" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>10) Test Temperature:</td>
+                            <td><input type="text" name="test_temperature" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Pressure Gauge Details -->
+                    <table>
+                        <tr style="background-color: #f8fafc;">
+                            <td colspan="4" class="text-bold">11) Pressure Gauge Details</td>
+                        </tr>
+                        <tr>
+                            <th>Identification No.</th>
+                            <th>Range</th>
+                            <th>Calibration Date</th>
+                            <th>Calibration Due Date</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="gauge_id" class="report-input" /></td>
+                            <td><input type="text" name="gauge_range" class="report-input" /></td>
+                            <td><input type="date" name="calibration_date" class="report-input" /></td>
+                            <td><input type="date" name="calibration_due" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Observation & Result -->
+                    <table>
+                        <tr style="background-color: #f8fafc;">
+                            <td colspan="2" class="text-bold">12) Observation</td>
+                        </tr>
+                        <tr>
+                            <td>Drop in Pressure:</td>
+                            <td><input type="text" name="drop_pressure" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Leakage:</td>
+                            <td><input type="text" name="leakage" class="report-input" /></td>
+                        </tr>
+                        <tr style="background-color: #f8fafc;">
+                            <td colspan="2" class="text-bold">13) Result</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><textarea name="test_result" rows="4" class="report-input"></textarea></td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>Inspection By</th>
+                            <th>Witnessed By</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="inspection_by" rows="3" class="report-input" placeholder="Signature / Stamp"></textarea></td>
+                            <td><textarea name="witness_by" rows="3" class="report-input" placeholder="Signature / Stamp"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="inspection_name" class="report-input" placeholder="Name" /></td>
+                            <td><input type="text" name="witness_name" class="report-input" placeholder="Name" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="date" name="inspection_date" class="report-input" /></td>
+                            <td><input type="date" name="witness_date" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <p style="text-align:right; margin-top:40px;">Page 1 of 1</p>
+                </form>
+
+                <%- include('../partials/footer') %>
+
+        </div>
+
+    </body>
+
+</html>

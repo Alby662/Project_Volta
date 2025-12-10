@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Vacuum Box Test Inspection Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'VACUUM TEST REPORT' }) %>
+
+                <!-- Header Information -->
+                <table>
+                    <tr>
+                        <td>Report No.</td>
+                        <td><input type="text" placeholder="Report No."></td>
+                        <td>Date</td>
+                        <td><input type="text" placeholder="Date"></td>
+                    </tr>
+                    <tr>
+                        <td>Client</td>
+                        <td><input type="text" placeholder="Client"></td>
+                        <td>QA Reference No.</td>
+                        <td><input type="text" placeholder="QA Reference No."></td>
+                    </tr>
+                    <tr>
+                        <td>PO Ref</td>
+                        <td><input type="text" placeholder="PO Ref"></td>
+                        <td>Project</td>
+                        <td><input type="text" placeholder="Project"></td>
+                    </tr>
+                    <tr>
+                        <td>QAP</td>
+                        <td><input type="text" placeholder="QAP"></td>
+                        <td>QAP Stage No.</td>
+                        <td><input type="text" placeholder="QAP Stage No."></td>
+                    </tr>
+                    <tr>
+                        <td>Drawing No.</td>
+                        <td><input type="text" placeholder="Drawing No."></td>
+                        <td>Job No.</td>
+                        <td><input type="text" placeholder="Job No."></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" placeholder="Description"></td>
+                        <td>Inspection Stage</td>
+                        <td><input type="text" placeholder="Inspection Stage"></td>
+                    </tr>
+                </table>
+
+                <!-- Test Inspection Table -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Sr No.</th>
+                            <th rowspan="2">Item Description</th>
+                            <th rowspan="2">Weld Joint No.</th>
+                            <th colspan="3">Test Details</th>
+                            <th rowspan="2">Remarks</th>
+                        </tr>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Specified</th>
+                            <th>Actual</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inspection-body">
+                        <!-- Initial Rows -->
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Vacuum Developed</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Vacuum Holding Time</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Surface Temperature</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Light Intensity</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Extent of Examination</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Surface Condition</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><input type="text" placeholder="Item Description"></td>
+                            <td><input type="text" placeholder="Weld Joint No."></td>
+                            <td>Acceptable Criteria</td>
+                            <td><input type="text" placeholder="Specified"></td>
+                            <td><input type="text" placeholder="Actual"></td>
+                            <td><input type="text" placeholder="Remarks"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Notes -->
+                <h3>Notes:</h3>
+                <textarea rows="4" placeholder="Add your notes here..."></textarea>
+
+                <!-- Footer Signature -->
+                <table>
+                    <tr>
+                        <td>Test Performed By:</td>
+                        <td><input type="text" placeholder="Performed By"></td>
+                        <td>Witnessed By:</td>
+                        <td><input type="text" placeholder="Witnessed By"></td>
+                    </tr>
+                    <tr>
+                        <td>NPCIL:</td>
+                        <td colspan="3"><input type="text" placeholder="NPCIL"></td>
+                    </tr>
+                </table>
+
+                <%- include('../partials/footer') %>
+
+        </div>
+
+        <!-- Script -->
+        <script>
+            function addRow() {
+                const tbody = document.getElementById('inspection-body');
+                const rowCount = tbody.rows.length + 1;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+        <td>${rowCount}</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td><input type="text" placeholder="Parameter"></td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      `;
+                tbody.appendChild(row);
+            }
+        </script>
+
+    </body>
+
+</html>

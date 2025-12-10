@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { title: 'Admin Login - Project Volta' }) %>
+
+    <body
+        style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--background);">
+
+        <div class="card" style="width: 100%; max-width: 400px; padding: 2rem;">
+            <div style="margin-bottom: 2rem; text-align: center;">
+                <img src="/images/logo.jpg" alt="Logo" style="height: 60px; border-radius: 4px; margin-bottom: 1rem;">
+                <h1 style="font-size: 1.5rem; margin: 0;">Project Volta</h1>
+                <p style="color: var(--text-muted);">Please sign in to continue</p>
+            </div>
+
+            <form id="loginForm" style="width: 100%;">
+                <div style="margin-bottom: 1rem;">
+                    <label for="username"
+                        style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Username</label>
+                    <input type="text" id="username" name="username" class="dashboard-select" required
+                        placeholder="Enter username">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="password"
+                        style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Password</label>
+                    <input type="password" id="password" name="password" class="dashboard-select" required
+                        placeholder="Enter password">
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; justify-content: center;">
+                    Sign In <i class="fas fa-sign-in-alt"></i>
+                </button>
+
+                <p id="error-msg" style="color: var(--danger); margin-top: 1rem; text-align: center; display: none;">
+                </p>
+            </form>
+        </div>
+
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const errorMsg = document.getElementById('error-msg');
+                const btn = e.target.querySelector('button');
+
+                try {
+                    btn.disabled = true;
+                    btn.innerHTML = 'Signing in...';
+                    errorMsg.style.display = 'none';
+
+                    const res = await fetch('/admin-login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    const data = await res.json();
+
+                    if (res.ok && data.token) {
+                        sessionStorage.setItem('adminToken', data.token);
+                        window.location.href = '/dashboard';
+                    } else {
+                        throw new Error(data.error || 'Login failed');
+                    }
+                } catch (err) {
+                    errorMsg.textContent = err.message;
+                    errorMsg.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerHTML = 'Sign In <i class="fas fa-sign-in-alt"></i>';
+                }
+            });
+        </script>
+    </body>
+
+</html>

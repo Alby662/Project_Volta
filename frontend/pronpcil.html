@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CUSTOMER - NPCIL - Volta Engineering Designs</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F1FAEE;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: #1D3557;
+    }
+
+    header {
+      background-color: #457B9D;
+      display: flex;
+      align-items: center;
+      padding: 20px 40px;
+      color: white;
+    }
+
+    header img {
+      height: 60px;
+      margin-right: 20px;
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin: 0;
+    }
+
+    .accent-line {
+      height: 5px;
+      background-color: #A8DADC;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #1D3557;
+      letter-spacing: 1px;
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .btn-grid button {
+      padding: 16px 32px;
+      background-color: #1D3557;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-grid button:hover {
+      background-color: #16324F;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    @media screen and (max-width: 500px) {
+      h2 {
+        font-size: 24px;
+      }
+
+      .btn-grid button {
+        font-size: 16px;
+        padding: 14px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.jpg" alt="Logo">
+    <h1>Volta Engineering Designs Pvt Ltd</h1>
+  </header>
+  <div class="accent-line"></div>
+
+  <div class="container">
+    <h2>CUSTOMER - NPCIL</h2>
+    
+    <!-- Back Button -->
+    <div style="margin-bottom: 20px;">
+      <button onclick="location.href='project.html'" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer;">← Back to Projects</button>
+    </div>
+    
+    <div class="btn-grid">
+      <button onclick="location.href='category.html'">SS Tank</button>
+      <button onclick="location.href='category.html'">CS Tank</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Volta Engineering Designs Pvt. Ltd.
+  </footer>
+
+</body>
+</html>

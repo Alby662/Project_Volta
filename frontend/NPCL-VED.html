@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inspection Reports | Volta Engineering Designs (VED) Private Limited</title>
+  <script src="common.js"></script>
+  <style>
+    :root {
+      --gold: #FFD700;
+      --gold-dark: #e6c200;
+      --black: #000;
+    }
+
+    body {
+      background: var(--black);
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      padding: 60px 20px;
+      color: var(--gold);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(255, 215, 0, 0.05) 0%, transparent 80%);
+      animation: pulse 5s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.3; }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeSlide 1s forwards;
+    }
+
+    header h1 {
+      font-size: 34px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    #search-container {
+      position: sticky;
+      top: 0;
+      background: var(--black);
+      padding: 15px 0 30px;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeSlide 1s forwards;
+      animation-delay: 0.3s;
+    }
+
+    #search-bar {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      font-size: 16px;
+      border: 2px solid var(--gold);
+      border-radius: 30px;
+      background: transparent;
+      color: var(--gold);
+      box-shadow: 0 2px 6px rgba(255,215,0,0.1);
+    }
+
+    #search-bar::placeholder {
+      color: var(--gold-dark);
+    }
+
+    #search-bar:focus {
+      outline: none;
+      box-shadow: 0 4px 12px rgba(255,215,0,0.3);
+    }
+
+    ol {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0;
+      list-style: none;
+      opacity: 0;
+      animation: fadeSlide 1s forwards;
+      animation-delay: 0.6s;
+    }
+
+    li {
+      background: rgba(255, 215, 0, 0.05);
+      margin-bottom: 20px;
+      padding: 20px 30px;
+      border-radius: 10px;
+      border: 1px solid var(--gold);
+      box-shadow: 0 2px 8px rgba(255,215,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(255,215,0,0.2);
+    }
+
+    .report-title {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .report-title span {
+      margin-right: 12px;
+      font-size: 22px;
+    }
+
+    .button-link {
+      background: var(--gold);
+      color: var(--black);
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .button-link:hover {
+      background: var(--gold-dark);
+      color: #fff;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+    }
+
+    .back-link {
+      display: block;
+      max-width: 260px;
+      margin: 50px auto 0 auto;
+      text-align: center;
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .back-link:hover {
+      background: var(--gold-dark);
+      color: #fff;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 20px;
+      font-size: 14px;
+      color: var(--gold);
+      border-top: 1px solid #444;
+      opacity: 0;
+      animation: fadeSlide 1s forwards;
+      animation-delay: 0.9s;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeSlide {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .button-link {
+        margin-top: 10px;
+      }
+    }
+
+    @media print {
+      #search-container, .button-link, .back-link, footer {
+        display: none;
+      }
+      body {
+        background: white;
+        color: black;
+      }
+      li {
+        border: 1px solid black;
+        color: black;
+        background: none;
+        box-shadow: none;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Volta Engineering Designs (VED) Private Limited</h1>
+  </header>
+
+  <div id="search-container">
+    <input type="text" id="search-bar" placeholder="🔍 Search reports..." />
+  </div>
+
+  <ol id="report-list">
+    <li><div class="report-title"><span>📄</span>NPCIL</div><a href="NPCIL.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>VED</div><a href="VED.html" class="button-link">View Detailed Table</a></li>
+
+  </ol>
+
+  <a href="index.html" class="button-link back-link">← Back to Home</a>
+
+  <footer>
+    Dedicated to engineering excellence & quality control.<br>
+    📧 <a href="mailto:info@voltaengg.com">info@voltaengg.com</a> | 🌐 <a href="http://www.voltaengg.com" target="_blank">www.voltaengg.com</a>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("search-bar");
+    const reportItems = document.getElementById("report-list").getElementsByTagName("li");
+
+    searchInput.addEventListener("keyup", function () {
+      const filter = searchInput.value.toLowerCase();
+      for (let i = 0; i < reportItems.length; i++) {
+        const text = reportItems[i].innerText.toLowerCase();
+        reportItems[i].style.display = text.includes(filter) ? "" : "none";
+      }
+    });
+  </script>
+</body>
+</html>

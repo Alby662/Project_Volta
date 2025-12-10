@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Pickling & Passivation Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'PICKLING AND PASSIVATION TEST REPORT' }) %>
+
+                <form>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <div style="flex: 1; margin-right: 1rem;">
+                            <strong>Report No.:</strong>
+                            <input type="text" name="report_no" class="report-input"
+                                style="border-bottom: 1px solid #000;" />
+                        </div>
+                        <div style="flex: 1;">
+                            <strong>Date:</strong>
+                            <input type="date" name="date" class="report-input"
+                                style="border-bottom: 1px solid #000;" />
+                        </div>
+                    </div>
+
+                    <!-- Top Info Table -->
+                    <table>
+                        <tr>
+                            <td>Client:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td>QA Reference No:</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>PO Ref:</td>
+                            <td><input type="text" name="po_ref" class="report-input" /></td>
+                            <td>Project:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP:</td>
+                            <td><input type="text" name="qap" class="report-input" /></td>
+                            <td>QAP Stage No:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Drawing No.:</td>
+                            <td><input type="text" name="drawing_no" class="report-input" /></td>
+                            <td>Job No.:</td>
+                            <td><input type="text" name="job_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td><input type="text" name="description" class="report-input" /></td>
+                            <td>Inspection Stage:</td>
+                            <td><input type="text" name="inspection_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Procedure No.:</td>
+                            <td colspan="3"><input type="text" name="procedure_no" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Pickling Table -->
+                    <table id="pickling-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">Sl. No.</th>
+                                <th>Description</th>
+                                <th>Part</th>
+                                <th>Qty</th>
+                                <th>Detail of Inspection</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">1</td>
+                                <td rowspan="2"><input type="text" name="desc1" class="report-input"
+                                        placeholder="Pickling Solution" /></td>
+                                <td rowspan="2"><input type="text" name="part1" class="report-input" /></td>
+                                <td rowspan="2"><input type="text" name="qty1" class="report-input" /></td>
+                                <td>Visual Examination</td>
+                                <td>
+                                    <select name="visual1" class="report-input">
+                                        <option>Satisfactory</option>
+                                        <option>Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Litmus Paper Test</td>
+                                <td>
+                                    <select name="litmus1" class="report-input">
+                                        <option>Satisfactory</option>
+                                        <option>Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td rowspan="2">2</td>
+                                <td rowspan="2"><input type="text" name="desc2" class="report-input"
+                                        placeholder="Passivation Solution" /></td>
+                                <td rowspan="2"><input type="text" name="part2" class="report-input" /></td>
+                                <td rowspan="2"><input type="text" name="qty2" class="report-input" /></td>
+                                <td>Visual Examination</td>
+                                <td>
+                                    <select name="visual2" class="report-input">
+                                        <option>Satisfactory</option>
+                                        <option>Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Litmus Paper Test</td>
+                                <td>
+                                    <select name="litmus2" class="report-input">
+                                        <option>Satisfactory</option>
+                                        <option>Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>3</td>
+                                <td><input type="text" name="desc3" class="report-input" placeholder="Ferroxyl Test" />
+                                </td>
+                                <td><input type="text" name="part3" class="report-input" /></td>
+                                <td><input type="text" name="qty3" class="report-input" /></td>
+                                <td>Visual Examination</td>
+                                <td>
+                                    <select name="visual3" class="report-input">
+                                        <option>Satisfactory</option>
+                                        <option>Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Footer -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>Test Performed By<br>(Name, Sign & Date)</th>
+                            <th>Witnessed By<br>(Name, Sign & Date)</th>
+                            <th>NPCIL<br>(Name, Sign & Date)</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="performed_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="witnessed_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="npcil" rows="3" class="report-input"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+
+        </div>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById('pickling-table').getElementsByTagName('tbody')[0];
+                const currentRows = table.querySelectorAll("tr");
+                const count = Math.floor(currentRows.length / 2) + 2;
+
+                const row1 = table.insertRow();
+                row1.innerHTML = `
+        <td rowspan="2">${count}</td>
+        <td rowspan="2"><input type="text" name="desc${count}" class="report-input" /></td>
+        <td rowspan="2"><input type="text" name="part${count}" class="report-input" /></td>
+        <td rowspan="2"><input type="text" name="qty${count}" class="report-input" /></td>
+        <td>Visual Examination</td>
+        <td><select name="visual${count}" class="report-input"><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      `;
+
+                const row2 = table.insertRow();
+                row2.innerHTML = `
+        <td>Litmus Paper Test</td>
+        <td><select name="litmus${count}" class="report-input"><option>Satisfactory</option><option>Unsatisfactory</option></select></td>
+      `;
+            }
+        </script>
+
+    </body>
+
+</html>

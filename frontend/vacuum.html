@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vacuum Box Test Inspection Report</title>
+  <script src="common.js"></script>
+  <style>
+    /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    :root {
+      --primary: #007BFF;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 40px;
+      background: var(--light-bg);
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    h2 {
+      font-size: 18px;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px;
+      font-size: 14px;
+      vertical-align: top;
+      text-align: center;
+    }
+
+    input, textarea {
+      width: 98%;
+      padding: 4px;
+      font-size: 14px;
+      border: none;
+      background: #fffde7;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px 5px 30px 0;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    h3 {
+      margin-top: 30px;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    @media print {
+      input, textarea {
+        border: none !important;
+        background: none !important;
+      }
+
+      .btn, button {
+        display: none !important;
+      }
+
+      body {
+        margin: 10px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        margin: 20px;
+      }
+
+      table, th, td {
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 13px;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">VACUUM TEST REPORT</h2>
+    </div>
+
+  </div>
+
+  <!-- Header Information -->
+  <table>
+    <tr>
+      <td>Report No.</td><td><input type="text" placeholder="Report No."></td>
+      <td>Date</td><td><input type="text" placeholder="Date"></td>
+    </tr>
+    <tr>
+      <td>Client</td><td><input type="text" placeholder="Client"></td>
+      <td>QA Reference No.</td><td><input type="text" placeholder="QA Reference No."></td>
+    </tr>
+    <tr>
+      <td>PO Ref</td><td><input type="text" placeholder="PO Ref"></td>
+      <td>Project</td><td><input type="text" placeholder="Project"></td>
+    </tr>
+    <tr>
+      <td>QAP</td><td><input type="text" placeholder="QAP"></td>
+      <td>QAP Stage No.</td><td><input type="text" placeholder="QAP Stage No."></td>
+    </tr>
+    <tr>
+      <td>Drawing No.</td><td><input type="text" placeholder="Drawing No."></td>
+      <td>Job No.</td><td><input type="text" placeholder="Job No."></td>
+    </tr>
+    <tr>
+      <td>Description</td><td><input type="text" placeholder="Description"></td>
+      <td>Inspection Stage</td><td><input type="text" placeholder="Inspection Stage"></td>
+    </tr>
+  </table>
+
+  <!-- Test Inspection Table -->
+  <table>
+    <thead>
+      <tr>
+        <th rowspan="2">Sr No.</th>
+        <th rowspan="2">Item Description</th>
+        <th rowspan="2">Weld Joint No.</th>
+        <th colspan="3">Test Details</th>
+        <th rowspan="2">Remarks</th>
+      </tr>
+      <tr>
+        <th>Parameter</th>
+        <th>Specified</th>
+        <th>Actual</th>
+      </tr>
+    </thead>
+    <tbody id="inspection-body">
+      <!-- Initial Rows -->
+      <tr>
+        <td>1</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Vacuum Developed</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Vacuum Holding Time</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Surface Temperature</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Light Intensity</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Extent of Examination</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Surface Condition</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td>Acceptable Criteria</td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Notes -->
+  <h3>Notes:</h3>
+  <textarea rows="4" placeholder="Add your notes here..."></textarea>
+
+  <!-- Footer Signature -->
+  <table>
+    <tr>
+      <td>Test Performed By:</td>
+      <td><input type="text" placeholder="Performed By"></td>
+      <td>Witnessed By:</td>
+      <td><input type="text" placeholder="Witnessed By"></td>
+    </tr>
+    <tr>
+      <td>NPCIL:</td>
+      <td colspan="3"><input type="text" placeholder="NPCIL"></td>
+    </tr>
+  </table>
+
+  <!-- Buttons -->
+  <div class="center">
+    <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+    <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+    <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function addRow() {
+      const tbody = document.getElementById('inspection-body');
+      const rowCount = tbody.rows.length + 1;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${rowCount}</td>
+        <td><input type="text" placeholder="Item Description"></td>
+        <td><input type="text" placeholder="Weld Joint No."></td>
+        <td><input type="text" placeholder="Parameter"></td>
+        <td><input type="text" placeholder="Specified"></td>
+        <td><input type="text" placeholder="Actual"></td>
+        <td><input type="text" placeholder="Remarks"></td>
+      `;
+      tbody.appendChild(row);
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+</body>
+</html>

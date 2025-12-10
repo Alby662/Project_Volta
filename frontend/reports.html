@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inspection Reports | Volta Engineering Designs (VED) Private Limited</title>
+  <script src="common.js"></script>
+  <style>
+    :root {
+      --primary: #457B9D;
+      --accent: #A8DADC;
+      --bg: #F1FAEE;
+      --nav-btn: #1D3557;
+      --nav-btn-hover: #16314f;
+      --white: #fff;
+      --black: #000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--black);
+      padding: 0;
+      margin: 0;
+    }
+
+    header {
+      background-color: var(--primary);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-title img {
+      width: 80px;
+      height: auto;
+    }
+
+    .logo-title h1 {
+      font-size: 24px;
+      color: var(--white);
+      font-weight: bold;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-buttons a {
+      background-color: var(--nav-btn);
+      color: var(--white);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .nav-buttons a:hover {
+      background-color: var(--nav-btn-hover);
+    }
+
+    .accent-line {
+      height: 5px;
+      background-color: var(--accent);
+    }
+
+    #search-container {
+      text-align: center;
+      margin: 30px 0 20px;
+    }
+
+    #search-bar {
+      padding: 14px 18px;
+      font-size: 16px;
+      border: 2px solid var(--primary);
+      border-radius: 30px;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    ol {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      background: #ffffff;
+      margin-bottom: 20px;
+      padding: 20px 30px;
+      border-radius: 10px;
+      border: 1px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .report-title {
+      font-weight: 600;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button-link {
+      background-color: var(--nav-btn);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .button-link:hover {
+      background-color: var(--nav-btn-hover);
+    }
+
+    .back-link {
+      display: block;
+      width: fit-content;
+      margin: 40px auto;
+      background: var(--nav-btn);
+      color: var(--white);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--nav-btn);
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--nav-btn);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .logo-title h1 {
+        font-size: 18px;
+      }
+
+      .nav-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-title">
+      <img src="logo.jpg" alt="Logo" />
+      <h1>Volta Engineering Designs (VED) Private Limited</h1>
+    </div>
+    <div class="nav-buttons">
+      <a href="index.html">Home</a>
+      <a href="description.html">Company</a>
+      <a href="admin.html">Admin</a>
+    </div>
+  </header>
+
+  <div class="accent-line"></div>
+
+  <div id="search-container">
+    <input type="text" id="search-bar" placeholder="🔍 Search reports...">
+  </div>
+
+  <ol id="report-list">
+    <li><div class="report-title"><span>📄</span>NPCIL/VED</div><a href="NPCL-VED.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>LIQUID PENETRANT / EXAMINATION REPORT</div><a href="liquid.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>PENETRATING OIL LEAK TEST REPORT</div><a href="oil-leak.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>VACUUM INSPECTION REPORT</div><a href="vacuum.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>STAGE INSPECTION REPORT</div><a href="stage.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>RAW MATERIAL INSPECTION REPORT</div><a href="raw-material.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>FINAL DIMENSIONAL INSPECTION REPORT</div><a href="final-dimensional.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>RF PAD PNEUMATIC TEST REPORT</div><a href="rf-pad-pneumatic.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>VISUAL EXAMINATION REPORT</div><a href="visual-examination.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>DRAINING & DRYING REPORT</div><a href="draining-drying.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>PICKLING & PASSIVATION REPORT</div><a href="pickling-passivation.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>HYDROSTATIC TEST REPORT</div><a href="hydrostatic-test.html" class="button-link">View Detailed Table</a></li>
+    <li><div class="report-title"><span>📄</span>SURFACE PREPARATION & PAINTING REPORT</div><a href="surface-preparation-painting.html" class="button-link">View Detailed Table</a></li>
+  </ol>
+
+  <a href="index.html" class="button-link back-link">← Back to Home</a>
+
+  <footer>
+    Dedicated to engineering excellence & quality control.<br>
+    📧 <a href="mailto:info@voltaengg.com">info@voltaengg.com</a> | 🌐 <a href="http://www.voltaengg.com" target="_blank">www.voltaengg.com</a>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("search-bar");
+    const reportItems = document.getElementById("report-list").getElementsByTagName("li");
+
+    searchInput.addEventListener("keyup", function () {
+      const filter = searchInput.value.toLowerCase();
+      for (let i = 0; i < reportItems.length; i++) {
+        const text = reportItems[i].innerText.toLowerCase();
+        reportItems[i].style.display = text.includes(filter) ? "" : "none";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LNT - Volta Engineering Designs</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #F1FAEE;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: #1D3557;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #457B9D;
+      display: flex;
+      align-items: center;
+      padding: 20px 40px;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header img {
+      height: 60px;
+      margin-right: 20px;
+      border-radius: 5px;
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin: 0;
+    }
+
+    .accent-line {
+      height: 5px;
+      background-color: #A8DADC;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #1D3557;
+      letter-spacing: 1px;
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .btn-grid button {
+      padding: 16px 32px;
+      background-color: #1D3557;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-grid button:hover {
+      background-color: #16324F;
+      transform: scale(1.05);
+    }
+
+    /* Back Button */
+    .back-button {
+      background-color: #6c757d;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #5a6268;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #888;
+      margin-top: auto;
+    }
+
+    @media screen and (max-width: 500px) {
+      header {
+        padding: 15px 20px;
+      }
+      
+      header h1 {
+        font-size: 22px;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+
+      .btn-grid button {
+        font-size: 16px;
+        padding: 14px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.jpg" alt="Logo">
+    <h1>Volta Engineering Designs Pvt Ltd</h1>
+  </header>
+  <div class="accent-line"></div>
+
+  <div class="container">
+    <h2>LNT PROJECTS</h2>
+    
+    <!-- Back Button -->
+    <div style="margin-bottom: 30px;">
+      <button onclick="location.href='project.html'" class="back-button">← Back to Projects</button>
+    </div>
+    
+    <div class="btn-grid">
+      <button onclick="showComingSoon()">Heavy Machinery</button>
+      <button onclick="showComingSoon()">Industrial Equipment</button>
+      <button onclick="showComingSoon()">Construction Tools</button>
+      <button onclick="showComingSoon()">Automotive Parts</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Volta Engineering Designs Pvt. Ltd.
+  </footer>
+
+  <script>
+    function showComingSoon() {
+      alert("This LNT project option is coming soon. Please check back later.");
+    }
+  </script>
+</body>
+</html>

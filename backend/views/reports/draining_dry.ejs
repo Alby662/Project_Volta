@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Draining & Drying Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'DRAINING AND DRYING TEST REPORT' }) %>
+
+                <form>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <div style="flex: 1; margin-right: 1rem;">
+                            <strong>Report No.:</strong>
+                            <input type="text" name="report_no" class="report-input"
+                                style="border-bottom: 1px solid #000;" />
+                        </div>
+                        <div style="flex: 1;">
+                            <strong>Date:</strong>
+                            <input type="date" name="date" class="report-input"
+                                style="border-bottom: 1px solid #000;" />
+                        </div>
+                    </div>
+
+                    <table>
+                        <tr>
+                            <td>Client:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td>QA Reference No:</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>PO Ref:</td>
+                            <td><input type="text" name="po_ref" class="report-input" /></td>
+                            <td>Project:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP:</td>
+                            <td><input type="text" name="qap" class="report-input" /></td>
+                            <td>QAP Stage No:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Drawing No.:</td>
+                            <td><input type="text" name="drawing_no" class="report-input" /></td>
+                            <td>Job No.:</td>
+                            <td><input type="text" name="job_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td><input type="text" name="description" class="report-input" /></td>
+                            <td>Inspection Stage:</td>
+                            <td><input type="text" name="inspection_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Procedure No.:</td>
+                            <td colspan="3"><input type="text" name="procedure_no" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Table Section -->
+                    <table id="draining-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">Sl. No.</th>
+                                <th>Description</th>
+                                <th>Part</th>
+                                <th>Qty</th>
+                                <th>Detail of Inspection</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" name="desc1" class="report-input" /></td>
+                                <td><input type="text" name="part1" class="report-input" /></td>
+                                <td><input type="text" name="qty1" class="report-input" /></td>
+                                <td><input type="text" name="inspection1" class="report-input" /></td>
+                                <td><input type="text" name="remarks1" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Visual Examination -->
+                    <table>
+                        <tr>
+                            <td style="font-weight: bold; background-color: #f8fafc;">Visual Examination:</td>
+                        </tr>
+                        <tr>
+                            <td><textarea name="visual_exam" rows="4" class="report-input"
+                                    placeholder="Type here"></textarea></td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>Inspected By<br>(Name, Sign & Date)</th>
+                            <th>Reviewed By<br>(Name, Sign & Date)</th>
+                            <th>NPCIL</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="inspected_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="reviewed_by" rows="3" class="report-input"></textarea></td>
+                            <td><textarea name="npcil" rows="3" class="report-input"></textarea></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+
+        </div>
+
+        <script>
+            function addRow() {
+                const tbody = document.querySelector('#draining-table tbody');
+                const rowCount = tbody.rows.length + 1;
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+        <td>${rowCount}</td>
+        <td><input type="text" name="desc${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="part${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="qty${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="inspection${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="remarks${rowCount}" class="report-input" /></td>
+      `;
+                tbody.appendChild(newRow);
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title: 'Penetrating Oil Leak Test Report' }) %>
+
+    <body>
+
+        <div class="container">
+            <%- include('../partials/header', { reportName: 'OIL-LEAK TEST REPORT' }) %>
+
+                <form>
+                    <!-- Header Info -->
+                    <table>
+                        <tr>
+                            <td>Client:</td>
+                            <td><input type="text" name="client" class="report-input" /></td>
+                            <td>QA Reference No:</td>
+                            <td><input type="text" name="qa_ref" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>PO Ref:</td>
+                            <td><input type="text" name="po_ref" class="report-input" /></td>
+                            <td>Project:</td>
+                            <td><input type="text" name="project" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>QAP:</td>
+                            <td><input type="text" name="qap" class="report-input" /></td>
+                            <td>QAP Stage No:</td>
+                            <td><input type="text" name="qap_stage" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Drawing No.:</td>
+                            <td><input type="text" name="drawing_no" class="report-input" /></td>
+                            <td>Equipment No:</td>
+                            <td><input type="text" name="equipment_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Description:</td>
+                            <td><input type="text" name="description" class="report-input" /></td>
+                            <td>Reference Document No:</td>
+                            <td><input type="text" name="ref_doc_no" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Inspection Stage:</td>
+                            <td colspan="3"><input type="text" name="inspection_stage" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Main Test Table -->
+                    <table id="oil-leak-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">Sr No.</th>
+                                <th>Area of Testing</th>
+                                <th>Testing Stage</th>
+                                <th>Wet Chalk Solution Applied On</th>
+                                <th>Penetrant Oil Used</th>
+                                <th>Penetrant Oil Applied On</th>
+                                <th>Penetrant Holding Time</th>
+                                <th>Name of Operator</th>
+                                <th>Test Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" name="area1" class="report-input" /></td>
+                                <td><input type="text" name="stage1" class="report-input" /></td>
+                                <td><input type="text" name="chalk1" class="report-input" /></td>
+                                <td><input type="text" name="oil_used1" class="report-input" /></td>
+                                <td><input type="text" name="oil_applied1" class="report-input" /></td>
+                                <td><input type="text" name="holding_time1" class="report-input" /></td>
+                                <td><input type="text" name="operator1" class="report-input" /></td>
+                                <td><input type="text" name="result1" class="report-input" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Additional Details -->
+                    <table>
+                        <tr>
+                            <td>Start Time:</td>
+                            <td><input type="text" name="start_time" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>End Time:</td>
+                            <td><input type="text" name="end_time" class="report-input" /></td>
+                        </tr>
+                        <tr>
+                            <td>Post Cleaning:</td>
+                            <td><input type="text" name="post_cleaning" class="report-input" /></td>
+                        </tr>
+                    </table>
+
+                    <!-- Footer -->
+                    <h3>Approval</h3>
+                    <table class="footer">
+                        <tr>
+                            <th>Test Performed By</th>
+                            <th>Reviewed By</th>
+                            <th>NPCIL</th>
+                        </tr>
+                        <tr>
+                            <td><textarea name="performed_by" rows="2" class="report-input"
+                                    placeholder="SIGNATURE"></textarea></td>
+                            <td><textarea name="reviewed_by" rows="2" class="report-input"
+                                    placeholder="SIGNATURE"></textarea></td>
+                            <td><textarea name="npcil_sign" rows="2" class="report-input"
+                                    placeholder="SIGNATURE"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="performed_name" class="report-input" placeholder="NAME" /></td>
+                            <td><input type="text" name="reviewed_name" class="report-input" placeholder="NAME" /></td>
+                            <td><input type="text" name="npcil_name" class="report-input" placeholder="NAME" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="date" name="performed_date" class="report-input" /></td>
+                            <td><input type="date" name="reviewed_date" class="report-input" /></td>
+                            <td><input type="date" name="npcil_date" class="report-input" /></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <%- include('../partials/footer') %>
+
+        </div>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById('oil-leak-table').getElementsByTagName('tbody')[0];
+                const rowCount = table.rows.length + 1;
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+        <td>${rowCount}</td>
+        <td><input type="text" name="area${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="stage${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="chalk${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="oil_used${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="oil_applied${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="holding_time${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="operator${rowCount}" class="report-input" /></td>
+        <td><input type="text" name="result${rowCount}" class="report-input" /></td>
+      `;
+            }
+        </script>
+
+    </body>
+
+</html>

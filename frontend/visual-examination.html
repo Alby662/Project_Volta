@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Visual Examination Report</title>
+  <script src="common.js"></script>
+  <style>
+    /* Hide dropdowns only when printing or generating PDF */
+  @media print {
+    select {
+      display: none !important;
+    }
+    /* If you want to keep the selected text visible instead of the box disappearing */
+    select::after {
+      content: attr(value);
+      display: inline;
+    }
+  }
+    :root {
+      --primary: #007BFF;
+      --light-bg: #f9f9f9;
+      --highlight: #fff9c4;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: var(--light-bg);
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      margin-top: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: #fff;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px 10px;
+      font-size: 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    input, textarea {
+      width: 98%;
+      padding: 5px;
+      font-size: 14px;
+      background: var(--highlight);
+      border: none;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      margin: 10px 5px 0 0;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .footer td {
+      height: 60px;
+    }
+
+    @media print {
+      .btn {
+        display: none !important;
+      }
+
+      input, textarea {
+        border: none;
+        background: none;
+        color: #000;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        margin: 20px;
+      }
+
+      table, th, td {
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 13px;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+   <div class="container">
+  <!-- Company Logo & Name Selection -->
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+    
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+      <img id="companyLogo" src="logo1.jpg" alt="Company Logo" style="height: 60px; width: auto; margin-bottom: 5px;" />
+      <select id="logoSelect" onchange="updateFromLogo()">
+        <option value="logo.jpg">Volta Engineering Designs</option>
+        <option value="volta green.png">Volta Green Structures</option>
+        <option value="Deccan-Auto.jpg">Deccan Auto</option>
+      </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+      <select id="companyName" onchange="updateFromName()" style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+        <option>Volta Engineering Designs Pvt. Ltd.</option>
+        <option>Volta Green Structures Pvt. Ltd.</option>
+        <option>Deccan Auto Ltd.</option>
+      </select>
+      <h2 style="margin: 0; font-size: 16px; color: #222;">VISUAL-EXAMINATION TEST REPORT</h2>
+    </div>
+
+  </div>
+
+  <!-- Report Info -->
+  <table>
+    <tr><td>Report No.:</td><td><input type="text" placeholder="Type here"></td><td>Date of Examination:</td><td><input type="text" placeholder="Type here"></td></tr>
+    <tr><td>QAP No.:</td><td><input type="text" placeholder="Type here"></td><td>QAP Stage:</td><td><input type="text" placeholder="Type here"></td></tr>
+    <tr><td>Customer:</td><td><input type="text" placeholder="Type here"></td><td>PO No.:</td><td><input type="text" placeholder="Type here"></td></tr>
+    <tr><td>Project:</td><td><input type="text" placeholder="Type here"></td><td>Equipment No.:</td><td><input type="text" placeholder="Type here"></td></tr>
+    <tr><td>Stage / Type of Job:</td><td><input type="text" placeholder="Type here"></td><td>Acceptance Standards:</td><td><input type="text" placeholder="Type here"></td></tr>
+    <tr><td>Welding Process:</td><td><input type="text" placeholder="Type here"></td><td>WPS No.:</td><td><input type="text" placeholder="Type here"></td></tr>
+    <tr><td>Type of Joint:</td><td><input type="text" placeholder="Type here"></td><td>Description:</td><td><input type="text" placeholder="Type here"></td></tr>
+  </table>
+
+  <!-- Drawing Table -->
+  <table id="drawing-table">
+    <thead>
+      <tr>
+        <th>Drawing No</th>
+        <th>Joint No</th>
+        <th>Welder No</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="text" placeholder="Type here"></td>
+        <td><input type="text" placeholder="Type here"></td>
+        <td><input type="text" placeholder="Type here"></td>
+        <td><input type="text" placeholder="Type here"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Imperfection Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>SL.NO</th>
+        <th>Nature of Imperfection</th>
+        <th>Observation</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Linear Porosity</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>2</td><td>Cluster Porosity</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>3</td><td>Surface Pore</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>4</td><td>Under Cut</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>5</td><td>Spatters</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>6</td><td>Crater Crack</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>7</td><td>Incorrect Weld Toe</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+      <tr><td>8</td><td>Excessive Convexity</td><td><input type="text" placeholder="Observation"></td><td><input type="text" placeholder="Remarks"></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Observation and Remarks -->
+  <table>
+    <tr><td><strong>Observation and Remark:</strong></td></tr>
+    <tr><td><textarea placeholder="Enter your observation here..."></textarea></td></tr>
+  </table>
+
+  <!-- Buttons -->
+  <button class="btn" type="button" onclick="addRow()">➕ Add Row</button>
+  <button class="btn" type="button" id="btnSave">✅ Save to Server</button>
+  <button class="btn" type="button" onclick="window.print()">🖨️ Print / Save</button>
+
+  <!-- Approval Section -->
+  <h3>Approval</h3>
+  <table class="footer">
+    <tr>
+      <td><input type="text" placeholder="Inspected By (Name, Sign & Date)"></td>
+      <td><input type="text" placeholder="Reviewed By (Name, Sign & Date)"></td>
+      <td><input type="text" placeholder="Approved By (Name, Sign & Date)"></td>
+    </tr>
+  </table>
+
+  <!-- Row Add Script -->
+  <script>
+    function addRow() {
+      const table = document.getElementById('drawing-table').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+      for (let i = 0; i < 4; i++) {
+        const newCell = newRow.insertCell();
+        newCell.innerHTML = '<input type="text" placeholder="Type here">';
+      }
+    }
+  </script>
+
+  <script>
+const logoMap = {
+  "Volta Engineering Designs Pvt. Ltd.": "logo.jpg",
+  "Volta Green Structures Pvt. Ltd.": "volta green.png",
+  "Deccan Auto Ltd.": "Deccan-Auto.jpg"
+};
+
+function updateFromLogo() {
+  const selectedLogo = document.getElementById("logoSelect").value;
+  document.getElementById("companyLogo").src = selectedLogo;
+  
+  // Match company name based on selected logo
+  for (const [name, logo] of Object.entries(logoMap)) {
+    if (logo === selectedLogo) {
+      document.getElementById("companyName").value = name;
+      break;
+    }
+  }
+}
+
+function updateFromName() {
+  const selectedName = document.getElementById("companyName").value;
+  const logoFile = logoMap[selectedName];
+  
+  document.getElementById("companyLogo").src = logoFile;
+  document.getElementById("logoSelect").value = logoFile;
+}
+</script>
+
+</body>
+</html>

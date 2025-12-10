@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Category - FMRC</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #F1FAEE;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #457B9D;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    header img {
+      width: 80px;
+      height: auto;
+      margin-right: 20px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .accent-line {
+      height: 5px;
+      background-color: #A8DADC;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+      margin: 40px auto 20px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #1D3557;
+      font-size: 26px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .button-container button {
+      padding: 14px 20px;
+      font-size: 16px;
+      background-color: #1D3557;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .button-container button:hover {
+      background-color: #16324f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(29, 53, 87, 0.2);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px 10px 30px;
+      font-size: 15px;
+      color: #1D3557;
+      line-height: 1.8;
+    }
+
+    .footer h3 {
+      margin-bottom: 6px;
+      color: #1D3557;
+      font-size: 18px;
+    }
+
+    .footer a {
+      color: #1D3557;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="logo.jpg" alt="Company Logo">
+    <h1>Volta Engineering Designs (VED) Pvt. Ltd.</h1>
+  </header>
+
+  <div class="accent-line"></div>
+
+  <div class="container">
+    <h2>Select Category</h2>
+
+    <div class="button-container">
+      <button onclick="window.location.href='reports.html'">Shell Assembly</button>
+      <button onclick="window.location.href='reports.html'">Channel Assembly</button>
+      <button onclick="window.location.href='reports.html'">Tabing</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <h3>Production Drawing</h3>
+    ☁️ <a href="https://www.microsoft.com/en-in/microsoft-365/onedrive/online-cloud-storage" target="_blank">Visit Microsoft OneDrive</a>
+  </div>
+
+</body>
+</html>
