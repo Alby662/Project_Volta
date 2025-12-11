@@ -36,9 +36,17 @@
                         <label style="font-weight: 500; font-size: 0.9rem;">Report Type</label>
                         <select id="searchFolder" class="dashboard-select" style="margin-bottom: 0;">
                             <option value="">All Types</option>
-                            <option value="1">Liquid Penetrant</option>
-                            <option value="11">Vacuum Box</option>
-                            <!-- Add other types as needed -->
+                            <option value="liquid">Liquid Penetrant</option>
+                            <option value="vacuum">Vacuum Box</option>
+                            <option value="draining_dry">Draining & Dry</option>
+                            <option value="final_dimension">Final Dimension</option>
+                            <option value="hydrostatic_test">Hydrostatic</option>
+                            <option value="oil_leak">Oil Leak</option>
+                            <option value="pickling_passivation">Pickling & Passivation</option>
+                            <option value="raw_material">Raw Material</option>
+                            <option value="rf_pad_pneumatic">RF-PAD Pneumatic</option>
+                            <option value="visual_examination">Visual Examination</option>
+                            <option value="surface_preparation_painting">Surface Prep & Painting</option>
                         </select>
                     </div>
 
@@ -121,14 +129,62 @@
                 }
             }
 
+            let allReportsCache = [];
+
             async function searchReports() {
                 try {
-                    const res = await fetch('/api/saved-reports');
+                    // Fetch only if cache is empty, or force refresh if needed (can add force flag later)
+                    // For now, let's always fetch to ensure up-to-date data, or just filter if we separate them.
+                    // Let's stick to the current pattern: Fetch -> Filter -> Render
 
+                    const res = await fetch('/api/saved-reports');
                     if (!res.ok) throw new Error("Failed to fetch reports");
 
                     const reports = await res.json();
-                    renderTable(reports);
+                    allReportsCache = reports; // Store for client-side ops if needed
+
+                    // Get Filter Values
+                    const query = document.getElementById('searchQuery').value.toLowerCase();
+                    const type = document.getElementById('searchFolder').value;
+                    const startDateIdx = document.getElementById('startDate').value;
+                    const endDateIdx = document.getElementById('endDate').value;
+
+                    // Filter Data
+                    const filteredReports = reports.filter(report => {
+                        // 1. Text Search (Name, No, or ID)
+                        const name = (report.reportName || '').toLowerCase();
+                        const no = (report.formData?.report_no || '').toLowerCase();
+                        const previewNo = (report.preview?.reportNo || '').toLowerCase();
+
+                        const matchesText = !query ||
+                            name.includes(query) ||
+                            no.includes(query) ||
+                            previewNo.includes(query);
+
+                        // 2. Type Search
+                        const matchesType = !type || report.reportType === type;
+
+                        // 3. Date Search
+                        let matchesDate = true;
+                        if (startDateIdx || endDateIdx) {
+                            const reportDate = new Date(report.createdAt).setHours(0, 0, 0, 0);
+
+                            if (startDateIdx) {
+                                const start = new Date(startDateIdx).setHours(0, 0, 0, 0);
+                                if (reportDate < start) matchesDate = false;
+                            }
+
+                            if (endDateIdx) {
+                                const end = new Date(endDateIdx).setHours(0, 0, 0, 0);
+                                if (reportDate > end) matchesDate = false;
+                            }
+                        }
+
+                        return matchesText && matchesType && matchesDate;
+                    });
+
+                    renderTable(filteredReports);
+
                 } catch (err) {
                     console.error(err);
                     document.getElementById('reportsTableBody').innerHTML = `
@@ -155,7 +211,7 @@
         <tr style="border-bottom: 1px solid var(--border);">
           <td style="padding: 1rem; border: none; font-weight: 500;">
             <i class="fas fa-file-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>
-            ${report.preview?.reportNo || 'Draft Report'}
+            ${report.formData?.report_no || report.reportName || report.preview?.reportNo || 'Draft Report'}
           </td>
           <td style="padding: 1rem; border: none; color: var(--text-muted);">
             ${getReportTypeName(report.reportType)}

@@ -90,18 +90,43 @@
     document.addEventListener('DOMContentLoaded', function () {
         const saveBtn = document.getElementById('btnSave');
         if (saveBtn) {
-            saveBtn.addEventListener('click', async function () {
+            saveBtn.addEventListener('click', async function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
                 const form = document.querySelector('form');
                 if (!form) {
                     alert('No form found on this page');
                     return;
                 }
 
+                // Convert FormData to JSON object
+                // IMPORTANT: Only inputs with 'name' attributes are captured!
                 const formData = new FormData(form);
+                const jsonData = {};
 
-                // Add report type
+                for (const [key, value] of formData.entries()) {
+                    if (jsonData.hasOwnProperty(key)) {
+                        if (!Array.isArray(jsonData[key])) {
+                            jsonData[key] = [jsonData[key]];
+                        }
+                        jsonData[key].push(value);
+                    } else {
+                        jsonData[key] = value;
+                    }
+                }
+
+                // Add report type slug
                 const reportType = window.location.pathname.split('/').pop();
-                formData.append('reportType', reportType);
+                jsonData.reportType = reportType;
+
+                // Add readable report name from the header
+                const headerTitle = document.querySelector('.report-header h2') || document.querySelector('h2');
+                if (headerTitle) {
+                    jsonData.reportName = headerTitle.innerText.trim();
+                }
+
+                console.log('Saving report data:', jsonData);
 
                 saveBtn.disabled = true;
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
@@ -109,16 +134,19 @@
                 try {
                     const response = await fetch('/api/save-report', {
                         method: 'POST',
-                        body: formData
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(jsonData)
                     });
 
+                    const result = await response.json();
+
                     if (response.ok) {
-                        const result = await response.json();
                         alert('✅ Report saved successfully!');
                         console.log('Save result:', result);
                     } else {
-                        const error = await response.text();
-                        alert('❌ Failed to save report: ' + error);
+                        alert('❌ Failed to save report: ' + (result.message || 'Unknown error'));
                     }
                 } catch (error) {
                     console.error('Save error:', error);

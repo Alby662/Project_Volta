@@ -6,6 +6,22 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const playwright = require("playwright");
 const nodemailer = require("nodemailer");
+const ejs = require("ejs");
+
+// Report Type to Template File Mapping
+const reportTemplates = {
+  liquid: "liquid.ejs",
+  vacuum: "vacuum.ejs",
+  draining_dry: "draining_dry.ejs",
+  final_dimension: "final_dimension.ejs",
+  hydrostatic_test: "hydrostatic_test.ejs",
+  oil_leak: "oil_leak.ejs",
+  pickling_passivation: "pickling_passivation.ejs",
+  raw_material: "raw_material.ejs",
+  rf_pad_pneumatic: "rf_pad_pneumatic.ejs",
+  surface_preparation_painting: "surface_preparation_painting.ejs",
+  visual_examination: "visual_examination.ejs"
+};
 
 // Email configuration
 const transporter = nodemailer.createTransport({
@@ -573,25 +589,15 @@ app.post("/api/save-report", async (req, res) => {
     const reportType = req.body.reportType || 'unknown';
     const timestamp = new Date().toISOString();
 
-    log('INFO', 'Report save request', { reportType, filesCount: req.files?.length || 0 });
+    log('INFO', 'Report save request', { reportType });
 
-    const formData = { ...req.body };
-    const signatures = {};
-
-    if (req.files && req.files.length > 0) {
-      req.files.forEach(file => {
-        signatures[file.fieldname] = {
-          filename: file.filename,
-          originalname: file.originalname,
-          path: file.path
-        };
-      });
-    }
+    // Extract form data (exclude reportType and reportName from formData)
+    const { reportType: _, reportName, ...formData } = req.body;
 
     const reportDocument = {
       reportType,
+      reportName: reportName || reportType, // Use friendly name if available
       formData,
-      signatures,
       createdAt: timestamp,
       status: 'draft'
     };
@@ -662,36 +668,114 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
     if (!report) {
       return sendErrorResponse(res, 404, 'Report not found');
     }
-    // Render the report template with saved data
+
     const reportType = report.reportType;
-    const formData = report.formData;
+    const formData = report.formData || {};
+    const templateFile = reportTemplates[reportType];
 
-    log('INFO', 'Generating PDF for report', { reportType, reportId });
+    log('INFO', 'Generating PDF for report', { reportType, templateFile, reportId });
 
-    // Create simple HTML with the form data
-    let htmlContent = '<div style="padding: 20px; font-family: Arial, sans-serif;">';
-    htmlContent += `<h1>Report: ${reportType}</h1>`;
-    htmlContent += '<table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">';
-
-    for (const [key, value] of Object.entries(formData)) {
-      htmlContent += `<tr><td style="font-weight: bold;">${key}</td><td>${value || '-'}</td></tr>`;
+    if (!templateFile) {
+      return sendErrorResponse(res, 400, "Unknown report type template");
     }
 
-    htmlContent += '</table></div>';
+    // 1. Render EJS Template
+    const templatePath = path.join(__dirname, 'views', 'reports', templateFile);
 
-    // Generate PDF using Playwright
+    // Pass basic data for EJS partials (header/footer usually need specific vars)
+    // We pass formData as locals too, just in case some templates use it.
+    const renderData = {
+      ...formData,
+      reportName: reportType.replace(/_/g, ' ').toUpperCase() + ' REPORT',
+      title: reportType.replace(/_/g, ' ').toUpperCase()
+    };
+
+    let htmlContent = await ejs.renderFile(templatePath, renderData, {
+      root: path.join(__dirname, 'views') // Ensure includes work
+    });
+
+    // 2. Inject CSS
+    const cssPath = path.join(__dirname, 'public', 'css', 'style.css');
+    let cssContent = '';
+    try {
+      cssContent = fs.readFileSync(cssPath, 'utf8');
+    } catch (e) {
+      log('WARN', 'Failed to read style.css for PDF export', { error: e.message });
+    }
+
+    // Inject CSS into head
+    // We append our print-specific styles too to ensure inputs look like text
+    const styleInjection = `
+    <style>
+        ${cssContent}
+        /* PDF Specific Overrides */
+        body { background: white !important; -webkit-print-color-adjust: exact; }
+        .container { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 20px !important; }
+        input, textarea, select { border: none !important; background: transparent !important; resize: none; appearance: none; padding: 0 !important; }
+        .no-print { display: none !important; }
+        button { display: none !important; }
+        @page { size: A4; margin: 10mm; }
+    </style>`;
+
+    htmlContent = htmlContent.replace('</head>', `${styleInjection}</head>`);
+
+    // 3. Generate PDF with Playwright
     const browser = await getBrowserInstance();
     const context = await browser.newContext();
     const page = await context.newPage();
 
-    await page.setContent(htmlContent, { waitUntil: "networkidle" });
-    await page.emulateMedia({ media: 'screen' });
-    await page.waitForTimeout(500);
+    // Set base URL so relative paths (images, css, js) resolve correctly
+    await page.setContent(htmlContent, {
+      waitUntil: "networkidle",
+      baseUrl: `http://localhost:${port}`
+    });
+
+    // 4. Populate Form Data via DOM manipulation
+    // This fills the inputs with the saved values
+    await page.evaluate((data) => {
+      Object.entries(data).forEach(([name, value]) => {
+        const inputs = document.querySelectorAll(`[name="${name}"]`);
+        inputs.forEach(input => {
+          let shouldTriggerChange = false;
+
+          if (input.tagName === 'SELECT') {
+            // Try to match value or text
+            const option = Array.from(input.options).find(o => o.value === value || o.text === value);
+            if (option) {
+              input.value = option.value;
+              shouldTriggerChange = true;
+            }
+          } else if (input.type === 'checkbox' || input.type === 'radio') {
+            if (String(value) === 'true' || String(value) === 'on' || value === input.value) {
+              input.checked = true;
+              shouldTriggerChange = true;
+            }
+          } else {
+            input.value = value;
+            // For better print rendering, sometimes setting attribute is safer
+            input.setAttribute('value', value);
+          }
+
+          if (shouldTriggerChange) {
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+        // Also handle textareas - set content
+        const textareas = document.querySelectorAll(`textarea[name="${name}"]`);
+        textareas.forEach(ta => {
+          ta.value = value;
+          ta.textContent = value;
+        });
+      });
+    }, formData);
+
+    await page.emulateMedia({ media: 'print' }); // Render as if printing
+    await page.waitForTimeout(1000); // Wait slightly longer for images/events
 
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
-      margin: { top: "20mm", bottom: "20mm", left: "15mm", right: "15mm" },
+      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" },
     });
 
     await context.close();

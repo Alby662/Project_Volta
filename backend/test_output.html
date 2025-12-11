@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>
+    Liquid Penetrant / Examination Report
+  </title>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="/js/common.js"></script>
+</head>
+
+    <body>
+
+        <div class="container">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+
+    <!-- Logo Dropdown -->
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
+        <img id="companyLogo" src="/images/logo1.jpg" alt="Company Logo"
+            style="height: 60px; width: auto; margin-bottom: 5px;" />
+        <select id="logoSelect" onchange="updateFromLogo()">
+            <option value="/images/logo.jpg">Volta Engineering Designs</option>
+            <option value="/images/volta green.png">Volta Green Structures</option>
+            <option value="/images/Deccan-Auto.jpg">Deccan Auto</option>
+        </select>
+    </div>
+
+    <!-- Company Name Dropdown -->
+    <div style="flex: 1; text-align: center;">
+        <select id="companyName" onchange="updateFromName()"
+            style="font-size:18px; font-weight:bold; color: var(--primary); width:auto;">
+            <option>Volta Engineering Designs Pvt. Ltd.</option>
+            <option>Volta Green Structures Pvt. Ltd.</option>
+            <option>Deccan Auto Ltd.</option>
+        </select>
+        <h2 style="margin: 0; font-size: 16px; color: #222;">
+            LIQUID PENETRATING TEST REPORT
+        </h2>
+    </div>
+
+</div>
+
+                <form id="reportForm" enctype="multipart/form-data">
+
+                    <!-- Header Info -->
+                    <table>
+                        <tr>
+                            <td>Report No.</td>
+                            <td><input type="text" value="VGS/101.004/" placeholder="VGS/101.004/" /></td>
+
+                            <td>Report Date</td>
+                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
+                        </tr>
+                        <tr>
+                            <td>NPCIL Procedure Document No.</td>
+                            <td style="text-align: left; font-weight: bold; background: #fffde7;">
+                                I106.KK56.UKC.0.TM.QFS.WD003</td>
+                            <td>Date of Examination</td>
+                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
+                        </tr>
+                        <tr>
+                            <td>Customer</td>
+                            <td><input type="text" placeholder="NPCIL"></td>
+                            <td>W.O No (Job No)</td>
+                            <td style="text-align: left; font-weight: bold; background: #fffde7;">V00101.004</td>
+                        </tr>
+                        <tr>
+                            <td>Type of Job</td>
+                            <td><input type="text" placeholder="WEP LPE"></td>
+                            <td>QAP Stage</td>
+                            <td><input type="text" placeholder="4.1"></td>
+                        </tr>
+                        <tr>
+                            <td>Project</td>
+                            <td colspan="3"><input type="text" placeholder="KKNPP UNIT 5 & 6"></td>
+                        </tr>
+                        <tr>
+                            <td>WPS No/PQR No.</td>
+                            <td><input type="text" placeholder="NA"></td>
+                            <td>Acceptance Standard</td>
+                            <td><input type="text" placeholder="ASME Section III NCD"></td>
+                        </tr>
+                        <tr>
+                        <tr>
+                            <td>Material</td>
+                            <td>
+                                <select>
+                                    <option value="">Select</option>
+                                    <option value="SA 240/182F GR.304L">SA 240/182F GR.304L</option>
+                                    <option value="SA 240/182F GR.316">SA 240/182F GR.316</option>
+                                    <option value="SA 240/182F GR.316L">SA 240/182F GR.316L</option>
+                                    <option value="SA 240/182F GR.316TI">SA 240/182F GR.316TI</option>
+                                    <option value="SA 240/182F 321">SA 240/182F 321</option>
+                                </select>
+                            </td>
+                            <td>Surface Condition</td>
+                            <td><input type="text" placeholder="Smooth"></td>
+                        </tr>
+
+
+                        </tr>
+                        <tr>
+                            <td>Surface Temp.</td>
+                            <td><input type="text" placeholder="<50°C"></td>
+                            <td>Extent of Examination</td>
+                            <td><input type="text" placeholder="100% Bevel Area"></td>
+                        </tr>
+                        <tr>
+                            <td>Stage of Examination</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Consumables -->
+                    <table>
+                        <tr>
+                            <th colspan="2">Penetrant (Visible)</th>
+                            <th colspan="2">Cleaner</th>
+                            <th colspan="2">Developer</th>
+                        </tr>
+                        <tr>
+                            <td>Brand Name</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Brand Name</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Brand Name</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                        </tr>
+                        <tr>
+                            <td>Batch No./ Exp. Date</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Batch No./ Exp. Date</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                            <td>Batch No./ Exp. Date</td>
+                            <td><input type="text" placeholder="Type here"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Application -->
+                    <table>
+                        <tr>
+                            <th colspan="2">Penetrant Application</th>
+                            <th colspan="2">Lighting Equipment Used</th>
+                            <th colspan="2">Developer Application</th>
+                        </tr>
+                        <tr>
+                            <td>Method</td>
+                            <td><input type="text" placeholder="SPRAY TYPE"></td>
+                            <td rowspan="2" colspan="2"><input type="text" placeholder="100W Hand Bulb at 8 inch"></td>
+                            <td>Method</td>
+                            <td><input type="text" placeholder="SPRAY TYPE"></td>
+                        </tr>
+                        <tr>
+                            <td>Dwell Time</td>
+                            <td><input type="text" placeholder="10 mins"></td>
+                            <td>Developing Time</td>
+                            <td><input type="text" placeholder="20 mins"></td>
+                        </tr>
+                    </table>
+
+                    <!-- Result Table -->
+                    <table id="penetrant-result-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Sl. No.</th>
+                                <th rowspan="2" colspan="2">Details of Item / Component Examined</th>
+                                <th colspan="2">Interpretation</th>
+                                <th rowspan="2">Result</th>
+                            </tr>
+                            <tr>
+                                <th>Type (Linear / Rounded)</th>
+                                <th>Dimension (Dia / Length)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
+                                <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
+                                <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+                                <td>
+                                    <select>
+                                        <option value="">Select</option>
+                                        <option value="Satisfactory">Satisfactory</option>
+                                        <option value="Unsatisfactory">Unsatisfactory</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Notes -->
+                    <h3>Notes:</h3>
+                    <textarea rows="3" placeholder="Add your notes here..."></textarea>
+
+                    <!-- Signatures -->
+                    <table>
+                        <tr>
+                            <td>Performed By:</td>
+                            <td><input type="text" placeholder="Name / Signature / Date"></td>
+                            <td>Reviewed By:</td>
+                            <td><input type="text" placeholder="Name / Signature / Date"></td>
+                            <td>AI / Customer:</td>
+                            <td><input type="text" placeholder="Name / Signature / Date"></td>
+                        </tr>
+                    </table></div>
+
+        <!-- Add Row Script -->
+        <script>
+            function addRow() {
+                const tbody = document.getElementById('penetrant-result-table').getElementsByTagName('tbody')[0];
+                const rowCount = tbody.rows.length + 1;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+        <td>${rowCount}</td>
+        <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
+        <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
+        <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+        <td>
+          <select>
+            <option value="">Select</option>
+            <option value="Satisfactory">Satisfactory</option>
+            <option value="Unsatisfactory">Unsatisfactory</option>
+          </select>
+        </td>
+      `;
+                tbody.appendChild(row);
+            }
+        </script>
+        <!-- Back Navigation -->
+<div class="report-header">
+    <button class="btn-back" onclick="window.location.href='/report-catalog'">
+        <i class="fas fa-arrow-left"></i> Back to Catalog
+    </button>
+</div>
+
+<!-- Table Controls (to be placed above dynamic tables) -->
+<div class="table-controls" id="tableControls" style="display: none;">
+    <div class="control-group">
+        <span class="control-label">Table Actions:</span>
+        <button class="btn-icon btn-sm" type="button" onclick="addRow()">
+            <i class="fas fa-plus"></i> Add Row
+        </button>
+        <button class="btn-icon btn-sm btn-danger" type="button" onclick="deleteLastRow()">
+            <i class="fas fa-minus"></i> Delete Row
+        </button>
+    </div>
+</div>
+
+<!-- Footer Actions -->
+<div class="footer-actions">
+    <button class="btn btn-success" type="button" id="btnSave">
+        <i class="fas fa-save"></i> Save to Server
+    </button>
+    <button class="btn btn-secondary" type="button" onclick="window.print()">
+        <i class="fas fa-print"></i> Print / Save PDF
+    </button>
+    <button class="btn btn-secondary" type="button" onclick="window.location.href='/dashboard'">
+        <i class="fas fa-home"></i> Dashboard
+    </button>
+</div>
+
+<script>
+    // Logo mapping logic
+    const logoMap = {
+        "Volta Engineering Designs Pvt. Ltd.": "/images/logo.jpg",
+        "Volta Green Structures Pvt. Ltd.": "/images/volta green.png",
+        "Deccan Auto Ltd.": "/images/Deccan-Auto.jpg"
+    };
+
+    function updateFromLogo() {
+        const selectedLogo = document.getElementById("logoSelect").value;
+        const logoImg = document.getElementById("companyLogo");
+        if (logoImg) logoImg.src = selectedLogo;
+
+        // Match company name based on selected logo
+        for (const [name, logo] of Object.entries(logoMap)) {
+            if (logo === selectedLogo) {
+                const nameInput = document.getElementById("companyName");
+                if (nameInput) nameInput.value = name;
+                break;
+            }
+        }
+    }
+
+    function updateFromName() {
+        const nameInput = document.getElementById("companyName");
+        if (!nameInput) return;
+
+        const selectedName = nameInput.value;
+        const logoFile = logoMap[selectedName];
+
+        if (logoFile) {
+            const logoImg = document.getElementById("companyLogo");
+            const logoSelect = document.getElementById("logoSelect");
+
+            if (logoImg) logoImg.src = logoFile;
+            if (logoSelect) logoSelect.value = logoFile;
+        }
+    }
+
+    // Delete last row with confirmation
+    function deleteLastRow() {
+        const table = document.getElementById("mainTable");
+        if (!table) return;
+
+        const tbody = table.getElementsByTagName("tbody")[0];
+        if (!tbody || tbody.rows.length <= 1) {
+            alert("Cannot delete the last row!");
+            return;
+        }
+
+        if (confirm("Delete the last row?")) {
+            tbody.deleteRow(tbody.rows.length - 1);
+        }
+    }
+
+    // Save to server with loading state
+    document.addEventListener('DOMContentLoaded', function () {
+        const saveBtn = document.getElementById('btnSave');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', async function () {
+                const form = document.querySelector('form');
+                if (!form) {
+                    alert('No form found on this page');
+                    return;
+                }
+
+                // Convert FormData to JSON object
+                const formData = new FormData(form);
+                const jsonData = {};
+                
+                for (const [key, value] of formData.entries()) {
+                    jsonData[key] = value;
+                }
+
+                // Add report type
+                const reportType = window.location.pathname.split('/').pop();
+                jsonData.reportType = reportType;
+
+                console.log('Saving report data:', jsonData);
+
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+                try {
+                    const response = await fetch('/api/save-report', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(jsonData)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        alert('✅ Report saved successfully!');
+                        console.log('Save result:', result);
+                    } else {
+                        const error = await response.text();
+                        alert('❌ Failed to save report: ' + error);
+                    }
+                } catch (error) {
+                    console.error('Save error:', error);
+                    alert('❌ Error saving report: ' + error.message);
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save to Server';
+                }
+            });
+        }
+
+        // Show table controls if mainTable exists
+        const mainTable = document.getElementById('mainTable');
+        if (mainTable) {
+            const controls = document.getElementById('tableControls');
+            if (controls) {
+                controls.style.display = 'flex';
+                // Insert controls before the table
+                mainTable.parentNode.insertBefore(controls, mainTable);
+            }
+        }
+    });
+</script>
+    </body>
+
+</html>
+

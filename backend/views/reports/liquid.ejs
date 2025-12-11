@@ -13,10 +13,11 @@
                     <table>
                         <tr>
                             <td>Report No.</td>
-                            <td><input type="text" value="VGS/101.004/" placeholder="VGS/101.004/" /></td>
+                            <td><input type="text" name="report_no" value="VGS/101.004/" placeholder="VGS/101.004/" />
+                            </td>
 
                             <td>Report Date</td>
-                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
+                            <td><input type="text" name="report_date" placeholder="DD/MM/YYYY"></td>
                         </tr>
                         <tr>
                             <td>NPCIL Procedure Document No.</td>
@@ -27,31 +28,31 @@
                         </tr>
                         <tr>
                             <td>Customer</td>
-                            <td><input type="text" placeholder="NPCIL"></td>
+                            <td><input type="text" name="customer" placeholder="NPCIL"></td>
                             <td>W.O No (Job No)</td>
                             <td style="text-align: left; font-weight: bold; background: #fffde7;">V00101.004</td>
                         </tr>
                         <tr>
                             <td>Type of Job</td>
-                            <td><input type="text" placeholder="WEP LPE"></td>
+                            <td><input type="text" name="job_type" placeholder="WEP LPE"></td>
                             <td>QAP Stage</td>
-                            <td><input type="text" placeholder="4.1"></td>
+                            <td><input type="text" name="qap_stage" placeholder="4.1"></td>
                         </tr>
                         <tr>
                             <td>Project</td>
-                            <td colspan="3"><input type="text" placeholder="KKNPP UNIT 5 & 6"></td>
+                            <td colspan="3"><input type="text" name="project" placeholder="KKNPP UNIT 5 & 6"></td>
                         </tr>
                         <tr>
                             <td>WPS No/PQR No.</td>
-                            <td><input type="text" placeholder="NA"></td>
+                            <td><input type="text" name="wps_number" placeholder="NA"></td>
                             <td>Acceptance Standard</td>
-                            <td><input type="text" placeholder="ASME Section III NCD"></td>
+                            <td><input type="text" name="acceptance_std" placeholder="ASME Section III NCD"></td>
                         </tr>
                         <tr>
                         <tr>
                             <td>Material</td>
                             <td>
-                                <select>
+                                <select name="material">
                                     <option value="">Select</option>
                                     <option value="SA 240/182F GR.304L">SA 240/182F GR.304L</option>
                                     <option value="SA 240/182F GR.316">SA 240/182F GR.316</option>
@@ -61,20 +62,20 @@
                                 </select>
                             </td>
                             <td>Surface Condition</td>
-                            <td><input type="text" placeholder="Smooth"></td>
+                            <td><input type="text" name="surface_condition" placeholder="Smooth"></td>
                         </tr>
 
 
                         </tr>
                         <tr>
                             <td>Surface Temp.</td>
-                            <td><input type="text" placeholder="<50°C"></td>
+                            <td><input type="text" name="surface_temp" placeholder="<50°C"></td>
                             <td>Extent of Examination</td>
-                            <td><input type="text" placeholder="100% Bevel Area"></td>
+                            <td><input type="text" name="extent_examination" placeholder="100% Bevel Area"></td>
                         </tr>
                         <tr>
                             <td>Stage of Examination</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="stage_examination" placeholder="Type here"></td>
                             <td colspan="2"></td>
                         </tr>
                     </table>
@@ -88,19 +89,27 @@
                         </tr>
                         <tr>
                             <td>Brand Name</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="penetrant_brand" placeholder="Type here"></td>
                             <td>Brand Name</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="cleaner_brand" placeholder="Type here"></td>
                             <td>Brand Name</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="developer_brand" placeholder="Type here"></td>
                         </tr>
                         <tr>
                             <td>Batch No./ Exp. Date</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="penetrant_batch" placeholder="Type here"></td>
                             <td>Batch No./ Exp. Date</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="cleaner_batch" placeholder="Type here"></td>
                             <td>Batch No./ Exp. Date</td>
-                            <td><input type="text" placeholder="Type here"></td>
+                            <td><input type="text" name="developer_batch" placeholder="Type here"></td>
+                        </tr>
+                        <tr>
+                            <td>Dwell Time</td>
+                            <td><input type="text" name="penetrant_dwell" placeholder="Type here"></td>
+                            <td>Dwell Time</td>
+                            <td><input type="text" name="cleaner_dwell" placeholder="Type here"></td>
+                            <td>Dwell Time</td>
+                            <td><input type="text" name="developer_dwell" placeholder="Type here"></td>
                         </tr>
                     </table>
 
@@ -124,30 +133,49 @@
                             <td>Developing Time</td>
                             <td><input type="text" placeholder="20 mins"></td>
                         </tr>
+                        <tr>
+                            <td>Light Intensity</td>
+                            <td><input type="text" name="light_intensity" placeholder=">1000 Lux"></td>
+                            <td colspan="4"></td>
+                        </tr>
                     </table>
 
                     <!-- Result Table -->
                     <table id="penetrant-result-table">
                         <thead>
                             <tr>
-                                <th rowspan="2">Sl. No.</th>
-                                <th rowspan="2" colspan="2">Details of Item / Component Examined</th>
+                                <th>Sl. No.</th>
+                                <th colspan="2">
+                                    Details of Item / Component Examined
+                                </th>
                                 <th colspan="2">Interpretation</th>
-                                <th rowspan="2">Result</th>
+                                <th>Result</th>
                             </tr>
                             <tr>
-                                <th>Type (Linear / Rounded)</th>
-                                <th>Dimension (Dia / Length)</th>
+                                <th></th>
+                                <th colspan="2"></th>
+                                <th>
+                                    Type (Linear /
+                                    Rounded)
+                                </th>
+                                <th>
+                                    Dimension (Dia /
+                                    Length)
+                                </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
-                                <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
-                                <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+                                <td colspan="2"><textarea rows="2" name="component_details"
+                                        placeholder="Component Details"></textarea></td>
+                                <td><textarea rows="2" name="defect_type"
+                                        placeholder="Type (Linear / Rounded)"></textarea></td>
+                                <td><textarea rows="2" name="dimension"
+                                        placeholder="Dimension (Dia / Length)"></textarea></td>
                                 <td>
-                                    <select>
+                                    <select name="result">
                                         <option value="">Select</option>
                                         <option value="Satisfactory">Satisfactory</option>
                                         <option value="Unsatisfactory">Unsatisfactory</option>
@@ -172,9 +200,6 @@
                             <td><input type="text" placeholder="Name / Signature / Date"></td>
                         </tr>
                     </table>
-
-                    <%- include('../partials/footer') %>
-
         </div>
 
         <!-- Add Row Script -->
@@ -185,11 +210,11 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
         <td>${rowCount}</td>
-        <td colspan="2"><textarea rows="2" placeholder="Component Details"></textarea></td>
-        <td><textarea rows="2" placeholder="Type (Linear / Rounded)"></textarea></td>
-        <td><textarea rows="2" placeholder="Dimension (Dia / Length)"></textarea></td>
+        <td colspan="2"><textarea rows="2" name="component_details" placeholder="Component Details"></textarea></td>
+        <td><textarea rows="2" name="defect_type" placeholder="Type (Linear / Rounded)"></textarea></td>
+        <td><textarea rows="2" name="dimension" placeholder="Dimension (Dia / Length)"></textarea></td>
         <td>
-          <select>
+          <select name="result">
             <option value="">Select</option>
             <option value="Satisfactory">Satisfactory</option>
             <option value="Unsatisfactory">Unsatisfactory</option>
@@ -199,7 +224,7 @@
                 tbody.appendChild(row);
             }
         </script>
-
+        <%- include('../partials/footer') %>
     </body>
 
 </html>

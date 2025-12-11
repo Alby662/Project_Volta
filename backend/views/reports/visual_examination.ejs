@@ -162,20 +162,23 @@
                         </tr>
                     </table>
                 </form>
-
-                <%- include('../partials/footer') %>
         </div>
 
         <script>
             function addRow() {
                 const table = document.getElementById('drawing-table').getElementsByTagName('tbody')[0];
+                const rowCount = table.rows.length + 1;
                 const newRow = table.insertRow();
-                for (let i = 0; i < 4; i++) {
-                    const newCell = newRow.insertCell();
-                    newCell.innerHTML = '<input type="text" class="report-input" />';
-                }
+
+                newRow.innerHTML = `
+                    <td><input type="text" name="drawing${rowCount}" class="report-input" /></td>
+                    <td><input type="text" name="joint${rowCount}" class="report-input" /></td>
+                    <td><input type="text" name="welder${rowCount}" class="report-input" /></td>
+                    <td><input type="text" name="remark${rowCount}" class="report-input" /></td>
+                `;
             }
         </script>
+        <%- include('../partials/footer') %>
     </body>
 
 </html>
