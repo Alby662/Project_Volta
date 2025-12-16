@@ -1757,6 +1757,74 @@ app.post("/restore/:backupId", authMiddleware, async (req, res) => {
   }
 });
 
+// Endpoint to export saved report to PDF
+app.post('/api/export-pdf/:reportId', async (req, res) => {
+  try {
+    const reportId = req.params.reportId;
+    if (!ObjectId.isValid(reportId)) {
+      return res.status(400).send("Invalid Report ID");
+    }
+
+    const report = await db.collection("saved_reports").findOne({ _id: new ObjectId(reportId) });
+    if (!report) {
+      return res.status(404).send("Report not found");
+    }
+
+    // Determine template based on reportType
+    const reportType = report.reportType;
+    const templateName = reportType.startsWith('reports/') ? reportType : `reports/${reportType}`;
+
+    const renderData = {
+      ...report,
+      data: report.formData || {},
+      formData: report.formData || {},
+      preview: report.preview || {},
+      title: (report.reportName || "Inspection Report"),
+      moment: require('moment')
+    };
+
+    app.render(templateName, renderData, async (err, html) => {
+      if (err) {
+        console.error("❌ EJS Rendering Error:", err);
+        return res.status(500).send("Error rendering report template: " + err.message);
+      }
+
+      try {
+        const browser = await getBrowserInstance();
+        const context = await browser.newContext();
+        const page = await context.newPage();
+
+        await page.setContent(html, { waitUntil: "networkidle" });
+        await page.emulateMedia({ media: 'screen' });
+
+        const pdfBuffer = await page.pdf({
+          format: "A4",
+          printBackground: true,
+          margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
+        });
+
+        await page.close();
+        await context.close();
+
+        res.set({
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="Report_${reportId}.pdf"`,
+          "Content-Length": pdfBuffer.length,
+        });
+        res.send(pdfBuffer);
+
+      } catch (pdfErr) {
+        console.error("❌ PDF Generation Error:", pdfErr);
+        res.status(500).send("Error generating PDF: " + pdfErr.message);
+      }
+    });
+
+  } catch (err) {
+    console.error("❌ Export Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 // Health check endpoint
 app.get("/health", async (req, res) => {
   try {
