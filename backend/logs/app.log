@@ -1782,3 +1782,33 @@
 {"timestamp":"2025-12-16T08:57:00.529Z","level":"INFO","message":"Logo converted to base64 successfully","metadata":{"path":"E:\\Projects_\\Projects\\project volta zip file\\project volta\\backend\\public\\images\\logo.jpg"}}
 {"timestamp":"2025-12-16T08:57:03.318Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69416633e9ad718e2522dc6e","filename":"liquid-1765875423317.pdf"}}
 {"timestamp":"2025-12-16T08:57:03.319Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69416633e9ad718e2522dc6e","statusCode":200,"duration":"2926ms"}}
+{"timestamp":"2025-12-16T12:15:54.661Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T12:15:54.839Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T12:15:57.714Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:15:57.723Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/","statusCode":302,"duration":"9ms"}}
+{"timestamp":"2025-12-16T12:15:57.735Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/admin","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:15:57.751Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/admin","statusCode":304,"duration":"16ms"}}
+{"timestamp":"2025-12-16T12:16:06.974Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/admin-login","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:16:06.976Z","level":"INFO","message":"Login attempt","metadata":{"username":"admin"}}
+{"timestamp":"2025-12-16T12:16:07.281Z","level":"INFO","message":"Login successful","metadata":{"username":"admin","userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-16T12:16:07.287Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/admin-login","statusCode":200,"duration":"313ms"}}
+{"timestamp":"2025-12-16T12:16:07.305Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:16:07.309Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T12:16:10.245Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:16:10.249Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"4ms"}}
+{"timestamp":"2025-12-16T12:16:10.305Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:16:10.306Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T12:16:10.522Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":8}}
+{"timestamp":"2025-12-16T12:16:10.524Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"219ms"}}
+{"timestamp":"2025-12-16T12:16:11.780Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/694195c4a0a92e90fbd3c281","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:16:11.814Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"694195c4a0a92e90fbd3c281"}}
+{"timestamp":"2025-12-16T12:16:11.938Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"liquid","templateFile":"liquid.ejs","reportId":"694195c4a0a92e90fbd3c281"}}
+{"timestamp":"2025-12-16T12:16:11.946Z","level":"INFO","message":"Logo converted to base64 successfully","metadata":{"path":"E:\\Projects_\\Projects\\project volta zip file\\project volta\\backend\\public\\images\\logo.jpg"}}
+{"timestamp":"2025-12-16T12:16:17.783Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"694195c4a0a92e90fbd3c281","filename":"liquid-1765887377782.pdf"}}
+{"timestamp":"2025-12-16T12:16:17.785Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/694195c4a0a92e90fbd3c281","statusCode":200,"duration":"6005ms"}}
+{"timestamp":"2025-12-16T12:16:18.500Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/6941732b0121c447170c8499","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T12:16:18.502Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"6941732b0121c447170c8499"}}
+{"timestamp":"2025-12-16T12:16:18.554Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"liquid","templateFile":"liquid.ejs","reportId":"6941732b0121c447170c8499"}}
+{"timestamp":"2025-12-16T12:16:18.562Z","level":"INFO","message":"Logo converted to base64 successfully","metadata":{"path":"E:\\Projects_\\Projects\\project volta zip file\\project volta\\backend\\public\\images\\logo.jpg"}}
+{"timestamp":"2025-12-16T12:16:20.861Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"6941732b0121c447170c8499","filename":"liquid-1765887380860.pdf"}}
+{"timestamp":"2025-12-16T12:16:20.862Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/6941732b0121c447170c8499","statusCode":200,"duration":"2362ms"}}
