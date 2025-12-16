@@ -1534,3 +1534,251 @@
 {"timestamp":"2025-12-11T03:55:07.496Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/693a408d413d60cf7c9a5132","statusCode":200,"duration":"6244ms"}}
 {"timestamp":"2025-12-11T03:55:24.265Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
 {"timestamp":"2025-12-11T03:55:24.274Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"10ms"}}
+{"timestamp":"2025-12-11T03:57:56.755Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-11T03:57:56.827Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-11T03:58:04.858Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:04.874Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"16ms"}}
+{"timestamp":"2025-12-11T03:58:06.727Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:06.735Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"8ms"}}
+{"timestamp":"2025-12-11T03:58:07.778Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:07.786Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"8ms"}}
+{"timestamp":"2025-12-11T03:58:07.844Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:07.846Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-11T03:58:07.918Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":3}}
+{"timestamp":"2025-12-11T03:58:07.920Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":304,"duration":"76ms"}}
+{"timestamp":"2025-12-11T03:58:09.403Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/693a408d413d60cf7c9a5132","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:09.406Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"693a408d413d60cf7c9a5132"}}
+{"timestamp":"2025-12-11T03:58:09.493Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"liquid","templateFile":"liquid.ejs","reportId":"693a408d413d60cf7c9a5132"}}
+{"timestamp":"2025-12-11T03:58:13.103Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"693a408d413d60cf7c9a5132","filename":"liquid-1765425493102.pdf"}}
+{"timestamp":"2025-12-11T03:58:13.104Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/693a408d413d60cf7c9a5132","statusCode":200,"duration":"3701ms"}}
+{"timestamp":"2025-12-11T03:58:27.083Z","level":"INFO","message":"Incoming request","metadata":{"method":"DELETE","url":"/api/delete-saved-report/693a408d413d60cf7c9a5132","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:27.086Z","level":"INFO","message":"Delete saved report request","metadata":{"reportId":"693a408d413d60cf7c9a5132"}}
+{"timestamp":"2025-12-11T03:58:27.138Z","level":"INFO","message":"Report deleted successfully","metadata":{"reportId":"693a408d413d60cf7c9a5132"}}
+{"timestamp":"2025-12-11T03:58:27.141Z","level":"INFO","message":"Request completed","metadata":{"method":"DELETE","url":"/api/delete-saved-report/693a408d413d60cf7c9a5132","statusCode":200,"duration":"58ms"}}
+{"timestamp":"2025-12-11T03:58:27.883Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:27.884Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-11T03:58:27.954Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":2}}
+{"timestamp":"2025-12-11T03:58:27.956Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"72ms"}}
+{"timestamp":"2025-12-11T03:58:30.844Z","level":"INFO","message":"Incoming request","metadata":{"method":"DELETE","url":"/api/delete-saved-report/693a3ec3cfd00b1e6534e2dc","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:30.845Z","level":"INFO","message":"Delete saved report request","metadata":{"reportId":"693a3ec3cfd00b1e6534e2dc"}}
+{"timestamp":"2025-12-11T03:58:30.999Z","level":"INFO","message":"Report deleted successfully","metadata":{"reportId":"693a3ec3cfd00b1e6534e2dc"}}
+{"timestamp":"2025-12-11T03:58:31.001Z","level":"INFO","message":"Request completed","metadata":{"method":"DELETE","url":"/api/delete-saved-report/693a3ec3cfd00b1e6534e2dc","statusCode":200,"duration":"157ms"}}
+{"timestamp":"2025-12-11T03:58:32.039Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:32.040Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-11T03:58:32.125Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":1}}
+{"timestamp":"2025-12-11T03:58:32.127Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"88ms"}}
+{"timestamp":"2025-12-11T03:58:34.765Z","level":"INFO","message":"Incoming request","metadata":{"method":"DELETE","url":"/api/delete-saved-report/693a3abb6c96f7da28731883","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:34.766Z","level":"INFO","message":"Delete saved report request","metadata":{"reportId":"693a3abb6c96f7da28731883"}}
+{"timestamp":"2025-12-11T03:58:35.198Z","level":"INFO","message":"Report deleted successfully","metadata":{"reportId":"693a3abb6c96f7da28731883"}}
+{"timestamp":"2025-12-11T03:58:35.199Z","level":"INFO","message":"Request completed","metadata":{"method":"DELETE","url":"/api/delete-saved-report/693a3abb6c96f7da28731883","statusCode":200,"duration":"434ms"}}
+{"timestamp":"2025-12-11T03:58:35.641Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:35.641Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-11T03:58:35.718Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":0}}
+{"timestamp":"2025-12-11T03:58:35.720Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"80ms"}}
+{"timestamp":"2025-12-11T03:58:38.518Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:38.523Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-11T03:58:40.244Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/admin-console","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:40.253Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/admin-console","statusCode":304,"duration":"10ms"}}
+{"timestamp":"2025-12-11T03:58:40.284Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/users","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:40.365Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/users","statusCode":304,"duration":"81ms"}}
+{"timestamp":"2025-12-11T03:58:41.962Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/audit-logs?level=","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:58:41.964Z","level":"INFO","message":"Audit trail retrieval attempt","metadata":{"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:58:42.130Z","level":"INFO","message":"Audit trail retrieved successfully","metadata":{"count":100,"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:58:42.134Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/audit-logs?level=","statusCode":200,"duration":"172ms"}}
+{"timestamp":"2025-12-11T03:59:01.829Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/audit-logs?level=","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:01.831Z","level":"INFO","message":"Audit trail retrieval attempt","metadata":{"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:01.996Z","level":"INFO","message":"Audit trail retrieved successfully","metadata":{"count":100,"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:01.999Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/audit-logs?level=","statusCode":304,"duration":"171ms"}}
+{"timestamp":"2025-12-11T03:59:02.818Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/audit-logs?level=","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:02.821Z","level":"INFO","message":"Audit trail retrieval attempt","metadata":{"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:03.108Z","level":"INFO","message":"Audit trail retrieved successfully","metadata":{"count":100,"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:03.112Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/audit-logs?level=","statusCode":304,"duration":"295ms"}}
+{"timestamp":"2025-12-11T03:59:05.156Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/audit-logs?level=WARN","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:05.158Z","level":"INFO","message":"Audit trail retrieval attempt","metadata":{"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:05.513Z","level":"INFO","message":"Audit trail retrieved successfully","metadata":{"count":2,"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:05.516Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/audit-logs?level=WARN","statusCode":200,"duration":"360ms"}}
+{"timestamp":"2025-12-11T03:59:08.577Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/audit-logs?level=ERROR","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:08.581Z","level":"INFO","message":"Audit trail retrieval attempt","metadata":{"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:08.725Z","level":"INFO","message":"Audit trail retrieved successfully","metadata":{"count":18,"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:08.727Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/audit-logs?level=ERROR","statusCode":200,"duration":"150ms"}}
+{"timestamp":"2025-12-11T03:59:11.257Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/audit-logs?level=","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:11.260Z","level":"INFO","message":"Audit trail retrieval attempt","metadata":{"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:11.455Z","level":"INFO","message":"Audit trail retrieved successfully","metadata":{"count":100,"userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-11T03:59:11.457Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/audit-logs?level=","statusCode":304,"duration":"200ms"}}
+{"timestamp":"2025-12-11T03:59:12.641Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/users","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:12.782Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/users","statusCode":304,"duration":"141ms"}}
+{"timestamp":"2025-12-11T03:59:16.826Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-11T03:59:16.829Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"4ms"}}
+{"timestamp":"2025-12-16T08:28:47.326Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:28:47.405Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:28:50.877Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:28:50.886Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/","statusCode":302,"duration":"10ms"}}
+{"timestamp":"2025-12-16T08:28:50.893Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/admin","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:28:50.913Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/admin","statusCode":200,"duration":"20ms"}}
+{"timestamp":"2025-12-16T08:28:51.280Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/favicon.ico","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:28:51.288Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/favicon.ico","statusCode":404,"duration":"8ms"}}
+{"timestamp":"2025-12-16T08:28:58.257Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/admin-login","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:28:58.259Z","level":"INFO","message":"Login attempt","metadata":{"username":"admin"}}
+{"timestamp":"2025-12-16T08:28:58.543Z","level":"INFO","message":"Login successful","metadata":{"username":"admin","userId":"69133361f0c52fd09853621b"}}
+{"timestamp":"2025-12-16T08:28:58.549Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/admin-login","statusCode":200,"duration":"292ms"}}
+{"timestamp":"2025-12-16T08:28:58.570Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:28:58.576Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"6ms"}}
+{"timestamp":"2025-12-16T08:29:03.037Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:29:03.042Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":200,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:29:03.107Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:29:03.108Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:29:03.161Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":1}}
+{"timestamp":"2025-12-16T08:29:03.163Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"56ms"}}
+{"timestamp":"2025-12-16T08:29:08.520Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:29:08.525Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:29:10.221Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:29:10.224Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"3ms"}}
+{"timestamp":"2025-12-16T08:29:11.808Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:29:11.818Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":200,"duration":"10ms"}}
+{"timestamp":"2025-12-16T08:29:11.870Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/images/logo1.jpg","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:29:11.872Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/images/logo1.jpg","statusCode":404,"duration":"2ms"}}
+{"timestamp":"2025-12-16T08:30:32.111Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:30:32.117Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"6ms"}}
+{"timestamp":"2025-12-16T08:30:33.286Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:30:33.292Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"6ms"}}
+{"timestamp":"2025-12-16T08:30:33.354Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:30:33.355Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:30:33.421Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":1}}
+{"timestamp":"2025-12-16T08:30:33.423Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":304,"duration":"69ms"}}
+{"timestamp":"2025-12-16T08:37:47.206Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:37:47.289Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:39:02.598Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:39:02.697Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:39:07.173Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:07.184Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"12ms"}}
+{"timestamp":"2025-12-16T08:39:07.251Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:07.253Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:39:07.397Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":3}}
+{"timestamp":"2025-12-16T08:39:07.400Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"149ms"}}
+{"timestamp":"2025-12-16T08:39:12.417Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69416633e9ad718e2522dc6e","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:12.419Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69416633e9ad718e2522dc6e"}}
+{"timestamp":"2025-12-16T08:39:12.516Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"liquid","templateFile":"liquid.ejs","reportId":"69416633e9ad718e2522dc6e"}}
+{"timestamp":"2025-12-16T08:39:17.547Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69416628e9ad718e2522dc69","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:17.548Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69416628e9ad718e2522dc69"}}
+{"timestamp":"2025-12-16T08:39:17.607Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"liquid","templateFile":"liquid.ejs","reportId":"69416628e9ad718e2522dc69"}}
+{"timestamp":"2025-12-16T08:39:19.223Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69416633e9ad718e2522dc6e","filename":"liquid-1765874359221.pdf"}}
+{"timestamp":"2025-12-16T08:39:19.224Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69416633e9ad718e2522dc6e","statusCode":200,"duration":"6807ms"}}
+{"timestamp":"2025-12-16T08:39:19.593Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:19.599Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:39:20.470Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69416628e9ad718e2522dc69","filename":"liquid-1765874360468.pdf"}}
+{"timestamp":"2025-12-16T08:39:20.471Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69416628e9ad718e2522dc69","statusCode":200,"duration":"2924ms"}}
+{"timestamp":"2025-12-16T08:39:34.776Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:34.781Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:39:36.608Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:36.617Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"9ms"}}
+{"timestamp":"2025-12-16T08:39:36.674Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/images/logo1.jpg","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:36.679Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/images/logo1.jpg","statusCode":404,"duration":"6ms"}}
+{"timestamp":"2025-12-16T08:39:51.396Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/save-report","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:51.397Z","level":"INFO","message":"Report save request","metadata":{"reportType":"raw_material"}}
+{"timestamp":"2025-12-16T08:39:51.533Z","level":"INFO","message":"Report saved successfully","metadata":{"reportId":"69411ad7792d729731127b11"}}
+{"timestamp":"2025-12-16T08:39:51.535Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/save-report","statusCode":200,"duration":"139ms"}}
+{"timestamp":"2025-12-16T08:39:55.001Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:55.010Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"8ms"}}
+{"timestamp":"2025-12-16T08:39:56.215Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:56.220Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:39:56.279Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:56.280Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:39:56.345Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":4}}
+{"timestamp":"2025-12-16T08:39:56.347Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"68ms"}}
+{"timestamp":"2025-12-16T08:39:59.669Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69411ad7792d729731127b11","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:39:59.669Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69411ad7792d729731127b11"}}
+{"timestamp":"2025-12-16T08:39:59.768Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"raw_material","templateFile":"raw_material.ejs","reportId":"69411ad7792d729731127b11"}}
+{"timestamp":"2025-12-16T08:40:02.651Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69411ad7792d729731127b11","filename":"raw_material-1765874402650.pdf"}}
+{"timestamp":"2025-12-16T08:40:02.652Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69411ad7792d729731127b11","statusCode":200,"duration":"2984ms"}}
+{"timestamp":"2025-12-16T08:40:21.061Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:40:21.066Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:40:22.122Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:40:22.126Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"4ms"}}
+{"timestamp":"2025-12-16T08:40:23.405Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:40:23.413Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"8ms"}}
+{"timestamp":"2025-12-16T08:40:23.472Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/images/logo1.jpg","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:40:23.475Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/images/logo1.jpg","statusCode":404,"duration":"3ms"}}
+{"timestamp":"2025-12-16T08:42:54.390Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:42:54.459Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:43:25.782Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:43:25.850Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:43:27.947Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:27.964Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":200,"duration":"17ms"}}
+{"timestamp":"2025-12-16T08:43:29.522Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:29.532Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"10ms"}}
+{"timestamp":"2025-12-16T08:43:30.052Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:30.057Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:43:30.926Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:30.932Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:43:31.805Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:31.810Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:43:32.348Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:32.353Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:43:41.659Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:41.666Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"7ms"}}
+{"timestamp":"2025-12-16T08:43:42.892Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/raw_material","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:42.899Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/raw_material","statusCode":304,"duration":"6ms"}}
+{"timestamp":"2025-12-16T08:43:45.008Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/pickling_passivation","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:43:45.016Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/pickling_passivation","statusCode":200,"duration":"8ms"}}
+{"timestamp":"2025-12-16T08:44:04.500Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/save-report","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:44:04.502Z","level":"INFO","message":"Report save request","metadata":{"reportType":"pickling_passivation"}}
+{"timestamp":"2025-12-16T08:44:04.560Z","level":"INFO","message":"Report saved successfully","metadata":{"reportId":"69411bd4c17a812d1e47ff4c"}}
+{"timestamp":"2025-12-16T08:44:04.563Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/save-report","statusCode":200,"duration":"63ms"}}
+{"timestamp":"2025-12-16T08:44:08.035Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:44:08.040Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:44:09.523Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:44:09.532Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"9ms"}}
+{"timestamp":"2025-12-16T08:44:09.594Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:44:09.596Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:44:09.673Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":5}}
+{"timestamp":"2025-12-16T08:44:09.675Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"81ms"}}
+{"timestamp":"2025-12-16T08:44:16.090Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69411bd4c17a812d1e47ff4c","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:44:16.092Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69411bd4c17a812d1e47ff4c"}}
+{"timestamp":"2025-12-16T08:44:16.255Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"pickling_passivation","templateFile":"pickling_passivation.ejs","reportId":"69411bd4c17a812d1e47ff4c"}}
+{"timestamp":"2025-12-16T08:44:19.325Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69411bd4c17a812d1e47ff4c","filename":"pickling_passivation-1765874659324.pdf"}}
+{"timestamp":"2025-12-16T08:44:19.326Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69411bd4c17a812d1e47ff4c","statusCode":200,"duration":"3236ms"}}
+{"timestamp":"2025-12-16T08:48:37.971Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:48:38.026Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:49:33.152Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:49:33.164Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"12ms"}}
+{"timestamp":"2025-12-16T08:49:33.227Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:49:33.228Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:49:33.318Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":5}}
+{"timestamp":"2025-12-16T08:49:33.320Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":304,"duration":"93ms"}}
+{"timestamp":"2025-12-16T08:49:38.073Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69411bd4c17a812d1e47ff4c","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:49:38.075Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69411bd4c17a812d1e47ff4c"}}
+{"timestamp":"2025-12-16T08:49:38.329Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"pickling_passivation","templateFile":"pickling_passivation.ejs","reportId":"69411bd4c17a812d1e47ff4c"}}
+{"timestamp":"2025-12-16T08:49:40.827Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69411bd4c17a812d1e47ff4c","filename":"pickling_passivation-1765874980825.pdf"}}
+{"timestamp":"2025-12-16T08:49:40.829Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69411bd4c17a812d1e47ff4c","statusCode":200,"duration":"2756ms"}}
+{"timestamp":"2025-12-16T08:49:59.378Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:49:59.382Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"4ms"}}
+{"timestamp":"2025-12-16T08:55:31.023Z","level":"INFO","message":"MongoDB connected with connection pooling","metadata":null}
+{"timestamp":"2025-12-16T08:55:31.217Z","level":"INFO","message":"Admin user already exists","metadata":null}
+{"timestamp":"2025-12-16T08:55:43.689Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/report-catalog","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:55:43.702Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/report-catalog","statusCode":304,"duration":"14ms"}}
+{"timestamp":"2025-12-16T08:55:48.712Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/reports/visual_examination","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:55:48.723Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/reports/visual_examination","statusCode":200,"duration":"11ms"}}
+{"timestamp":"2025-12-16T08:56:16.705Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/save-report","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:56:16.706Z","level":"INFO","message":"Report save request","metadata":{"reportType":"visual_examination"}}
+{"timestamp":"2025-12-16T08:56:16.794Z","level":"INFO","message":"Report saved successfully","metadata":{"reportId":"69411eb0ea68f164b5c0f23b"}}
+{"timestamp":"2025-12-16T08:56:16.796Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/save-report","statusCode":200,"duration":"91ms"}}
+{"timestamp":"2025-12-16T08:56:19.874Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/dashboard","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:56:19.879Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/dashboard","statusCode":304,"duration":"5ms"}}
+{"timestamp":"2025-12-16T08:56:21.361Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/all-reports.html","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:56:21.368Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/all-reports.html","statusCode":304,"duration":"7ms"}}
+{"timestamp":"2025-12-16T08:56:21.433Z","level":"INFO","message":"Incoming request","metadata":{"method":"GET","url":"/api/saved-reports","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:56:21.434Z","level":"INFO","message":"Fetching saved reports","metadata":null}
+{"timestamp":"2025-12-16T08:56:21.508Z","level":"INFO","message":"Saved reports fetched","metadata":{"count":6}}
+{"timestamp":"2025-12-16T08:56:21.511Z","level":"INFO","message":"Request completed","metadata":{"method":"GET","url":"/api/saved-reports","statusCode":200,"duration":"78ms"}}
+{"timestamp":"2025-12-16T08:56:25.121Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69411eb0ea68f164b5c0f23b","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:56:25.123Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69411eb0ea68f164b5c0f23b"}}
+{"timestamp":"2025-12-16T08:56:25.199Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"visual_examination","templateFile":"visual_examination.ejs","reportId":"69411eb0ea68f164b5c0f23b"}}
+{"timestamp":"2025-12-16T08:56:25.208Z","level":"INFO","message":"Logo converted to base64 successfully","metadata":{"path":"E:\\Projects_\\Projects\\project volta zip file\\project volta\\backend\\public\\images\\logo.jpg"}}
+{"timestamp":"2025-12-16T08:56:27.779Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69411eb0ea68f164b5c0f23b","filename":"visual_examination-1765875387778.pdf"}}
+{"timestamp":"2025-12-16T08:56:27.780Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69411eb0ea68f164b5c0f23b","statusCode":200,"duration":"2659ms"}}
+{"timestamp":"2025-12-16T08:57:00.394Z","level":"INFO","message":"Incoming request","metadata":{"method":"POST","url":"/api/export-pdf/69416633e9ad718e2522dc6e","ip":"::1","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"}}
+{"timestamp":"2025-12-16T08:57:00.394Z","level":"INFO","message":"PDF export request","metadata":{"reportId":"69416633e9ad718e2522dc6e"}}
+{"timestamp":"2025-12-16T08:57:00.523Z","level":"INFO","message":"Generating PDF for report","metadata":{"reportType":"liquid","templateFile":"liquid.ejs","reportId":"69416633e9ad718e2522dc6e"}}
+{"timestamp":"2025-12-16T08:57:00.529Z","level":"INFO","message":"Logo converted to base64 successfully","metadata":{"path":"E:\\Projects_\\Projects\\project volta zip file\\project volta\\backend\\public\\images\\logo.jpg"}}
+{"timestamp":"2025-12-16T08:57:03.318Z","level":"INFO","message":"PDF exported successfully","metadata":{"reportId":"69416633e9ad718e2522dc6e","filename":"liquid-1765875423317.pdf"}}
+{"timestamp":"2025-12-16T08:57:03.319Z","level":"INFO","message":"Request completed","metadata":{"method":"POST","url":"/api/export-pdf/69416633e9ad718e2522dc6e","statusCode":200,"duration":"2926ms"}}

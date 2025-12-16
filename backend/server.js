@@ -719,7 +719,46 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
 
     htmlContent = htmlContent.replace('</head>', `${styleInjection}</head>`);
 
-    // 3. Generate PDF with Playwright
+    // 3. Pre-process Images to Base64 (The "Nuclear Option" for Reliability)
+    // This avoids all localhost/network/timing issues by embedding the image directly
+    // 3. Pre-process Images to Base64 (The "Nuclear Option" for Reliability)
+    // This avoids all localhost/network/timing issues by embedding the image directly
+
+    // Determine which logo to use: selected or default
+    const logoToUse = formData.logo_select || '/images/logo.jpg';
+
+    if (logoToUse) {
+      try {
+        // Remove leading slash to join correctly
+        const relativePath = logoToUse.startsWith('/') ? logoToUse.slice(1) : logoToUse;
+        const imagePath = path.join(__dirname, 'public', relativePath);
+
+        if (fs.existsSync(imagePath)) {
+          const imageBuffer = fs.readFileSync(imagePath);
+          const ext = path.extname(imagePath).slice(1); // jpg or png
+          const base64Image = `data:image/${ext};base64,${imageBuffer.toString('base64')}`;
+
+          // create a specific field for the processed logo to inject
+          formData.processed_logo = base64Image;
+          log('INFO', 'Logo converted to base64 successfully', { path: imagePath });
+        } else {
+          log('WARN', 'Logo file not found', { path: imagePath });
+          // If specific logo missing, try hard fallback to known default
+          if (relativePath !== 'images/logo.jpg') {
+            const defaultPath = path.join(__dirname, 'public', 'images', 'logo.jpg');
+            if (fs.existsSync(defaultPath)) {
+              const defBuffer = fs.readFileSync(defaultPath);
+              formData.processed_logo = `data:image/jpeg;base64,${defBuffer.toString('base64')}`;
+              log('INFO', 'Used default logo fallback');
+            }
+          }
+        }
+      } catch (imgErr) {
+        log('ERROR', 'Failed to process logo to base64', { error: imgErr.message });
+      }
+    }
+
+    // 4. Generate PDF with Playwright
     const browser = await getBrowserInstance();
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -730,16 +769,29 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
       baseUrl: `http://localhost:${port}`
     });
 
-    // 4. Populate Form Data via DOM manipulation
-    // This fills the inputs with the saved values
+    // 5. Populate Form Data via DOM manipulation
     await page.evaluate((data) => {
+      // A. Set Logo Immediately if present
+      if (data.processed_logo) {
+        const logoImg = document.getElementById('companyLogo');
+        if (logoImg) {
+          logoImg.src = data.processed_logo;
+        }
+      } else if (data.logo_select) {
+        // Fallback to trying the URL if base64 failed
+        const logoImg = document.getElementById('companyLogo');
+        if (logoImg) logoImg.src = data.logo_select;
+      }
+
+      // B. Populate text/select/check inputs
       Object.entries(data).forEach(([name, value]) => {
+        if (name === 'processed_logo') return; // skip our internal field
+
         const inputs = document.querySelectorAll(`[name="${name}"]`);
         inputs.forEach(input => {
           let shouldTriggerChange = false;
 
           if (input.tagName === 'SELECT') {
-            // Try to match value or text
             const option = Array.from(input.options).find(o => o.value === value || o.text === value);
             if (option) {
               input.value = option.value;
@@ -752,7 +804,6 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
             }
           } else {
             input.value = value;
-            // For better print rendering, sometimes setting attribute is safer
             input.setAttribute('value', value);
           }
 
@@ -760,7 +811,6 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
             input.dispatchEvent(new Event('change', { bubbles: true }));
           }
         });
-        // Also handle textareas - set content
         const textareas = document.querySelectorAll(`textarea[name="${name}"]`);
         textareas.forEach(ta => {
           ta.value = value;
@@ -769,8 +819,9 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
       });
     }, formData);
 
-    await page.emulateMedia({ media: 'print' }); // Render as if printing
-    await page.waitForTimeout(1000); // Wait slightly longer for images/events
+    await page.emulateMedia({ media: 'print' });
+    // Short wait is still good practice for layout reflows
+    await page.waitForTimeout(500);
 
     const pdfBuffer = await page.pdf({
       format: "A4",
