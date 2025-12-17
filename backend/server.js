@@ -666,6 +666,7 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
     const report = await reportsCollection.findOne({ _id: new ObjectId(reportId) });
 
     if (!report) {
+      log('WARN', 'Report not found for export', { reportId });
       return sendErrorResponse(res, 404, 'Report not found');
     }
 
@@ -673,21 +674,45 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
     const formData = report.formData || {};
     const templateFile = reportTemplates[reportType];
 
-    log('INFO', 'Generating PDF for report', { reportType, templateFile, reportId });
+    log('INFO', 'Generating PDF for report', { reportType, templateFile, reportId, reportDataKeys: Object.keys(report) });
+
+    // Log detailed report information for debugging
+    log('DEBUG', 'Report data details', { 
+      reportId, 
+      reportType, 
+      hasFormData: !!report.formData, 
+      formDataKeys: report.formData ? Object.keys(report.formData) : [],
+      availableTemplates: Object.keys(reportTemplates)
+    });
 
     if (!templateFile) {
-      return sendErrorResponse(res, 400, "Unknown report type template");
+      log('ERROR', 'No template file found for report type', { 
+        reportType, 
+        availableTemplates: Object.keys(reportTemplates)
+      });
+      
+      // Log report types in database asynchronously
+      db.collection('saved_reports').distinct('reportType')
+        .then(types => log('DEBUG', 'Report types in database', { types }))
+        .catch(err => log('ERROR', 'Failed to get report types', { error: err.message }));
+      return sendErrorResponse(res, 400, `Unknown report type template for: ${reportType}. Available templates: ${Object.keys(reportTemplates).join(', ')}`);
     }
 
     // 1. Render EJS Template
     const templatePath = path.join(__dirname, 'views', 'reports', templateFile);
+    
+    // Check if template file exists
+    if (!fs.existsSync(templatePath)) {
+      log('ERROR', 'Template file not found', { templatePath, reportType });
+      return sendErrorResponse(res, 500, `Template file not found: ${templateFile}`);
+    }
 
     // Pass basic data for EJS partials (header/footer usually need specific vars)
     // We pass formData as locals too, just in case some templates use it.
     const renderData = {
       ...formData,
-      reportName: reportType.replace(/_/g, ' ').toUpperCase() + ' REPORT',
-      title: reportType.replace(/_/g, ' ').toUpperCase()
+      reportName: report.reportName || reportType.replace(/_/g, ' ').toUpperCase() + ' REPORT',
+      title: report.reportName || reportType.replace(/_/g, ' ').toUpperCase()
     };
 
     let htmlContent = await ejs.renderFile(templatePath, renderData, {
@@ -1758,72 +1783,8 @@ app.post("/restore/:backupId", authMiddleware, async (req, res) => {
 });
 
 // Endpoint to export saved report to PDF
-app.post('/api/export-pdf/:reportId', async (req, res) => {
-  try {
-    const reportId = req.params.reportId;
-    if (!ObjectId.isValid(reportId)) {
-      return res.status(400).send("Invalid Report ID");
-    }
-
-    const report = await db.collection("saved_reports").findOne({ _id: new ObjectId(reportId) });
-    if (!report) {
-      return res.status(404).send("Report not found");
-    }
-
-    // Determine template based on reportType
-    const reportType = report.reportType;
-    const templateName = reportType.startsWith('reports/') ? reportType : `reports/${reportType}`;
-
-    const renderData = {
-      ...report,
-      data: report.formData || {},
-      formData: report.formData || {},
-      preview: report.preview || {},
-      title: (report.reportName || "Inspection Report"),
-      moment: require('moment')
-    };
-
-    app.render(templateName, renderData, async (err, html) => {
-      if (err) {
-        console.error("❌ EJS Rendering Error:", err);
-        return res.status(500).send("Error rendering report template: " + err.message);
-      }
-
-      try {
-        const browser = await getBrowserInstance();
-        const context = await browser.newContext();
-        const page = await context.newPage();
-
-        await page.setContent(html, { waitUntil: "networkidle" });
-        await page.emulateMedia({ media: 'screen' });
-
-        const pdfBuffer = await page.pdf({
-          format: "A4",
-          printBackground: true,
-          margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" }
-        });
-
-        await page.close();
-        await context.close();
-
-        res.set({
-          "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="Report_${reportId}.pdf"`,
-          "Content-Length": pdfBuffer.length,
-        });
-        res.send(pdfBuffer);
-
-      } catch (pdfErr) {
-        console.error("❌ PDF Generation Error:", pdfErr);
-        res.status(500).send("Error generating PDF: " + pdfErr.message);
-      }
-    });
-
-  } catch (err) {
-    console.error("❌ Export Error:", err);
-    res.status(500).send("Internal Server Error");
-  }
-});
+// This route was removed to eliminate duplicate route definitions
+// The primary implementation is at lines 655-845
 
 // Health check endpoint
 app.get("/health", async (req, res) => {

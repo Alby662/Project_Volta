@@ -255,6 +255,12 @@
 
             async function exportToPDF(reportId) {
                 try {
+                    // Show loading indicator
+                    const exportBtn = event.target;
+                    const originalText = exportBtn.innerHTML;
+                    exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+                    exportBtn.disabled = true;
+
                     const res = await fetch(`/api/export-pdf/${reportId}`, {
                         method: 'POST'
                     });
@@ -269,12 +275,23 @@
                         a.click();
                         window.URL.revokeObjectURL(url);
                         document.body.removeChild(a);
+                        
+                        // Show success message
+                        alert('PDF exported successfully!');
                     } else {
                         const error = await res.text();
-                        alert('Failed to export PDF: ' + error);
+                        console.error('Export failed:', error);
+                        alert('Failed to export PDF: ' + error + '\n\nCheck browser console for more details.');
                     }
                 } catch (err) {
-                    alert('Network error: ' + err.message);
+                    console.error('Network error:', err);
+                    alert('Network error: ' + err.message + '\n\nCheck browser console for more details.');
+                } finally {
+                    // Restore button state
+                    if (exportBtn) {
+                        exportBtn.innerHTML = originalText;
+                        exportBtn.disabled = false;
+                    }
                 }
             }
 
