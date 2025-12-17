@@ -179,16 +179,49 @@ async function getBrowserInstance() {
 
     log('INFO', 'Launching browser for PDF generation');
     try {
-      browserInstance = await playwright.chromium.launch({
-        headless: true,
-        args: [
-          '--no-sandbox', 
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu',
-          '--no-zygote'
-        ]
-      });
+      // Check if we're running on Render
+      const isRender = process.env.RENDER === 'true' || !!process.env.RENDER_SERVICE_NAME;
+      
+      if (isRender) {
+        log('INFO', 'Running on Render, using simplified browser launch options');
+        // Simplified launch options for Render environment
+        try {
+          browserInstance = await playwright.chromium.launch({
+            headless: true
+          });
+        } catch (renderLaunchError) {
+          log('WARN', 'Standard Render launch failed, trying without specific options', { error: renderLaunchError.message });
+          // Fallback to basic launch
+          try {
+            browserInstance = await playwright.chromium.launch({
+              headless: true
+            });
+          } catch (fallbackError) {
+            log('ERROR', 'All Render launch attempts failed', { 
+              standardError: renderLaunchError.message,
+              fallbackError: fallbackError.message
+            });
+            throw new Error(`Failed to launch browser on Render: ${renderLaunchError.message}. Fallback also failed: ${fallbackError.message}`);
+          }
+        }
+      } else {
+        // Standard launch options for local development
+        try {
+          browserInstance = await playwright.chromium.launch({
+            headless: true,
+            args: [
+              '--no-sandbox', 
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage',
+              '--disable-gpu',
+              '--no-zygote'
+            ]
+          });
+        } catch (standardLaunchError) {
+          log('ERROR', 'Standard launch failed', { error: standardLaunchError.message });
+          throw new Error(`Failed to launch browser with standard options: ${standardLaunchError.message}`);
+        }
+      }
       log('INFO', 'Browser launched successfully');
       browserUsageCount = 0;
       console.log("🚀 New browser instance created");
@@ -1085,7 +1118,17 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
 
     // 4. Generate PDF with Playwright
     log('INFO', 'Getting browser instance for PDF generation');
-    const browser = await getBrowserInstance();
+    let browser;
+    try {
+      browser = await getBrowserInstance();
+    } catch (browserError) {
+      log('ERROR', 'Failed to get browser instance for PDF generation', { 
+        error: browserError.message, 
+        stack: browserError.stack,
+        isRender: process.env.RENDER === 'true' || !!process.env.RENDER_SERVICE_NAME
+      });
+      throw new Error(`Failed to initialize browser for PDF generation: ${browserError.message}. This may be due to missing system dependencies or Playwright installation issues.`);
+    }
     log('INFO', 'Creating new context');
     const context = await browser.newContext();
     log('INFO', 'Creating new page');
@@ -2228,17 +2271,52 @@ app.get("/health", async (req, res) => {
     let playwrightError = null;
     try {
       log('DEBUG', 'Testing Playwright in health check');
-      const browser = await playwright.chromium.launch({
-        headless: true,
-        args: [
-          '--no-sandbox', 
-          '--disable-setuid-sandbox',
-          '--disable-dev-shm-usage',
-          '--disable-gpu',
-          '--no-zygote'
-        ]
-      });
-      await browser.close();
+      // Check if we're running on Render
+      const isRender = process.env.RENDER === 'true' || !!process.env.RENDER_SERVICE_NAME;
+      
+      if (isRender) {
+        log('INFO', 'Running on Render, using simplified browser launch options for health check');
+        // Simplified launch options for Render environment
+        try {
+          const browser = await playwright.chromium.launch({
+            headless: true
+          });
+          await browser.close();
+        } catch (renderLaunchError) {
+          log('WARN', 'Standard Render launch failed in health check, trying without specific options', { error: renderLaunchError.message });
+          // Fallback to basic launch
+          try {
+            const browser = await playwright.chromium.launch({
+              headless: true
+            });
+            await browser.close();
+          } catch (fallbackError) {
+            log('ERROR', 'All Render launch attempts failed in health check', { 
+              standardError: renderLaunchError.message,
+              fallbackError: fallbackError.message
+            });
+            throw new Error(`Failed to launch browser on Render: ${renderLaunchError.message}. Fallback also failed: ${fallbackError.message}`);
+          }
+        }
+      } else {
+        // Standard launch options for local development
+        try {
+          const browser = await playwright.chromium.launch({
+            headless: true,
+            args: [
+              '--no-sandbox', 
+              '--disable-setuid-sandbox',
+              '--disable-dev-shm-usage',
+              '--disable-gpu',
+              '--no-zygote'
+            ]
+          });
+          await browser.close();
+        } catch (standardLaunchError) {
+          log('ERROR', 'Standard launch failed in health check', { error: standardLaunchError.message });
+          throw new Error(`Failed to launch browser with standard options: ${standardLaunchError.message}`);
+        }
+      }
       playwrightWorking = true;
       log('DEBUG', 'Playwright test successful');
     } catch (playwrightErr) {
