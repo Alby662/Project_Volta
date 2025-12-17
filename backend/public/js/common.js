@@ -46,6 +46,31 @@ window.onload = () => {
             select.appendChild(opt);
         });
 
+        // Auto-select the report type based on the current URL path
+        const path = window.location.pathname;
+        const pathParts = path.split('/');
+        const reportTypeFromPath = pathParts[pathParts.length - 1];
+        
+        // Map URL paths to report type keys
+        const pathToKeyMap = {
+            'liquid': 'liquid_ir',
+            'vacuum': 'vacuum_ir',
+            'draining_dry': 'draining_dry_ir',
+            'final_dimension': 'final_dimension_ir',
+            'hydrostatic_test': 'hydrostatic_ir',
+            'oil_leak': 'penetrating_oil_ir',
+            'pickling_passivation': 'pickling_pass_ir',
+            'raw_material': 'raw_material_ir',
+            'rf_pad_pneumatic': 'rf_pad_ir',
+            'surface_preparation_painting': 'surface_prep_paint_ir',
+            'visual_examination': 'visual_exam_ir'
+        };
+        
+        const autoSelectedKey = pathToKeyMap[reportTypeFromPath];
+        if (autoSelectedKey) {
+            select.value = autoSelectedKey;
+        }
+
         // Insert dropdown before the save button
         btn.parentNode.insertBefore(select, btn);
     }
@@ -141,7 +166,7 @@ window.onload = () => {
             // Get selection from dropdown
             const selection = getSelectedReportType();
             if (!selection) {
-                showError("Please select a report type from the dropdown.");
+                showError("Please select a report type from the dropdown. This should be automatically selected based on your template, but if it isn't, please select the correct report type.");
                 return;
             }
 

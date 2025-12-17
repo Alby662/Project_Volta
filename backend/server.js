@@ -23,6 +23,21 @@ const reportTemplates = {
   visual_examination: "visual_examination.ejs"
 };
 
+// Mapping from frontend report type keys to backend template keys
+const frontendToBackendReportType = {
+  'liquid_ir': 'liquid',
+  'vacuum_ir': 'vacuum',
+  'draining_dry_ir': 'draining_dry',
+  'final_dimension_ir': 'final_dimension',
+  'hydrostatic_ir': 'hydrostatic_test',
+  'penetrating_oil_ir': 'oil_leak',
+  'pickling_pass_ir': 'pickling_passivation',
+  'raw_material_ir': 'raw_material',
+  'rf_pad_ir': 'rf_pad_pneumatic',
+  'surface_prep_paint_ir': 'surface_preparation_painting',
+  'visual_exam_ir': 'visual_examination'
+};
+
 // Email configuration
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.example.com",
@@ -584,9 +599,83 @@ app.post("/register", async (req, res) => {
 });
 
 // API: Save Report (with file uploads)
+// API: Get Report HTML for Preview
+app.get("/api/report-html/:reportId", async (req, res) => {
+  try {
+    const { reportId } = req.params;
+    
+    if (!reportId) {
+      return sendErrorResponse(res, 400, 'Report ID is required');
+    }
+    
+    log('INFO', 'Report HTML request for preview', { reportId });
+    
+    const reportsCollection = db.collection('saved_reports');
+    const report = await reportsCollection.findOne({ _id: new ObjectId(reportId) });
+    
+    if (!report) {
+      log('WARN', 'Report not found for preview', { reportId });
+      return sendErrorResponse(res, 404, 'Report not found');
+    }
+    
+    let reportType = report.reportType;
+    
+    // Convert frontend report type to backend report type if needed
+    if (frontendToBackendReportType[reportType]) {
+      reportType = frontendToBackendReportType[reportType];
+    }
+    
+    const formData = report.formData || {};
+    const templateFile = reportTemplates[reportType];
+    
+    if (!templateFile) {
+      log('ERROR', 'No template file found for report type', { 
+        reportType, 
+        availableTemplates: Object.keys(reportTemplates)
+      });
+      return sendErrorResponse(res, 400, `Unknown report type template for: ${reportType}`);
+    }
+    
+    // Render EJS Template
+    const templatePath = path.join(__dirname, 'views', 'reports', templateFile);
+    
+    // Check if template file exists
+    if (!fs.existsSync(templatePath)) {
+      log('ERROR', 'Template file not found', { templatePath, reportType });
+      return sendErrorResponse(res, 500, `Template file not found: ${templateFile}`);
+    }
+    
+    // Pass data for EJS rendering
+    const renderData = {
+      ...formData,
+      reportName: report.reportName || reportType.replace(/_/g, ' ').toUpperCase() + ' REPORT',
+      title: report.reportName || reportType.replace(/_/g, ' ').toUpperCase()
+    };
+    
+    let htmlContent = await ejs.renderFile(templatePath, renderData, {
+      root: path.join(__dirname, 'views')
+    });
+    
+    res.json({
+      success: true,
+      html: htmlContent
+    });
+    
+  } catch (err) {
+    log('ERROR', 'Failed to generate report HTML', { error: err.message });
+    sendErrorResponse(res, 500, 'Failed to generate report HTML', err.message);
+  }
+});
+
 app.post("/api/save-report", async (req, res) => {
   try {
-    const reportType = req.body.reportType || 'unknown';
+    let reportType = req.body.reportType || 'unknown';
+    
+    // Convert frontend report type to backend report type if needed
+    if (frontendToBackendReportType[reportType]) {
+      reportType = frontendToBackendReportType[reportType];
+    }
+    
     const timestamp = new Date().toISOString();
 
     log('INFO', 'Report save request', { reportType });
@@ -670,7 +759,13 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
       return sendErrorResponse(res, 404, 'Report not found');
     }
 
-    const reportType = report.reportType;
+    let reportType = report.reportType;
+    
+    // Convert frontend report type to backend report type if needed
+    if (frontendToBackendReportType[reportType]) {
+      reportType = frontendToBackendReportType[reportType];
+    }
+    
     const formData = report.formData || {};
     const templateFile = reportTemplates[reportType];
 
@@ -1261,6 +1356,27 @@ app.put("/update-report/:fileId", authMiddleware, async (req, res) => {
         fileId: req.params.fileId,
         userId: req.user?.id
       });
+      return sendErrorResponse(res, 400, "Invalid file ID format");
+    }
+
+    const fileId = new ObjectId(req.params.fileId);
+    const { html, reportType, folder, reportTitle } = req.body;
+
+    // Validate input
+    const validationErrors = validateReportInput(html, reportType, folder, reportTitle);
+    if (validationErrors.length > 0) {
+      log('WARN', 'Report update validation failed', {
+        reportType,
+        folder,
+        errors: validationErrors,
+        userId: req.user?.id
+      });
+      return sendErrorResponse(res, 400, validationErrors.join(', '));
+    }
+
+    // resolve folder number
+    let folderNumber = null;
+    if (reportType && reportTypeToFolder[reportType]) {
       folderNumber = reportTypeToFolder[reportType];
     } else if (typeof folder === "number" || (typeof folder === "string" && folder.trim() !== "")) {
       const f = parseInt(folder, 10);

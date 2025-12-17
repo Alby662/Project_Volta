@@ -95,6 +95,20 @@
 
         </div>
 
+        <!-- Preview Modal -->
+        <div id="previewModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+            <div style="background-color: white; margin: 2% auto; padding: 0; border-radius: 8px; width: 95%; max-width: 1400px; max-height: 96vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #eee; background-color: #f8f9fa;">
+                    <h2 style="margin: 0; color: #333;">Report Preview</h2>
+                    <button onclick="closePreview()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+                </div>
+                <div id="previewContent" style="flex: 1; overflow: auto; padding: 1rem; height: 85vh; background-color: #fff;"></div>
+                <div style="padding: 1rem; border-top: 1px solid #eee; text-align: right; background-color: #f8f9fa;">
+                    <button class="btn" onclick="closePreview()" style="padding: 0.5rem 1rem;">Close</button>
+                </div>
+            </div>
+        </div>
+
         <script>
             // Folder mapping for display
             const folderMap = {
@@ -220,6 +234,10 @@
             ${new Date(report.createdAt).toLocaleDateString()} ${new Date(report.createdAt).toLocaleTimeString()}
           </td>
           <td style="padding: 1rem; text-align: center; border: none;">
+            <button class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; margin-right: 0.5rem; background-color: #28a745; border-color: #28a745;" 
+              onclick="previewReport('${report._id}')">
+              <i class="fas fa-eye"></i> Preview
+            </button>
             <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" 
               onclick="exportToPDF('${report._id}')">
               <i class="fas fa-file-pdf"></i> Export PDF
@@ -315,6 +333,60 @@
                 }
             }
 
+            // Preview functionality
+            async function previewReport(reportId) {
+                try {
+                    // Show loading in modal
+                    const modal = document.getElementById('previewModal');
+                    const content = document.getElementById('previewContent');
+                    content.innerHTML = '<p style="text-align: center;">Loading preview...</p>';
+                    modal.style.display = 'block';
+                    
+                    // Fetch report HTML content
+                    const res = await fetch(`/api/report-html/${reportId}`);
+                    if (!res.ok) throw new Error(`Failed to fetch report: ${res.status} ${res.statusText}`);
+                    
+                    const data = await res.json();
+                    if (!data.html) throw new Error('No HTML content received');
+                    
+                    // Display the HTML content with basic styling
+                    // We'll sanitize the HTML and adjust paths for proper display
+                    let cleanHtml = data.html;
+                    
+                    // Basic sanitization - remove script tags
+                    cleanHtml = cleanHtml.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+                    
+                    // Adjust relative paths to absolute paths
+                    cleanHtml = cleanHtml.replace(/href="\//g, 'href="/');
+                    cleanHtml = cleanHtml.replace(/src="\//g, 'src="/');
+                    
+                    // Create a container div with scrollable content
+                    content.innerHTML = `
+                        <div style="width: 100%; height: 100%; overflow: auto; position: relative;">
+                            ${cleanHtml}
+                        </div>
+                    `;
+                } catch (err) {
+                    console.error('Preview error:', err);
+                    const content = document.getElementById('previewContent');
+                    content.innerHTML = `<p style="color: red;">Error loading preview: ${err.message}</p>`;
+                }
+            }
+            
+            function closePreview() {
+                const modal = document.getElementById('previewModal');
+                modal.style.display = 'none';
+            }
+            
+
+            // Close modal when clicking outside of it
+            window.onclick = function(event) {
+                const modal = document.getElementById('previewModal');
+                if (event.target === modal) {
+                    closePreview();
+                }
+            }
+            
             // Initial load
             searchReports();
         </script>
