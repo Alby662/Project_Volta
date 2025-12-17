@@ -8,6 +8,55 @@ const playwright = require("playwright");
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 
+// Logging system
+const fs = require('fs');
+const path = require('path');
+
+// Create logs directory if it doesn't exist
+const logsDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logsDir)) {
+  fs.mkdirSync(logsDir, { recursive: true });
+}
+
+// Log levels
+const LOG_LEVELS = {
+  ERROR: 0,
+  WARN: 1,
+  INFO: 2,
+  DEBUG: 3
+};
+
+// Get current log level from environment or default to INFO
+const currentLogLevel = process.env.LOG_LEVEL ? LOG_LEVELS[process.env.LOG_LEVEL.toUpperCase()] : LOG_LEVELS.INFO;
+
+// Log file streams
+const logFile = fs.createWriteStream(path.join(logsDir, 'app.log'), { flags: 'a' });
+const errorFile = fs.createWriteStream(path.join(logsDir, 'error.log'), { flags: 'a' });
+
+function log(level, message, metadata = null) {
+  if (LOG_LEVELS[level] > currentLogLevel) return;
+
+  const timestamp = new Date().toISOString();
+  const logEntry = {
+    timestamp,
+    level,
+    message,
+    metadata
+  };
+
+  const logString = JSON.stringify(logEntry);
+
+  // Write to console
+  console.log(`[${timestamp}] ${level}: ${message}${metadata ? ' ' + JSON.stringify(metadata) : ''}`);
+
+  // Write to appropriate log file
+  if (level === 'ERROR') {
+    errorFile.write(logString + '\n');
+  } else {
+    logFile.write(logString + '\n');
+  }
+}
+
 // Report Type to Template File Mapping
 const reportTemplates = {
   liquid: "liquid.ejs",
@@ -22,6 +71,8 @@ const reportTemplates = {
   surface_preparation_painting: "surface_preparation_painting.ejs",
   visual_examination: "visual_examination.ejs"
 };
+
+log('DEBUG', 'Report templates mapping loaded', { templateCount: Object.keys(reportTemplates).length, templates: Object.keys(reportTemplates) });
 
 // Mapping from frontend report type keys to backend template keys
 const frontendToBackendReportType = {
@@ -38,6 +89,8 @@ const frontendToBackendReportType = {
   'visual_exam_ir': 'visual_examination'
 };
 
+log('DEBUG', 'Frontend to backend report type mapping loaded', { mappingCount: Object.keys(frontendToBackendReportType).length, mappings: Object.keys(frontendToBackendReportType) });
+
 // Email configuration
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.example.com",
@@ -47,6 +100,13 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER || "user@example.com",
     pass: process.env.SMTP_PASS || "password",
   },
+});
+
+log('DEBUG', 'Server initialization', { 
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  RENDER: process.env.RENDER,
+  RENDER_SERVICE_NAME: process.env.RENDER_SERVICE_NAME
 });
 
 const app = express();
@@ -76,6 +136,8 @@ const mongoOptions = {
 
 let db, bucket, mongoClient;
 
+log('DEBUG', 'Connecting to MongoDB', { mongoURI, dbName, mongoOptions });
+
 MongoClient.connect(mongoURI, mongoOptions)
   .then(client => {
     mongoClient = client;
@@ -87,7 +149,7 @@ MongoClient.connect(mongoURI, mongoOptions)
     initializeDefaultUser();
   })
   .catch(err => {
-    log('ERROR', 'MongoDB connection failed', { error: err.message });
+    log('ERROR', 'MongoDB connection failed', { error: err.message, stack: err.stack });
     process.exit(1);
   });
 
@@ -96,53 +158,73 @@ let browserInstance = null;
 let browserUsageCount = 0;
 const MAX_BROWSER_USAGE = 100; // Reuse browser instance for 100 requests
 
+log('DEBUG', 'Browser instance management initialized', { MAX_BROWSER_USAGE });
+
 async function getBrowserInstance() {
+  log('DEBUG', 'getBrowserInstance called', { browserInstanceExists: !!browserInstance, browserUsageCount, MAX_BROWSER_USAGE });
+  
   // Create new browser instance if none exists or if usage limit reached
   if (!browserInstance || browserUsageCount >= MAX_BROWSER_USAGE) {
+    log('DEBUG', 'Creating new browser instance', { reason: !browserInstance ? 'no_instance' : 'usage_limit_reached' });
+    
     if (browserInstance) {
       try {
+        log('DEBUG', 'Closing previous browser instance');
         await browserInstance.close();
+        log('DEBUG', 'Previous browser instance closed successfully');
       } catch (err) {
-        console.warn("Failed to close previous browser instance:", err);
+        log('WARN', 'Failed to close previous browser instance', { error: err.message });
       }
     }
 
-    browserInstance = await playwright.chromium.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
-    browserUsageCount = 0;
-    console.log("🚀 New browser instance created");
+    log('INFO', 'Launching browser for PDF generation');
+    try {
+      browserInstance = await playwright.chromium.launch({
+        headless: true,
+        args: [
+          '--no-sandbox', 
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--no-zygote'
+        ]
+      });
+      log('INFO', 'Browser launched successfully');
+      browserUsageCount = 0;
+      console.log("🚀 New browser instance created");
+    } catch (launchError) {
+      log('ERROR', 'Failed to launch browser', { 
+        error: launchError.message, 
+        stack: launchError.stack,
+        // Add system info for debugging
+        platform: process.platform,
+        arch: process.arch,
+        nodeVersion: process.version
+      });
+      
+      // Try alternative launch options for Render
+      try {
+        log('INFO', 'Trying alternative browser launch options');
+        browserInstance = await playwright.chromium.launch({
+          headless: true
+        });
+        log('INFO', 'Browser launched successfully with alternative options');
+        browserUsageCount = 0;
+        console.log("🚀 New browser instance created (alternative)");
+      } catch (altLaunchError) {
+        log('ERROR', 'Failed to launch browser with alternative options', { 
+          error: altLaunchError.message, 
+          stack: altLaunchError.stack
+        });
+        throw new Error(`Failed to launch browser: ${launchError.message}. Alternative launch also failed: ${altLaunchError.message}`);
+      }
+    }
   }
 
   browserUsageCount++;
+  log('DEBUG', 'Browser instance acquired', { browserUsageCount });
   return browserInstance;
 }
-
-// Enhanced logging system
-const fs = require('fs');
-const path = require('path');
-
-// Create logs directory if it doesn't exist
-const logsDir = path.join(__dirname, 'logs');
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir, { recursive: true });
-}
-
-// Log levels
-const LOG_LEVELS = {
-  ERROR: 0,
-  WARN: 1,
-  INFO: 2,
-  DEBUG: 3
-};
-
-// Get current log level from environment or default to INFO
-const currentLogLevel = process.env.LOG_LEVEL ? LOG_LEVELS[process.env.LOG_LEVEL.toUpperCase()] : LOG_LEVELS.INFO;
-
-// Log file streams
-const logFile = fs.createWriteStream(path.join(logsDir, 'app.log'), { flags: 'a' });
-const errorFile = fs.createWriteStream(path.join(logsDir, 'error.log'), { flags: 'a' });
 
 // Audit trail collection name
 const auditCollectionName = 'audit_trail';
@@ -557,7 +639,13 @@ app.post("/admin-login", rateLimitMiddleware, async (req, res) => {
     log('INFO', 'Login successful', { username, userId: user._id });
     res.json({ token: generateToken(user) });
   } catch (err) {
-    log('ERROR', 'Login error', { username, error: err.message });
+    log('ERROR', 'Login error', { 
+      username, 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, "Login failed", err.message);
   }
 });
@@ -593,7 +681,12 @@ app.post("/register", async (req, res) => {
     const result = await usersCollection.insertOne(newUser);
     res.status(201).json({ message: "User created successfully", userId: result.insertedId });
   } catch (err) {
-    console.error("❌ Registration error:", err);
+    log('ERROR', 'Registration error', { 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, "Registration failed", err.message);
   }
 });
@@ -610,7 +703,9 @@ app.get("/api/report-html/:reportId", async (req, res) => {
     
     log('INFO', 'Report HTML request for preview', { reportId });
     
+    log('DEBUG', 'Accessing saved_reports collection in preview endpoint');
     const reportsCollection = db.collection('saved_reports');
+    log('DEBUG', 'Finding report by ID in preview endpoint', { reportId });
     const report = await reportsCollection.findOne({ _id: new ObjectId(reportId) });
     
     if (!report) {
@@ -620,13 +715,18 @@ app.get("/api/report-html/:reportId", async (req, res) => {
     
     let reportType = report.reportType;
     
+    log('DEBUG', 'Processing report type in preview endpoint', { originalReportType: report.reportType });
+    
     // Convert frontend report type to backend report type if needed
     if (frontendToBackendReportType[reportType]) {
       reportType = frontendToBackendReportType[reportType];
+      log('DEBUG', 'Converted report type in preview endpoint', { original: report.reportType, converted: reportType });
     }
     
     const formData = report.formData || {};
     const templateFile = reportTemplates[reportType];
+    
+    log('DEBUG', 'Template file resolution in preview', { reportType, templateFile, availableTemplates: Object.keys(reportTemplates) });
     
     if (!templateFile) {
       log('ERROR', 'No template file found for report type', { 
@@ -662,7 +762,12 @@ app.get("/api/report-html/:reportId", async (req, res) => {
     });
     
   } catch (err) {
-    log('ERROR', 'Failed to generate report HTML', { error: err.message });
+    log('ERROR', 'Failed to generate report HTML', { 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, 'Failed to generate report HTML', err.message);
   }
 });
@@ -678,11 +783,29 @@ app.post("/api/save-report", async (req, res) => {
     
     const timestamp = new Date().toISOString();
 
-    log('INFO', 'Report save request', { reportType });
-
     // Extract form data (exclude reportType and reportName from formData)
-    const { reportType: _, reportName, ...formData } = req.body;
-
+    // If formData is explicitly provided, use it; otherwise extract from request body
+    let formData;
+    if (req.body.formData) {
+      // Use explicitly provided formData
+      const { reportType: rt, reportName: rn, ...extractedFormData } = req.body.formData;
+      formData = extractedFormData;
+      log('DEBUG', 'Using explicit formData from request', { formDataKeys: Object.keys(formData) });
+    } else {
+      // Extract form data from request body (fallback for backward compatibility)
+      const { reportType: rt, reportName: rn, ...extractedFormData } = req.body;
+      formData = extractedFormData;
+      log('DEBUG', 'Extracted formData from request body', { formDataKeys: Object.keys(formData) });
+    }
+    
+    // Extract reportName from formData if available, otherwise use reportType
+    let reportName = req.body.reportName || reportType;
+    if (req.body.formData && req.body.formData.reportName) {
+      reportName = req.body.formData.reportName;
+    }
+    
+    log('INFO', 'Report save request', { reportType, reportName, hasFormData: !!formData, formDataKeys: Object.keys(formData).length });
+    
     const reportDocument = {
       reportType,
       reportName: reportName || reportType, // Use friendly name if available
@@ -703,7 +826,12 @@ app.post("/api/save-report", async (req, res) => {
     });
 
   } catch (err) {
-    log('ERROR', 'Failed to save report', { error: err.message });
+    log('ERROR', 'Failed to save report', { 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, 'Failed to save report', err.message);
   }
 });
@@ -713,7 +841,17 @@ app.get("/api/saved-reports", async (req, res) => {
   try {
     log('INFO', 'Fetching saved reports');
 
+    log('DEBUG', 'Accessing saved_reports collection in get reports endpoint');
     const reportsCollection = db.collection('saved_reports');
+    
+    // Check if collection exists and has data
+    try {
+      const count = await reportsCollection.countDocuments({});
+      log('DEBUG', 'Saved reports collection stats', { count });
+    } catch (countErr) {
+      log('WARN', 'Failed to count documents in saved_reports', { error: countErr.message });
+    }
+    
     const reports = await reportsCollection
       .find({})
       .sort({ createdAt: -1 })
@@ -735,7 +873,12 @@ app.get("/api/saved-reports", async (req, res) => {
     res.json(reportList);
 
   } catch (err) {
-    log('ERROR', 'Failed to fetch saved reports', { error: err.message });
+    log('ERROR', 'Failed to fetch saved reports', { 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, 'Failed to fetch saved reports', err.message);
   }
 });
@@ -744,30 +887,61 @@ app.get("/api/saved-reports", async (req, res) => {
 app.post("/api/export-pdf/:reportId", async (req, res) => {
   try {
     const reportId = req.params.reportId;
+    
+    log('DEBUG', 'Checking ObjectId validity in export endpoint', { reportId, isValid: ObjectId.isValid(reportId) });
 
     if (!ObjectId.isValid(reportId)) {
+      log('WARN', 'Invalid report ID provided in export endpoint', { reportId });
       return sendErrorResponse(res, 400, 'Invalid report ID');
     }
 
     log('INFO', 'PDF export request', { reportId });
 
+    log('DEBUG', 'Accessing saved_reports collection in export endpoint');
     const reportsCollection = db.collection('saved_reports');
+    log('DEBUG', 'Finding report by ID in export endpoint', { reportId });
     const report = await reportsCollection.findOne({ _id: new ObjectId(reportId) });
 
     if (!report) {
       log('WARN', 'Report not found for export', { reportId });
       return sendErrorResponse(res, 404, 'Report not found');
     }
+    
+    log('DEBUG', 'Report found for export', { 
+      reportId, 
+      reportType: report.reportType, 
+      hasFormData: !!report.formData, 
+      formDataKeys: report.formData ? Object.keys(report.formData) : [],
+      reportKeys: Object.keys(report)
+    });
 
     let reportType = report.reportType;
     
+    log('DEBUG', 'Processing report type in export endpoint', { originalReportType: report.reportType });
+    
     // Convert frontend report type to backend report type if needed
+    log('DEBUG', 'Checking report type conversion', { originalReportType: reportType, availableMappings: Object.keys(frontendToBackendReportType) });
     if (frontendToBackendReportType[reportType]) {
       reportType = frontendToBackendReportType[reportType];
+      log('DEBUG', 'Converted report type in export endpoint', { original: report.reportType, converted: reportType });
+    } else {
+      // Also check if we need to convert from backend to frontend mapping
+      // This handles cases where the stored reportType is in backend format
+      const reverseMapping = {};
+      Object.keys(frontendToBackendReportType).forEach(key => {
+        reverseMapping[frontendToBackendReportType[key]] = key;
+      });
+      
+      if (reverseMapping[reportType]) {
+        log('DEBUG', 'Using reverse mapping for report type', { original: reportType, mapped: reverseMapping[reportType] });
+        // Don't change the reportType here, we're just checking
+      }
     }
     
     const formData = report.formData || {};
     const templateFile = reportTemplates[reportType];
+    
+    log('DEBUG', 'Template file resolution', { reportType, templateFile, availableTemplates: Object.keys(reportTemplates) });
 
     log('INFO', 'Generating PDF for report', { reportType, templateFile, reportId, reportDataKeys: Object.keys(report) });
 
@@ -796,8 +970,13 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
     // 1. Render EJS Template
     const templatePath = path.join(__dirname, 'views', 'reports', templateFile);
     
+    log('DEBUG', 'Template path check', { templatePath, templateFile, __dirname });
+    
     // Check if template file exists
-    if (!fs.existsSync(templatePath)) {
+    const templateExists = fs.existsSync(templatePath);
+    log('DEBUG', 'Template file existence check', { templatePath, templateExists });
+    
+    if (!templateExists) {
       log('ERROR', 'Template file not found', { templatePath, reportType });
       return sendErrorResponse(res, 500, `Template file not found: ${templateFile}`);
     }
@@ -810,21 +989,34 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
       title: report.reportName || reportType.replace(/_/g, ' ').toUpperCase()
     };
 
+    log('DEBUG', 'Rendering EJS template', { templatePath, renderDataKeys: Object.keys(renderData) });
     let htmlContent = await ejs.renderFile(templatePath, renderData, {
       root: path.join(__dirname, 'views') // Ensure includes work
     });
+    log('DEBUG', 'EJS template rendered', { contentLength: htmlContent.length });
 
     // 2. Inject CSS
     const cssPath = path.join(__dirname, 'public', 'css', 'style.css');
+    log('DEBUG', 'CSS path check', { cssPath });
+    
     let cssContent = '';
     try {
-      cssContent = fs.readFileSync(cssPath, 'utf8');
+      const cssExists = fs.existsSync(cssPath);
+      log('DEBUG', 'CSS file existence check', { cssPath, cssExists });
+      
+      if (cssExists) {
+        cssContent = fs.readFileSync(cssPath, 'utf8');
+        log('DEBUG', 'CSS file read successfully', { cssLength: cssContent.length });
+      } else {
+        log('WARN', 'CSS file not found', { cssPath });
+      }
     } catch (e) {
       log('WARN', 'Failed to read style.css for PDF export', { error: e.message });
     }
 
     // Inject CSS into head
     // We append our print-specific styles too to ensure inputs look like text
+    log('DEBUG', 'Injecting CSS', { cssLength: cssContent.length });
     const styleInjection = `
     <style>
         ${cssContent}
@@ -838,6 +1030,7 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
     </style>`;
 
     htmlContent = htmlContent.replace('</head>', `${styleInjection}</head>`);
+    log('DEBUG', 'CSS injected', { newContentLength: htmlContent.length });
 
     // 3. Pre-process Images to Base64 (The "Nuclear Option" for Reliability)
     // This avoids all localhost/network/timing issues by embedding the image directly
@@ -846,30 +1039,42 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
 
     // Determine which logo to use: selected or default
     const logoToUse = formData.logo_select || '/images/logo.jpg';
+    
+    log('DEBUG', 'Processing logo for PDF', { logoToUse, formDataLogoSelect: formData.logo_select });
 
     if (logoToUse) {
       try {
         // Remove leading slash to join correctly
         const relativePath = logoToUse.startsWith('/') ? logoToUse.slice(1) : logoToUse;
         const imagePath = path.join(__dirname, 'public', relativePath);
+        
+        log('DEBUG', 'Checking logo path', { imagePath, relativePath });
+        const imageExists = fs.existsSync(imagePath);
+        log('DEBUG', 'Logo file existence check', { imagePath, imageExists });
 
-        if (fs.existsSync(imagePath)) {
+        if (imageExists) {
           const imageBuffer = fs.readFileSync(imagePath);
           const ext = path.extname(imagePath).slice(1); // jpg or png
           const base64Image = `data:image/${ext};base64,${imageBuffer.toString('base64')}`;
 
           // create a specific field for the processed logo to inject
           formData.processed_logo = base64Image;
-          log('INFO', 'Logo converted to base64 successfully', { path: imagePath });
+          log('INFO', 'Logo converted to base64 successfully', { path: imagePath, base64Length: base64Image.length });
         } else {
           log('WARN', 'Logo file not found', { path: imagePath });
           // If specific logo missing, try hard fallback to known default
           if (relativePath !== 'images/logo.jpg') {
             const defaultPath = path.join(__dirname, 'public', 'images', 'logo.jpg');
-            if (fs.existsSync(defaultPath)) {
+            log('DEBUG', 'Checking default logo path', { defaultPath });
+            const defaultExists = fs.existsSync(defaultPath);
+            log('DEBUG', 'Default logo file existence check', { defaultPath, defaultExists });
+            
+            if (defaultExists) {
               const defBuffer = fs.readFileSync(defaultPath);
               formData.processed_logo = `data:image/jpeg;base64,${defBuffer.toString('base64')}`;
-              log('INFO', 'Used default logo fallback');
+              log('INFO', 'Used default logo fallback', { base64Length: formData.processed_logo.length });
+            } else {
+              log('WARN', 'Default logo file also not found', { defaultPath });
             }
           }
         }
@@ -879,89 +1084,185 @@ app.post("/api/export-pdf/:reportId", async (req, res) => {
     }
 
     // 4. Generate PDF with Playwright
+    log('INFO', 'Getting browser instance for PDF generation');
     const browser = await getBrowserInstance();
+    log('INFO', 'Creating new context');
     const context = await browser.newContext();
+    log('INFO', 'Creating new page');
     const page = await context.newPage();
+    log('INFO', 'Page created successfully');
 
+    log('INFO', 'Setting page content', { contentLength: htmlContent.length });
     // Set base URL so relative paths (images, css, js) resolve correctly
-    await page.setContent(htmlContent, {
-      waitUntil: "networkidle",
-      baseUrl: `http://localhost:${port}`
+    // On Render, we need to use the correct base URL
+    let baseUrl = `http://localhost:${port}`;
+    
+    // If we're on Render, use the service URL
+    if (process.env.RENDER === 'true' || process.env.RENDER_SERVICE_NAME) {
+      // Use Render's internal service URL or construct from environment
+      baseUrl = process.env.RENDER_SERVICE_URL || 
+                process.env.RENDER_EXTERNAL_HOSTNAME || 
+                `http://${process.env.RENDER_SERVICE_NAME}.onrender.com` ||
+                `http://localhost:${port}`;
+      log('INFO', 'Using Render-specific base URL', { baseUrl });
+    }
+    
+    log('INFO', 'Using base URL for page content', { 
+      baseUrl, 
+      RENDER: process.env.RENDER, 
+      port, 
+      NODE_ENV: process.env.NODE_ENV,
+      RENDER_SERVICE_NAME: process.env.RENDER_SERVICE_NAME,
+      RENDER_SERVICE_URL: process.env.RENDER_SERVICE_URL,
+      RENDER_EXTERNAL_HOSTNAME: process.env.RENDER_EXTERNAL_HOSTNAME
     });
+    
+    try {
+      await page.setContent(htmlContent, {
+        waitUntil: "networkidle",
+        timeout: 30000, // Increase timeout for reliability
+        baseUrl: baseUrl
+      });
+      log('INFO', 'Page content set successfully');
+    } catch (setContentError) {
+      log('ERROR', 'Failed to set page content', { 
+        error: setContentError.message, 
+        stack: setContentError.stack,
+        contentLength: htmlContent.length
+      });
+      throw new Error(`Failed to set page content: ${setContentError.message}`);
+    }
+    log('INFO', 'Page content set successfully');
 
     // 5. Populate Form Data via DOM manipulation
-    await page.evaluate((data) => {
-      // A. Set Logo Immediately if present
-      if (data.processed_logo) {
-        const logoImg = document.getElementById('companyLogo');
-        if (logoImg) {
-          logoImg.src = data.processed_logo;
+    log('DEBUG', 'Populating form data', { dataKeys: Object.keys(formData), dataSample: Object.keys(formData).slice(0, 5) });
+    
+    log('DEBUG', 'Starting page evaluation');
+    try {
+      await page.evaluate((data) => {
+        // A. Set Logo Immediately if present
+        if (data.processed_logo) {
+          const logoImg = document.getElementById('companyLogo');
+          if (logoImg) {
+            logoImg.src = data.processed_logo;
+          }
+        } else if (data.logo_select) {
+          // Fallback to trying the URL if base64 failed
+          const logoImg = document.getElementById('companyLogo');
+          if (logoImg) logoImg.src = data.logo_select;
         }
-      } else if (data.logo_select) {
-        // Fallback to trying the URL if base64 failed
-        const logoImg = document.getElementById('companyLogo');
-        if (logoImg) logoImg.src = data.logo_select;
-      }
 
-      // B. Populate text/select/check inputs
-      Object.entries(data).forEach(([name, value]) => {
-        if (name === 'processed_logo') return; // skip our internal field
+        // B. Populate text/select/check inputs
+        Object.entries(data).forEach(([name, value]) => {
+          if (name === 'processed_logo') return; // skip our internal field
 
-        const inputs = document.querySelectorAll(`[name="${name}"]`);
-        inputs.forEach(input => {
-          let shouldTriggerChange = false;
+          const inputs = document.querySelectorAll(`[name="${name}"]`);
+          inputs.forEach(input => {
+            let shouldTriggerChange = false;
 
-          if (input.tagName === 'SELECT') {
-            const option = Array.from(input.options).find(o => o.value === value || o.text === value);
-            if (option) {
-              input.value = option.value;
-              shouldTriggerChange = true;
+            if (input.tagName === 'SELECT') {
+              const option = Array.from(input.options).find(o => o.value === value || o.text === value);
+              if (option) {
+                input.value = option.value;
+                shouldTriggerChange = true;
+              }
+            } else if (input.type === 'checkbox' || input.type === 'radio') {
+              if (String(value) === 'true' || String(value) === 'on' || value === input.value) {
+                input.checked = true;
+                shouldTriggerChange = true;
+              }
+            } else {
+              input.value = value;
+              input.setAttribute('value', value);
             }
-          } else if (input.type === 'checkbox' || input.type === 'radio') {
-            if (String(value) === 'true' || String(value) === 'on' || value === input.value) {
-              input.checked = true;
-              shouldTriggerChange = true;
-            }
-          } else {
-            input.value = value;
-            input.setAttribute('value', value);
-          }
 
-          if (shouldTriggerChange) {
-            input.dispatchEvent(new Event('change', { bubbles: true }));
-          }
+            if (shouldTriggerChange) {
+              input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+          });
+          const textareas = document.querySelectorAll(`textarea[name="${name}"]`);
+          textareas.forEach(ta => {
+            ta.value = value;
+            ta.textContent = value;
+          });
         });
-        const textareas = document.querySelectorAll(`textarea[name="${name}"]`);
-        textareas.forEach(ta => {
-          ta.value = value;
-          ta.textContent = value;
-        });
+      }, formData);
+      log('DEBUG', 'Page evaluation completed successfully');
+    } catch (evalError) {
+      log('ERROR', 'Failed during page evaluation', { 
+        error: evalError.message, 
+        stack: evalError.stack
       });
-    }, formData);
+      throw new Error(`Failed during form data population: ${evalError.message}`);
+    }
 
-    await page.emulateMedia({ media: 'print' });
-    // Short wait is still good practice for layout reflows
-    await page.waitForTimeout(500);
+    log('INFO', 'Emulating print media');
+    try {
+      await page.emulateMedia({ media: 'print' });
+      // Short wait is still good practice for layout reflows
+      log('INFO', 'Waiting for timeout');
+      await page.waitForTimeout(500);
 
-    const pdfBuffer = await page.pdf({
-      format: "A4",
-      printBackground: true,
-      margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" },
-    });
+      log('INFO', 'Generating PDF');
+      const pdfBuffer = await page.pdf({
+        format: "A4",
+        printBackground: true,
+        margin: { top: "10mm", bottom: "10mm", left: "10mm", right: "10mm" },
+      });
+      log('INFO', 'PDF generated successfully', { bufferSize: pdfBuffer.length });
+      
+      // Check if the buffer is valid
+      if (!pdfBuffer || pdfBuffer.length === 0) {
+        log('ERROR', 'Generated PDF buffer is invalid', { bufferSize: pdfBuffer?.length });
+        throw new Error('Generated PDF buffer is invalid');
+      }
+      
+      // Assign pdfBuffer to a variable accessible outside this block
+      var finalPdfBuffer = pdfBuffer;
+    } catch (pdfError) {
+      log('ERROR', 'Failed during PDF generation', { 
+        error: pdfError.message, 
+        stack: pdfError.stack
+      });
+      throw new Error(`Failed during PDF generation: ${pdfError.message}`);
+    }
 
+    log('DEBUG', 'Closing context');
     await context.close();
+    log('DEBUG', 'Context closed successfully');
 
     const filename = `${reportType}-${Date.now()}.pdf`;
+    
+    log('DEBUG', 'Setting response headers', { filename, contentType: "application/pdf" });
 
     res.set("Content-Type", "application/pdf");
     res.set("Content-Disposition", `attachment; filename="${filename}"`);
-    res.send(pdfBuffer);
+    
+    log('DEBUG', 'Sending PDF response', { bufferSize: finalPdfBuffer.length });
+    res.send(finalPdfBuffer);
+    log('DEBUG', 'PDF response sent successfully');
 
     log('INFO', 'PDF exported successfully', { reportId, filename });
 
   } catch (err) {
-    log('ERROR', 'PDF export failed', { error: err.message, stack: err.stack, reportId: req.params.reportId });
-    sendErrorResponse(res, 500, 'Failed to export PDF', err.message);
+    log('ERROR', 'PDF export failed', { 
+      error: err.message, 
+      stack: err.stack, 
+      reportId: req.params.reportId,
+      reportType: req.body?.reportType,
+      // Add more debugging info
+      errorMessage: err.toString(),
+      errorName: err.name,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
+    
+    // Send more detailed error information in development
+    if (process.env.NODE_ENV === 'development') {
+      sendErrorResponse(res, 500, 'Failed to export PDF', `${err.name}: ${err.message}\n${err.stack}`);
+    } else {
+      sendErrorResponse(res, 500, 'Failed to export PDF', err.message);
+    }
   }
 });
 
@@ -987,7 +1288,12 @@ app.delete("/api/delete-saved-report/:reportId", async (req, res) => {
     res.json({ success: true, message: 'Report deleted successfully' });
 
   } catch (err) {
-    log('ERROR', 'Failed to delete report', { error: err.message });
+    log('ERROR', 'Failed to delete report', { 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, 'Failed to delete report', err.message);
   }
 });
@@ -1037,7 +1343,12 @@ app.post("/api/update-password", authMiddleware, async (req, res) => {
     res.json({ success: true, message: 'Password updated successfully' });
 
   } catch (err) {
-    log('ERROR', 'Password update failed', { error: err.message });
+    log('ERROR', 'Password update failed', { 
+      error: err.message, 
+      stack: err.stack,
+      // Check if db is still connected
+      dbConnected: !!db?.serverConfig?.isConnected()
+    });
     sendErrorResponse(res, 500, 'Failed to update password', err.message);
   }
 });
@@ -1912,14 +2223,39 @@ app.get("/health", async (req, res) => {
     const collections = await db.listCollections().toArray();
     const collectionNames = collections.map(c => c.name);
 
+    // Check if Playwright is working
+    let playwrightWorking = false;
+    let playwrightError = null;
+    try {
+      log('DEBUG', 'Testing Playwright in health check');
+      const browser = await playwright.chromium.launch({
+        headless: true,
+        args: [
+          '--no-sandbox', 
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--no-zygote'
+        ]
+      });
+      await browser.close();
+      playwrightWorking = true;
+      log('DEBUG', 'Playwright test successful');
+    } catch (playwrightErr) {
+      log('WARN', 'Playwright health check failed', { error: playwrightErr.message, stack: playwrightErr.stack });
+      playwrightError = playwrightErr.message;
+    }
+
     res.json({
       status: "healthy",
       database: "connected",
       collections: collectionNames,
+      playwright: playwrightWorking ? "working" : "failed",
+      playwrightError: playwrightError,
       timestamp: new Date()
     });
   } catch (err) {
-    console.error("Health check failed:", err);
+    log('ERROR', 'Health check failed', { error: err.message, stack: err.stack });
     sendErrorResponse(res, 500, "Health check failed", err.message);
   }
 });
@@ -1928,13 +2264,22 @@ app.get("/health", async (req, res) => {
 if (require.main === module) {
   const server = app.listen(port, () => {
     console.log(`🚀 Server running at http://localhost:${port}`);
+    log('INFO', 'Server started successfully', { port });
   });
 
   // Graceful shutdown for the HTTP server
   process.on('SIGTERM', () => {
-    console.log('SIGTERM received, shutting down gracefully');
+    log('INFO', 'SIGTERM received, shutting down gracefully');
     server.close(() => {
-      console.log('Process terminated');
+      log('INFO', 'Process terminated');
+    });
+  });
+  
+  process.on('SIGINT', () => {
+    log('INFO', 'SIGINT received, shutting down gracefully');
+    server.close(() => {
+      log('INFO', 'Process terminated');
+      process.exit(0);
     });
   });
 }

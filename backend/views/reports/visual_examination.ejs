@@ -4,7 +4,7 @@
 
     <body>
         <div class="container">
-            <%- include('../partials/header', { reportName: 'VISUAL-EXAMINATION TEST REPORT' }) %>
+            <%- include('../partials/header', { reportName: 'VISUAL-EXAMINATION TEST REPORT', formData: typeof formData !== 'undefined' ? formData : {} }) %>
 
                 <form>
                     <!-- Report Info -->

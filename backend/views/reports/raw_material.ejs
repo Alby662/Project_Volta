@@ -4,7 +4,7 @@
 
     <body>
         <div class="container">
-            <%- include('../partials/header', { reportName: 'RAW MATERIAL TEST REPORT' }) %>
+            <%- include('../partials/header', { reportName: 'RAW MATERIAL TEST REPORT', formData: typeof formData !== 'undefined' ? formData : {} }) %>
 
                 <form>
                     <!-- Header Information -->

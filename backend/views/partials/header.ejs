@@ -2,12 +2,12 @@
 
     <!-- Logo Dropdown -->
     <div style="display:flex; flex-direction:column; align-items:center; margin-right: 10px;">
-        <img id="companyLogo" src="/images/logo.jpg" alt="Company Logo"
+        <img id="companyLogo" src="<%= typeof formData !== 'undefined' && formData.logo_select ? formData.logo_select : '/images/logo.jpg' %>" alt="Company Logo"
             style="height: 60px; width: auto; margin-bottom: 5px;" />
         <select id="logoSelect" name="logo_select" onchange="updateFromLogo()">
-            <option value="/images/logo.jpg">Volta Engineering Designs</option>
-            <option value="/images/volta green.png">Volta Green Structures</option>
-            <option value="/images/Deccan-Auto.jpg">Deccan Auto</option>
+            <option value="/images/logo.jpg" <%= (typeof formData !== 'undefined' && formData.logo_select === '/images/logo.jpg') ? 'selected' : '' %>>Volta Engineering Designs</option>
+            <option value="/images/volta green.png" <%= (typeof formData !== 'undefined' && formData.logo_select === '/images/volta green.png') ? 'selected' : '' %>>Volta Green Structures</option>
+            <option value="/images/Deccan-Auto.jpg" <%= (typeof formData !== 'undefined' && formData.logo_select === '/images/Deccan-Auto.jpg') ? 'selected' : '' %>>Deccan Auto</option>
         </select>
     </div>
 

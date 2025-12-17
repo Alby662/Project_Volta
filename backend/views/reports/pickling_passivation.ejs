@@ -5,7 +5,7 @@
     <body>
 
         <div class="container">
-            <%- include('../partials/header', { reportName: 'PICKLING AND PASSIVATION TEST REPORT' }) %>
+            <%- include('../partials/header', { reportName: 'PICKLING AND PASSIVATION TEST REPORT', formData: typeof formData !== 'undefined' ? formData : {} }) %>
 
                 <form>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">

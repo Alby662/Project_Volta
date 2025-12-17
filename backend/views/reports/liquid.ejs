@@ -5,7 +5,7 @@
     <body>
 
         <div class="container">
-            <%- include('../partials/header', { reportName: 'LIQUID PENETRATING TEST REPORT' }) %>
+            <%- include('../partials/header', { reportName: 'LIQUID PENETRATING TEST REPORT', formData: typeof formData !== 'undefined' ? formData : {} }) %>
 
                 <form id="reportForm" enctype="multipart/form-data">
 

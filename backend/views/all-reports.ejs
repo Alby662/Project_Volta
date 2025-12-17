@@ -239,7 +239,7 @@
               <i class="fas fa-eye"></i> Preview
             </button>
             <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" 
-              onclick="exportToPDF('${report._id}')">
+              onclick="exportToPDF('${report._id}', event)">
               <i class="fas fa-file-pdf"></i> Export PDF
             </button>
             ${isAdmin ? `
@@ -271,11 +271,12 @@
             }
 
 
-            async function exportToPDF(reportId) {
+            async function exportToPDF(reportId, event) {
+                let exportBtn, originalText;
                 try {
                     // Show loading indicator
-                    const exportBtn = event.target;
-                    const originalText = exportBtn.innerHTML;
+                    exportBtn = event.target;
+                    originalText = exportBtn.innerHTML;
                     exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
                     exportBtn.disabled = true;
 
@@ -297,9 +298,19 @@
                         // Show success message
                         alert('PDF exported successfully!');
                     } else {
-                        const error = await res.text();
-                        console.error('Export failed:', error);
-                        alert('Failed to export PDF: ' + error + '\n\nCheck browser console for more details.');
+                        const errorText = await res.text();
+                        let errorMessage = errorText;
+                        
+                        // Try to parse as JSON in case it's a structured error response
+                        try {
+                            const errorObj = JSON.parse(errorText);
+                            errorMessage = errorObj.error || errorObj.message || errorText;
+                        } catch (parseErr) {
+                            // Not JSON, use the text as is
+                        }
+                        
+                        console.error('Export failed:', errorText);
+                        alert('Failed to export PDF: ' + errorMessage + '\n\nCheck browser console for more details.');
                     }
                 } catch (err) {
                     console.error('Network error:', err);
@@ -307,7 +318,7 @@
                 } finally {
                     // Restore button state
                     if (exportBtn) {
-                        exportBtn.innerHTML = originalText;
+                        exportBtn.innerHTML = originalText || 'Export PDF';
                         exportBtn.disabled = false;
                     }
                 }

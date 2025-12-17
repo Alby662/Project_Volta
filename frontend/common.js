@@ -160,6 +160,34 @@ window.onload = () => {
       const reportTypeFromTitle = document.title && document.title.trim();
       const reportTypeName = reportTypeFromTitle || prompt("Enter report title:");
       
+      // Extract form data including logo selection
+      const formData = {};
+      
+      // Extract all input values
+      document.querySelectorAll("input").forEach(input => {
+        if (input.name) {
+          if (input.type === 'checkbox' || input.type === 'radio') {
+            formData[input.name] = input.checked;
+          } else {
+            formData[input.name] = input.value;
+          }
+        }
+      });
+      
+      // Extract all select values
+      document.querySelectorAll("select").forEach(select => {
+        if (select.name) {
+          formData[select.name] = select.value;
+        }
+      });
+      
+      // Extract all textarea values
+      document.querySelectorAll("textarea").forEach(textarea => {
+        if (textarea.name) {
+          formData[textarea.name] = textarea.value;
+        }
+      });
+      
       // Use sessionStorage instead of localStorage for better security
       const token = sessionStorage.getItem("adminToken");
 
@@ -196,7 +224,7 @@ window.onload = () => {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token
         },
-        body: JSON.stringify({ html, reportType, folder, reportTitle: reportTypeName }) // include both reportType key and folder
+        body: JSON.stringify({ html, reportType, folder, reportTitle: reportTypeName, formData }) // include both reportType key and folder
       });
 
       const data = await res.json();

@@ -5,7 +5,7 @@
     <body>
 
         <div class="container">
-            <%- include('../partials/header', { reportName: 'FINAL-DIMENSIONAL TEST REPORT' }) %>
+            <%- include('../partials/header', { reportName: 'FINAL-DIMENSIONAL TEST REPORT', formData: typeof formData !== 'undefined' ? formData : {} }) %>
 
                 <form>
                     <!-- Header Info Table -->
